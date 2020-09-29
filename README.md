@@ -1,2 +1,2 @@
-# ARX-X Admin UI
+# ARC-X Admin UI
 
