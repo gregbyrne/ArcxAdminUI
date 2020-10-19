@@ -12,7 +12,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "axios": "^0.20.0",
-    "bootstrap": "^4.5.3",
+    "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.5",
     "install": "^0.13.0",
     "jquery": "^3.5.1",
@@ -20,6 +20,8 @@
     "popper.js": "^1.16.1",
     "vee-validate": "^2.2.15",
     "vue": "^2.6.11",
+    "vue-navigation-bar": "^4.0.2",
+    "vue-router": "^3.4.7",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
