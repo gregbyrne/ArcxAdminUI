@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Home</h1>
     <p>
-      This is the home page for ARC-X Admin
+      This is the home page for ARC-X Admin Hello {{ getCurrentUser.email }}
     </p>
   </div>
 </template>
@@ -12,6 +12,11 @@ export default {
   name: 'Home',
   props: {
     msg: String
+  },
+  computed: {
+    getCurrentUser() {
+      return this.$store.getters.getCurrentUser;
+    }
   }
 }
 </script>
@@ -31,5 +36,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.home
+{
+  margin-top: 50px !important;
 }
 </style>
