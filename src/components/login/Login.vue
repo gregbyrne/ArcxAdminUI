@@ -1,93 +1,138 @@
 <template>
-  <div id="container" class="container w-25 mt-4 p-2">
-    <b-alert v-model="displayErrorMessage" variant="danger" dismissible>
-      {{ errorMessage }}
-    </b-alert>
-    <div class="d-flex justify-content-center flex-column flex-grow">
-      <b-card bg-variant="light" header="Sign In">
-        <b-card-text>
-          <b-form-group
-                  id="email-group"
-                  label="Email"
-                  label-for="email"
-                  class="flex-row p-0"
-          >
-            <b-form-input
-                    id="email"
-                    v-model="loginForm.email"
-                    type="email"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-                  id="password-group"
-                  label="Password"
-                  label-for="password"
-                  class="flex-row"
-          >
-            <b-form-input
-                    id="password"
-                    v-model="loginForm.password"
-                    type="password"
-            ></b-form-input>
-          </b-form-group>
-        </b-card-text>
-        <b-button variant="primary" block @click.prevent="login"
-        >Login</b-button
-        >
-      </b-card>
+  <div class="col-md-12">
+    <div class="card card-container">
+      <img
+        id="profile-img"
+        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        class="profile-img-card"
+      />
+      <form name="form" @submit.prevent="handleLogin">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            v-model="user.username"
+            v-validate="'required'"
+            type="text"
+            class="form-control"
+            name="username"
+          />
+          <div
+            v-if="errors.has('username')"
+            class="alert alert-danger"
+            role="alert"
+          >Username is required!</div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            v-model="user.password"
+            v-validate="'required'"
+            type="password"
+            class="form-control"
+            name="password"
+          />
+          <div
+            v-if="errors.has('password')"
+            class="alert alert-danger"
+            role="alert"
+          >Password is required!</div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" :disabled="loading">
+            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+            <span>Login</span>
+          </button>
+        </div>
+        <div class="form-group">
+          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-  import httpResource from "../../http/httpResource";
-  import router from "../../router/index";
-  import {
-    parseApierror,
-    performLogout,
-    getAuthenticatedUser
-  } from "../../util/utils";
+import User from '../../models/user';
 
-  export default {
-    data() {
-      return {
-        loginForm: {
-          email: "",
-          password: ""
-        },
-        displayErrorMessage: false,
-        errorMessage: "",
-        loginInProcess: false
-      };
-    },
-    methods: {
-      async login() {
-        this.loginInProcess = true;
-        let canNavigate = false;
-        const loginRequest = {
-          email: this.loginForm.email,
-          password: this.loginForm.password
-        };
-        try {
-          const response = await httpResource.post(process.env.VUE_APP_API_AUTH_URL, loginRequest);
-          if (response.status === 200) {
-            await getAuthenticatedUser();
-            canNavigate = true;
-          }
-        } catch (error) {
-          performLogout();
-          const apierror = parseApierror(error);
-          this.displayErrorMessage = true;
-          this.errorMessage = apierror.message;
-        }
-        this.loginInProcess = false;
-
-        if (canNavigate) {
-          router.replace("/");
-        }
-      }
+export default {
+  name: 'Login',
+  data() {
+    return {
+      user: new User('', ''),
+      loading: false,
+      message: ''
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     }
-  };
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push('/profile');
+    }
+  },
+  methods: {
+    handleLogin() {
+      this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+
+        if (this.user.username && this.user.password) {
+          this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              this.$router.push('/profile');
+            },
+            error => {
+              this.loading = false;
+              this.message =
+                (error.response && error.response.data && error.response.data.message) ||
+                error.message ||
+                error.toString();
+            }
+          );
+        }
+      });
+    }
+  }
+};
 </script>
 
-<style></style>
+<style scoped>
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.card-container.card {
+  max-width: 350px !important;
+  padding: 40px 40px;
+}
+
+.card {
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+</style>
