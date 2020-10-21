@@ -6,7 +6,7 @@
       <div v-if="!currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" />Login
+            Login
           </router-link>
         </li>
       </div>
@@ -14,13 +14,12 @@
       <div v-if="currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/" class="nav-link">
-            <font-awesome-icon icon="user" />
             {{ currentUser.username }}
           </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" href @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt" />LogOut
+            LogOut
           </a>
         </li>
       </div>
@@ -33,21 +32,20 @@
 
 <script>
 
-  import {performLogout} from './util/utils'
-
 export default {
 
   name: 'App',
   computed: {
   currentUser() {
-    return this.$store.getters.getCurrentUser;
+    return this.$store.state.auth.user;
   }
   },
   methods: {
     logOut() {
-      localStorage.removeItem('currentUser');
-      performLogout();
+
+      this.$store.dispatch('auth/logout');
       this.$router.push('/login');
+
     }
   }
 }
