@@ -3,7 +3,10 @@
     <h1>Home</h1>
     <p>
       This is the home page for ARC-X Admin
+
     </p>
+    <div>TITLE: {{title}}</div>
+
   </div>
 </template>
 
@@ -12,6 +15,11 @@ export default {
   name: 'Home',
   props: {
     msg: String
+  },
+  data(){
+    return{
+      title: process.env.VUE_APP_TITLE
+    };
   }
 }
 </script>
