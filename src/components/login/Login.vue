@@ -69,7 +69,7 @@
           password: this.loginForm.password
         };
         try {
-          const response = await httpResource.post("/auth/login", loginRequest);
+          const response = await httpResource.post(process.env.VUE_APP_API_AUTH_URL, loginRequest);
           if (response.status === 200) {
             await getAuthenticatedUser();
             canNavigate = true;

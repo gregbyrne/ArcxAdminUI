@@ -10,7 +10,7 @@ const isHandlerEnabled = (config = {}) => {
 // axiosInstance.get('/v2/api-endpoint', { handlerEnabled: false })
 
 const instance = axios.create({
-  baseURL: 'http://localhost:7100',
+  baseURL: process.env.VUE_APP_API_BASE_URL,
   withCredentials: true,
   timeout: 10000
 });

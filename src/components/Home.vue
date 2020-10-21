@@ -2,8 +2,9 @@
   <div class="home">
     <h1>Home</h1>
     <p>
-      This is the home page for ARC-X Admin Hello {{ getCurrentUser.email }}
+      This is the home page for ARC-X Admin
     </p>
+    <router-view></router-view>
   </div>
 </template>
 

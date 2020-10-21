@@ -1,6 +1,5 @@
 import Login from "../components/login/Login.vue";
 import Home from "../components/Home.vue";
-import Profile from "../components/login/Profile";
 
 const routes = [
   {
@@ -9,14 +8,7 @@ const routes = [
   },
   {
     path: "/",
-    component: Home,
-    redirect: "/profile",
-    children: [
-      {
-        path: "/profile",
-        component: Profile
-      }
-    ]
+    component: Home
   }
 ];
 

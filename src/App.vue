@@ -2,19 +2,26 @@
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
       <a href class="navbar-brand" @click.prevent>ARC-X Admin</a>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/home" class="nav-link">
-            <font-awesome-icon icon="home" />Home
-          </router-link>
-        </li>
-      </div>
 
-      <div class="navbar-nav ml-auto">
+      <div v-if="!currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/login" class="nav-link">
             <font-awesome-icon icon="sign-in-alt" />Login
           </router-link>
+        </li>
+      </div>
+
+      <div v-if="currentUser" class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <router-link to="/" class="nav-link">
+            <font-awesome-icon icon="user" />
+            {{ currentUser.username }}
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href @click.prevent="logOut">
+            <font-awesome-icon icon="sign-out-alt" />LogOut
+          </a>
         </li>
       </div>
     </nav>
@@ -26,8 +33,23 @@
 
 <script>
 
+  import {performLogout} from './util/utils'
+
 export default {
-  name: 'App'
+
+  name: 'App',
+  computed: {
+  currentUser() {
+    return this.$store.getters.getCurrentUser;
+  }
+  },
+  methods: {
+    logOut() {
+      localStorage.removeItem('currentUser');
+      performLogout();
+      this.$router.push('/login');
+    }
+  }
 }
 
 </script>
