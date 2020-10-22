@@ -3,10 +3,8 @@
     <h1>Home</h1>
     <p>
       This is the home page for ARC-X Admin
-
     </p>
-    <div>TITLE: {{title}}</div>
-
+    <router-view></router-view>
   </div>
 </template>
 
@@ -16,10 +14,10 @@ export default {
   props: {
     msg: String
   },
-  data(){
-    return{
-      title: process.env.VUE_APP_TITLE
-    };
+  computed: {
+    getCurrentUser() {
+      return this.$store.getters.getCurrentUser;
+    }
   }
 }
 </script>
@@ -39,5 +37,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.home
+{
+  margin-top: 50px !important;
 }
 </style>
