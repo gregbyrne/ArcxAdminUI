@@ -1,5 +1,5 @@
 import Login from "../components/login/Login.vue";
-import Home from "../components/Home.vue";
+import Dashboard from "../components/Dashboard.vue";
 import Profile from "../components/login/Profile"
 
 const routes = [
@@ -8,13 +8,14 @@ const routes = [
     component: Login
   },
   {
-    path: "/",
-    component: Home
-  },
-  {
     path: "/profile",
     component: Profile
+  },
+  {
+    path: "/",
+    component: Dashboard
   }
+
 ];
 
 export default routes;
