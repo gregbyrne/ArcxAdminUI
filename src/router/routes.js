@@ -1,5 +1,5 @@
 import Login from "../components/login/Login.vue";
-import Dashboard from "../components/Dashboard.vue";
+import Dashboard from "../components/dashboard/Dashboard.vue";
 import Profile from "../components/login/Profile"
 
 const routes = [

@@ -1,6 +1,6 @@
 <template>
-    <v-container >
-        <v-header >ARC-X Dashboard {{ date }}</v-header>
+    <v-container>
+        <v-header>ARC-X Dashboard {{ date }}</v-header>
 
         <v-container class="mx-6 my-10">
             <v-row>
@@ -8,10 +8,8 @@
                     <app-pop></app-pop>
                 </v-col>
                 <v-col>
-asdasdasd
 
                 </v-col>
-
             </v-row>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis mi sapien. Fusce vitae mi sodales mi fermentum ullamcorper. Suspendisse laoreet vitae eros ac posuere. Proin congue eu est et imperdiet. Curabitur feugiat scelerisque turpis, et efficitur tortor. Praesent ut lacinia neque. Donec nec aliquet justo. Curabitur blandit justo est, sed rhoncus odio volutpat in. Sed mollis purus ex, ut viverra purus convallis in. Curabitur tortor est, hendrerit pulvinar euismod ullamcorper, gravida sit amet ex. Donec nec urna imperdiet, convallis quam luctus, iaculis turpis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas imperdiet feugiat eros eu aliquam. Vivamus ornare mi vitae luctus tincidunt.
             </p>
@@ -30,7 +28,7 @@ asdasdasd
     import pop from './Popup.vue'
 
     export default {
-        components : {       'app-pop' : pop },
+        components : { 'app-pop' : pop },
         name: 'Dashboard',
         computed: {
             date : function () {

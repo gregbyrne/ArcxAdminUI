@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import Navbar from './components/Navbar';
-  import Popup from './components/Popup';
+  import Navbar from './components/navigation/Navbar';
+  import Popup from './components/dashboard/Popup';
 
 export default {
   name: 'App',
@@ -26,10 +26,6 @@ export default {
     Navbar,
     Popup
   },
-
-  data: () => ({
-    //
-  }),
 };
 </script>
 
