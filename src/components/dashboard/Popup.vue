@@ -59,13 +59,14 @@
 </template>
 
 <script>
+
     export default {
+        name: 'Popup',
         data: () => ({
             dialog: false,
             notifications: false,
             sound: true,
             widgets: false
-        }),
+        })
     }
-
 </script>

@@ -1,11 +1,11 @@
 <template>
     <v-container>
-        <v-header>ARC-X Dashboard {{ date }}</v-header>
+        <header>ARC-X Dashboard</header>
 
         <v-container class="mx-6 my-10">
             <v-row>
                 <v-col>
-                    <app-pop></app-pop>
+                    <Popup />
                 </v-col>
                 <v-col>
 
@@ -25,17 +25,18 @@
 </template>
 
 <script>
-    import pop from './Popup.vue'
+
+    import Popup from './Popup';
 
     export default {
-        components : { 'app-pop' : pop },
+        components : {'Popup': Popup},
         name: 'Dashboard',
         computed: {
             date : function () {
-                return Date.now();
+                return Date.now()
             },
-            getCurrentUser() {
-                return this.$store.getters.getCurrentUser;
+            currentUser() {
+                return this.$store.state.auth.user
             }
         },
         data: () => ({
@@ -53,7 +54,7 @@
                     href: 'https://github.com/vuetifyjs/awesome-vuetify',
                 },
             ]
-        }),
+        })
     }
 </script>
 
