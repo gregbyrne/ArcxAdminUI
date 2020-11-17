@@ -28,7 +28,14 @@ export default {
     Popup
   },
   mounted() {
-    this.getAreasOfInterest();
+
+    if (!this.$store.state.auth.user) {
+        this.$router.push('/login');
+      }
+    else
+    {
+      this.getAreasOfInterest();
+    }
   },
   methods: {
     getAreasOfInterest()
