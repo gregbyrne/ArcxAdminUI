@@ -8,6 +8,8 @@ import VeeValidate from 'vee-validate';
 import Vuex from 'vuex';
 import vuetify from './plugins/vuetify';
 import Popup from './components/dashboard/Popup'
+import AreaOfInterestList from "./components/dashboard/AreaOfInterestList";
+import Dashboard from "./components/dashboard/Dashboard";
 import axios from 'axios';
 
 Vue.config.productionTip = false;
@@ -15,6 +17,10 @@ Vue.config.productionTip = false;
 Vue.use(VeeValidate, Vuex, vuetify, axios);
 
 Vue.component('Popup', Popup);
+
+Vue.component('AreaOfInterestList', AreaOfInterestList);
+
+Vue.component('Dashboard', Dashboard);
 
 new Vue({
   vuetify,
