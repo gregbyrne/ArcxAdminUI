@@ -8,7 +8,7 @@ import VeeValidate from 'vee-validate';
 import Vuex from 'vuex';
 import vuetify from './plugins/vuetify';
 import Popup from './components/dashboard/Popup'
-import AreaOfInterestList from "./components/dashboard/AreaOfInterestList";
+import AreaOfInterestList from "./components/dashboard/areaofinterest/AreaOfInterest";
 import Dashboard from "./components/dashboard/Dashboard";
 import axios from 'axios';
 

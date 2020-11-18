@@ -1,4 +1,4 @@
-export default class Area_Of_Interest {
+export default class area_of_interest {
   constructor(id, name) {
     this.id = id;
     this.name = name;
