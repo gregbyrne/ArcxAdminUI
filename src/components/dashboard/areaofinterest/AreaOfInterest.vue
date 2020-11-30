@@ -3,7 +3,7 @@
     <v-container class="mx-6 my-10">
 
         <div>
-            <li v-for="(area, index) in areaofint" :key="index">{{area.name}}</li>
+            <li v-for="area in areaofint" :key="area.id">{{area.name}}</li>
         </div>
 
         <form>
@@ -26,44 +26,24 @@
 <script>
 
     import axios from "axios";
+    import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
 
     export default {
         name: 'CreateAreaOfInterest',
-        data() {
-
-            return {
-
-                area_of_interest: new area_of_interest('')
-
-            }
-
+        data: function() {
+        return {
+                area_of_interest: new area_of_interest(''),
+                areaofint: null
+            };
         },
-        computed: {
-            areaofint()
-            {
-                let data;
-                try {
-                    data  = this.$store.state.areaofinterest.area_of_interest
-                } catch(e) {
-                    data += data
-                }
-
-                return data
-            }
-        },
-            methods:
+        methods:
                 {
-                    loadAreaOfInterest() {
-
-                        this.$store.dispatch("areaofinterest/getAreaOfInterest", this.$store.state.auth.user.accessToken)
-                    },
-
                     //New POST request
                     addNewAreaOfInterest()
                     {
 
-                        let context = this;
+                        let _this = this;
 
                         const headers = {
                             'Content-Type': 'application/json',
@@ -74,8 +54,8 @@
                             this.area_of_interest, { 'headers': headers})
                             .then(function (response) {
                                 if (response.status == 201) {
+                                    _this.getAreaOfInterest()
                                     alert('Area of Interest has been created');
-                                    context.loadAreaOfInterest()
                                 }
                                 else
                                 {
@@ -85,11 +65,28 @@
                             .catch((error) => {
                                 alert('ERROR: ' + error);
                             })
+                    },
+                    //New GET request
+                    getAreaOfInterest()
+                    {
+                        jQuery.ajaxSetup({
+                            headers : {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            }
+                        });
+
+                        var _this = this;
+
+                        jQuery.getJSON('http://localhost:7100/api/area_of_interest', function (areaofint) {
+                            _this.areaofint = areaofint._embedded.area_of_interest;
+                        });
                     }
+
 
                 },
             created() {
-                this.loadAreaOfInterest()
+                this.getAreaOfInterest()
             }
         }
 </script>
