@@ -97,6 +97,8 @@
 
             editAOE(newname, areaid ){
 
+                let _this = this;
+
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
@@ -105,6 +107,7 @@
                 axios.put(API_URL + AOI_URL + areaid,{ name: newname}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
+                            _this.$emit('update')
                             alert('Area of Interest has been edited');
                         }
                         else

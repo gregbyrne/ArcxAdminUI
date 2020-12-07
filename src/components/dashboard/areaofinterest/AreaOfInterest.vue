@@ -2,7 +2,7 @@
 
 
     <v-container class="my-5">
-        <div><h1>Area of Interests</h1> <span><pop-aoi-new></pop-aoi-new></span> </div>
+        <div><h1>Area of Interests</h1> <span><pop-aoi-new @update="getAreaOfInterest()"></pop-aoi-new></span> </div>
 
         <v-card flat class="pa-1" v-for="area in areaofint" :key="area.id">
             <!-- Area of Interest start -->
@@ -18,7 +18,7 @@
 
 
                     <div>
-                        <pop-aoi-edit v-bind:areaname="area.name"
+                        <pop-aoi-edit  @update="getAreaOfInterest()" v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind="areaofint"
 
@@ -46,13 +46,7 @@
                 </v-flex>
             </v-layout>
 
-            <!-- Area of Interest End -->
-
             <v-divider></v-divider>
-
-
-            <!-- Item -->
-
 
             <div v-show="expand">
                 <v-layout class="pa-1" row wrap >
@@ -87,25 +81,8 @@
                 </v-layout>
             </div >
 
-            <v-divider v-show="expand"></v-divider>
-
             <!-- ITEM end -->
-
-
-
         </v-card>
-
-        <form>
-            <p>Add Area of Interest</p>
-            <input
-                    v-model="area_of_interest.name"
-                    v-validate="'required'"
-                    type="text"
-                    class="form-control"
-                    name="name"
-            />
-            <button class="styled" type="button" @click="addNewAreaOfInterest">Add</button>
-        </form>
 
 
      </v-container>
@@ -122,7 +99,6 @@
     import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
     import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
-
     import expandmore from '@/assets/mdi/expand_more-24px.svg'
 
 

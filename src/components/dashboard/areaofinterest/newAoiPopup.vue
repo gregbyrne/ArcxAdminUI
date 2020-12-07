@@ -86,7 +86,9 @@
         methods:{
 
             addNewAoe(newname) {
-                //let _this = this;
+
+                let _this = this;
+
                 alert(newname)
 
                 const headers = {
@@ -98,7 +100,8 @@
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status == 201) {
-                           // _this.getAreaOfInterest()
+
+                            _this.$emit('update')
                             alert('Area of Interest has been created');
                         }
                         else
