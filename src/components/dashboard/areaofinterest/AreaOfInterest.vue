@@ -1,10 +1,99 @@
 <template>
 
-    <v-container class="mx-6 my-10">
 
-        <div>
-            <li v-for="area in areaofint" :key="area.id">{{area.name}}</li>
-        </div>
+    <v-container class="my-5">
+        <div><h1>Area of Interests</h1> <span><pop-aoi-new></pop-aoi-new></span> </div>
+
+        <v-card flat class="pa-1" v-for="area in areaofint" :key="area.id">
+            <!-- Area of Interest start -->
+
+
+            <v-layout class="pa-1" row wrap>
+                <v-flex xs18 md8 class="pl-3">
+                    <div class="caption grey--text">Area of Interest Name</div>
+                    <div>{{ area.name }}</div>
+                </v-flex>
+                <vflex xs1 md1> <v-divider vertical></v-divider></vflex>
+                <v-flex xs3 sm4 md1>
+
+
+                    <div>
+                        <pop-aoi-edit v-bind:areaname="area.name"
+                                       v-bind:areaid="area.id"
+                                       v-bind="areaofint"
+
+                    ></pop-aoi-edit></div>
+                </v-flex>
+                <v-flex xs3 sm4 md1>
+                    <div>
+                        <pop-aoi-delete v-bind:areaname="area.name"
+                                        v-bind:areaid="area.id"
+                        ></pop-aoi-delete>
+                    </div>
+                </v-flex>
+                <v-flex xs2 sm4 md1>
+                    <v-btn
+                            @click="expand = !expand"
+                            small
+                    >
+                        expand
+
+                    </v-btn>
+
+
+
+
+                </v-flex>
+            </v-layout>
+
+            <!-- Area of Interest End -->
+
+            <v-divider></v-divider>
+
+
+            <!-- Item -->
+
+
+            <div v-show="expand">
+                <v-layout class="pa-1" row wrap >
+
+                    <v-flex md7 pl-5>
+                        <div class="caption grey--text">Item Name</div>
+                        <div> item name</div>
+                    </v-flex>
+                    <vflex xs1 md1> <v-divider vertical></v-divider></vflex>
+                    <v-flex xs3 sm4 md1>
+
+
+                        <div>
+                            <pop-aoi-edit v-bind:areaname="area.name"
+                                          v-bind:areaid="area.id"
+                                          v-bind="areaofint"
+
+                            ></pop-aoi-edit></div>
+                    </v-flex>
+                    <v-flex xs3 sm4 md1>
+                        <div>
+                            <pop-aoi-delete v-bind:areaname="area.name"
+                                            v-bind:areaid="area.id"
+                            ></pop-aoi-delete>
+                        </div>
+                    </v-flex>
+                    <v-flex xs2 sm4 md1>
+
+
+
+                    </v-flex>
+                </v-layout>
+            </div >
+
+            <v-divider v-show="expand"></v-divider>
+
+            <!-- ITEM end -->
+
+
+
+        </v-card>
 
         <form>
             <p>Add Area of Interest</p>
@@ -25,25 +114,104 @@
 
 <script>
 
+    const API_URL = process.env.VUE_APP_API_URL;
+
     import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
+    import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
+    import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
+    import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
+
+    import expandmore from '@/assets/mdi/expand_more-24px.svg'
+
+
+
 
     export default {
         name: 'CreateAreaOfInterest',
+        components:{
+            'pop-aoi-edit' : editAOI,
+            'pop-aoi-delete' : deleteAOI,
+            'pop-aoi-new' : addAOI,
+
+        },
         data: function() {
         return {
                 area_of_interest: new area_of_interest(''),
-                areaofint: null
+                areaofint: null,
+                expand: false,
+                icons: {
+                    expandmore,
+
+            },
+
             };
+
         },
         methods:
                 {
+
+                    //PUT
+
+                    putAreaOfInterest(area){
+                        alert("edit started id =  " + area.id)
+
+                        const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                        }
+
+                        axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
+                            .then(function (response) {
+                                if (response.status == 204) {
+                                    alert('Area of Interest has been edited');
+                                }
+                                else
+                                {
+                                    alert('Area of Interest was not edited');
+                                }
+                            })
+                            .catch((error) => {
+                                alert('ERROR: with edit ' + error);
+                            });
+
+
+
+                    },
+
+                    //DELETE
+                    deleteAreaOfInterest(area)
+                    {
+                        alert("delete started id =  " + area.id)
+
+                        const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                        }
+
+                        axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
+                            .then(function (response) {
+                                if (response.status == 204) {
+                                    alert('Area of Interest has been deleted');
+                                }
+                                else
+                                {
+                                    alert('Area of Interest was not deleted');
+                                }
+                            })
+                                .catch((error) => {
+                                    alert('ERROR: with delete ' + error);
+                                });
+
+
+                    },
                     //New POST request
                     addNewAreaOfInterest()
                     {
 
                         let _this = this;
+
 
                         const headers = {
                             'Content-Type': 'application/json',
@@ -82,6 +250,9 @@
                             _this.areaofint = areaofint._embedded.area_of_interest;
                         });
                     }
+
+
+
 
 
                 },

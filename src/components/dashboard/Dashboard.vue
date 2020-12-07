@@ -5,7 +5,7 @@
         <v-container class="mx-6 my-10">
             <v-row>
                 <v-col>
-                    <Popup />
+
                 </v-col>
                 <v-col>
 
@@ -27,11 +27,10 @@
 
 <script>
 
-    import Popup from './Popup';
     import AreaOfInterestList from './areaofinterest/AreaOfInterest'
 
     export default {
-        components : {'Popup': Popup, 'AreaOfInterestList': AreaOfInterestList},
+        components : { 'AreaOfInterestList': AreaOfInterestList},
         name: 'Dashboard',
         computed: {
             date : function () {
