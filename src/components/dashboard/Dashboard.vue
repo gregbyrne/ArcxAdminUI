@@ -11,6 +11,7 @@
 
                 </v-col>
             </v-row>
+            <AreaOfInterestList />
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis mi sapien. Fusce vitae mi sodales mi fermentum ullamcorper. Suspendisse laoreet vitae eros ac posuere. Proin congue eu est et imperdiet. Curabitur feugiat scelerisque turpis, et efficitur tortor. Praesent ut lacinia neque. Donec nec aliquet justo. Curabitur blandit justo est, sed rhoncus odio volutpat in. Sed mollis purus ex, ut viverra purus convallis in. Curabitur tortor est, hendrerit pulvinar euismod ullamcorper, gravida sit amet ex. Donec nec urna imperdiet, convallis quam luctus, iaculis turpis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas imperdiet feugiat eros eu aliquam. Vivamus ornare mi vitae luctus tincidunt.
             </p>
 
@@ -27,9 +28,10 @@
 <script>
 
     import Popup from './Popup';
+    import AreaOfInterestList from './areaofinterest/AreaOfInterest'
 
     export default {
-        components : {'Popup': Popup},
+        components : {'Popup': Popup, 'AreaOfInterestList': AreaOfInterestList},
         name: 'Dashboard',
         computed: {
             date : function () {
@@ -38,30 +40,14 @@
             currentUser() {
                 return this.$store.state.auth.user
             }
-        },
-        data: () => ({
-            linkshere: [
-                {
-                    text: 'vuetify-loader',
-                    href: 'https://github.com/vuetifyjs/vuetify-loader',
-                },
-                {
-                    text: 'github',
-                    href: 'https://github.com/vuetifyjs/vuetify',
-                },
-                {
-                    text: 'awesome-vuetify',
-                    href: 'https://github.com/vuetifyjs/awesome-vuetify',
-                },
-            ]
-        })
+        }
     }
 </script>
 
 
 <script>
     export default {
-        name: 'Home',
+        name: 'Dashboard',
         props: {
             msg: String
         },

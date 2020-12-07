@@ -68,7 +68,7 @@
             drawer : false,
             links: [
                 { icon: 'mdi-information-outline', text: 'Profile', route: '/profile' },
-                { icon: 'mdi-view-dashboard-outline', text: 'Dashboard', route: '/' }
+                { icon: 'mdi-view-dashboard-outline', text: 'Dashboard', route: '/dashboard' }
 
             ]
         }

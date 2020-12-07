@@ -1,5 +1,6 @@
 <template>
     <v-row justify="center">
+
         <v-dialog
                 v-model="dialog"
                 persistent
@@ -67,6 +68,6 @@
             notifications: false,
             sound: true,
             widgets: false
-        })
+        }),
     }
 </script>
