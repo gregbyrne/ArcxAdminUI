@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcx-admin-api-web
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcx-admin-api-web
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+
+  template:
+    metadata:
+      labels:
+        app: arcx-admin-api-web
+      annotations:
+        app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+        app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+
+    spec:
+      containers:
+      - name: web
+        image: $CI_REGISTRY_IMAGE/public-api-web:$CI_COMMIT_REF_SLUG
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: arcx-config
+        env:
+        - name: WEB_HTTPS
+          value: "false"
+        - name: WEB_HTTPS_ONLY
+          value: "false"
+        - name: REDEPLOY_META
+          value: $CI_JOB_ID-$CI_COMMIT_SHA
+      imagePullSecrets:
+      - name: glcr-auth
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcx-admin-api-web-service
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: arcx-admin-api-web
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: arcx-admin-api-web-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  rules:
+  - host: arcx-admin-development.devsecops-eval.epa.gov
+    http:
+      paths:
+      - backend:
+          serviceName: arcx-admin-api-web-service
+          servicePort: 80

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcx-admin-api-app
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcx-admin-api-app
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+
+  template:
+    metadata:
+      labels:
+        app: arcx-admin-api-app
+      annotations:
+        app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+        app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+
+    spec:
+      securityContext:
+        runAsUser: 555
+        runAsGroup: 555
+        fsGroup: 555
+      containers:
+      - name: app
+        image: $CI_REGISTRY_IMAGE/admin-api-app:$CI_COMMIT_REF_SLUG
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: arcx-config
+        env:
+          - name: REDEPLOY_META
+            value: $CI_JOB_ID-$CI_COMMIT_SHA
+        livenessProbe:
+         tcpSocket:
+            port: 7100
+         initialDelaySeconds: 10
+         periodSeconds: 15
+        readinessProbe:
+         tcpSocket:
+            port: 7100
+         initialDelaySeconds: 15
+         periodSeconds: 10
+        ports:
+        - containerPort: 7100
+      imagePullSecrets:
+      - name: glcr-auth
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcx-admin-api-app-service
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  ports:
+  - port: 7100
+  selector:
+    app: arcx-admin-api-app
