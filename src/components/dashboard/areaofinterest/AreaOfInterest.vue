@@ -8,17 +8,19 @@
         </div>
 
         <v-layout pa-1 row wrap>
-            <v-flex md4 pl-3>
+            <v-flex md3 pl-3>
                 <h1>Area of Interests </h1>
             </v-flex>
-            <v-flex md3 pt-1>
+            <v-flex md2 pt-1>
                 <pop-aoi-new  @update="getAreaOfInterest()"></pop-aoi-new>
             </v-flex>
 
         </v-layout>
 
+
         <v-card flat class="pa-1" v-for="area in areaofint" :key="area.id">
             <!-- Area of Interest start -->
+
 
 
             <v-layout class="pa-1" row wrap>
@@ -56,8 +58,6 @@
 
 
                     </v-img>
-
-
 
                 </v-flex>
             </v-layout>
@@ -133,14 +133,24 @@
                 area_of_interest: new area_of_interest(''),
                 areaofint: null,
                 expand: false,
+                expandsauce: '@/assets/mdi/expand_more-24px.svg'
+
 
 
             };
 
         },
+        computed:{
+          currentImage: function(){
+              return this.expandsauce
+          }
+
+
+        },
         methods:
                 {
                     expandAOI(expand){
+
                         if(expand == false){
                             expand = true;
 
