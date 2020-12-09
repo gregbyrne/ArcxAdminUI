@@ -2,44 +2,60 @@
 
 
     <v-container class="my-5">
-        <div><h1>Area of Interests</h1> <span><pop-aoi-new @update="getAreaOfInterest()"></pop-aoi-new></span> </div>
+        <div>
+
+
+        </div>
+
+        <v-layout pa-1 row wrap>
+            <v-flex md4 pl-3>
+                <h1>Area of Interests </h1>
+            </v-flex>
+            <v-flex md3 pt-1>
+                <pop-aoi-new  @update="getAreaOfInterest()"></pop-aoi-new>
+            </v-flex>
+
+        </v-layout>
 
         <v-card flat class="pa-1" v-for="area in areaofint" :key="area.id">
             <!-- Area of Interest start -->
 
 
             <v-layout class="pa-1" row wrap>
-                <v-flex xs18 md8 class="pl-3">
-                    <div class="caption grey--text">Area of Interest Name</div>
+                <v-flex md9 class="pl-3" >
+                    <div class="caption grey--text" outline>Area of Interest Name</div>
                     <div>{{ area.name }}</div>
                 </v-flex>
-                <vflex xs1 md1> <v-divider vertical></v-divider></vflex>
-                <v-flex xs3 sm4 md1>
 
+                <v-flex md1>
 
                     <div>
                         <pop-aoi-edit  @update="getAreaOfInterest()" v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind="areaofint"
+                                       right
 
                     ></pop-aoi-edit></div>
                 </v-flex>
-                <v-flex xs3 sm4 md1>
+                <v-flex md1>
                     <div>
                         <pop-aoi-delete v-bind:areaname="area.name"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
                 </v-flex>
-                <v-flex xs2 sm4 md1>
-                    <v-btn
-                            @click="expand = !expand"
-                            small
-                    >
-                        expand
+                <v-flex md1  pl-5 >
+                    <v-img
 
-                    </v-btn>
+                            alt="Expand Area Of Interests"
+                            width="31"
+                            :src="require('@/assets/mdi/expand_more-24px.svg')"
+                            @click = "expandAOI(expand)"
 
+                            >
+
+
+                    </v-img>
 
 
 
@@ -51,12 +67,11 @@
             <div v-show="expand">
                 <v-layout class="pa-1" row wrap >
 
-                    <v-flex md7 pl-5>
+                    <v-flex md9 pl-15>
                         <div class="caption grey--text">Item Name</div>
                         <div> item name</div>
                     </v-flex>
-                    <vflex xs1 md1> <v-divider vertical></v-divider></vflex>
-                    <v-flex xs3 sm4 md1>
+                    <v-flex md1>
 
 
                         <div>
@@ -66,19 +81,21 @@
 
                             ></pop-aoi-edit></div>
                     </v-flex>
-                    <v-flex xs3 sm4 md1>
+                    <v-flex md1>
                         <div>
                             <pop-aoi-delete v-bind:areaname="area.name"
                                             v-bind:areaid="area.id"
                             ></pop-aoi-delete>
                         </div>
                     </v-flex>
-                    <v-flex xs2 sm4 md1>
+                    <v-flex md1>
 
 
 
                     </v-flex>
                 </v-layout>
+                <v-divider></v-divider>
+
             </div >
 
             <!-- ITEM end -->
@@ -99,7 +116,6 @@
     import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
     import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
-    import expandmore from '@/assets/mdi/expand_more-24px.svg'
 
 
 
@@ -117,16 +133,22 @@
                 area_of_interest: new area_of_interest(''),
                 areaofint: null,
                 expand: false,
-                icons: {
-                    expandmore,
 
-            },
 
             };
 
         },
         methods:
                 {
+                    expandAOI(expand){
+                        if(expand == false){
+                            expand = true;
+
+                        }else{
+                            expand = false;
+                        }
+                        this.expand = expand
+                    },
 
                     //PUT
 
@@ -239,33 +261,6 @@
 </script>
 <style>
 
-    .styled {
 
-        border: 0;
-        line-height: 2.5;
-        padding: 0 20px;
-        margin-top: 10px;
-        font-size: 1rem;
-        text-align: center;
-        color: #fff;
-        text-shadow: 1px 1px 1px #000;
-        border-radius: 10px;
-        background-color: #0071bc;
-        background-image: linear-gradient(to top left,
-        rgba(0, 0, 0, .2),
-        rgba(0, 0, 0, .2) 30%,
-        rgba(0, 0, 0, 0));
-        box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
-        inset -2px -2px 3px rgba(0, 0, 0, .6);
-    }
-
-    .styled:hover {
-        background-color: #2d9be3;
-    }
-
-    .styled:active {
-        box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
-        inset 2px 2px 3px rgba(0, 0, 0, .6);
-    }
 
 </style>

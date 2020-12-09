@@ -23,7 +23,7 @@
             </p>
         </v-container>
     </v-container>
-</template>
+</template>0
 
 <script>
 

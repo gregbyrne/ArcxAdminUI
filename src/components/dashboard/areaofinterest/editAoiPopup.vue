@@ -90,10 +90,7 @@
 
         }),
         methods:{
-            testmethodchild () {
-                // Do your stuff
-                this.testmethod()
-            },
+
 
             editAOE(newname, areaid ){
 

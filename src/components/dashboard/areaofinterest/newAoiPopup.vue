@@ -1,5 +1,5 @@
 <template>
-    <v-row justify="center">
+    <v-row mt-n12 justify="center" >
 
         <v-dialog
                 v-model="dialog"
