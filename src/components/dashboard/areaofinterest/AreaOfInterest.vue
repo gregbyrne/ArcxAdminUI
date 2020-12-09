@@ -47,7 +47,7 @@
                     </div>
                 </v-flex>
                 <v-flex md1  pl-5 >
-                    <v-img
+                    <v-img  v-show="!expand"
 
                             alt="Expand Area Of Interests"
                             width="31"
@@ -55,6 +55,17 @@
                             @click = "expandAOI(expand)"
 
                             >
+
+
+                    </v-img>
+                    <v-img  v-show="expand"
+
+                            alt="Hide expansion"
+                            width="31"
+                            :src="require('@/assets/mdi/expand_less-24px.svg')"
+                            @click = "expandAOI(expand)"
+
+                    >
 
 
                     </v-img>
