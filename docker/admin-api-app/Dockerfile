@@ -1,7 +1,23 @@
-FROM openjdk:11-jre
+# base image
+FROM node:12-alpine
 
-EXPOSE 7100
+RUN apk add tree
 
-COPY target/arcx-0.0.1-SNAPSHOT.jar arcx.jar
 
-CMD ["java","-Dspring.profiles.active=dev", "-jar", "arcx.jar"]
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+RUN pwd
+RUN tree .
+
+RUN npm install
+RUN npm install -g @vue/cli
+RUN npm run build
+
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+
+EXPOSE 8080
+
+# start app
+CMD ["npm", "run", "serve"]

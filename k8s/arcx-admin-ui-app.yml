@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arcx-admin-api-app
+  name: arcx-admin-ui-app
   annotations:
     app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
     app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
@@ -9,7 +9,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arcx-admin-api-app
+      app: arcx-admin-ui-app
 
   strategy:
     rollingUpdate:
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: arcx-admin-api-app
+        app: arcx-admin-ui-app
       annotations:
         app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
         app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
@@ -32,26 +32,26 @@ spec:
         fsGroup: 555
       containers:
       - name: app
-        image: $CI_REGISTRY_IMAGE/admin-api-app:$CI_COMMIT_REF_SLUG
+        image: $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_REF_SLUG
         imagePullPolicy: Always
         envFrom:
           - configMapRef:
-              name: arcx-config
+              name: arcx-admin-ui-config
         env:
           - name: REDEPLOY_META
             value: $CI_JOB_ID-$CI_COMMIT_SHA
         livenessProbe:
          tcpSocket:
-            port: 7100
+            port: 8080
          initialDelaySeconds: 10
          periodSeconds: 15
         readinessProbe:
          tcpSocket:
-            port: 7100
+            port: 8080
          initialDelaySeconds: 15
          periodSeconds: 10
         ports:
-        - containerPort: 7100
+        - containerPort: 8080
       imagePullSecrets:
       - name: glcr-auth
 ---
@@ -59,12 +59,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: arcx-admin-api-app-service
+  name: arcx-admin-ui-app-service
   annotations:
     app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
     app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
 spec:
   ports:
-  - port: 7100
+  - port: 8080
   selector:
-    app: arcx-admin-api-app
+    app: arcx-admin-ui-app
