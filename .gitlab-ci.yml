@@ -1,22 +1,6 @@
 stages:
-  - build
   - images
   - deploy
-    
-build-app:
-  tags:
-    - docker
-  stage: build
-  image: maven:3-openjdk-11
-  script:
-    - mkdir -p /root/.m2/repository/org/springframework/
-    - mkdir -p /root/.m2/repository/io/
-    - unzip static-deps/data.zip -d /root/.m2/repository/org/springframework
-    - unzip static-deps/swagger.zip -d /root/.m2/repository/io
-    - mvn install -DskipTests
-  artifacts:
-    paths:
-      - target/arcx-0.0.1-SNAPSHOT.jar
 
 admin-ui-app:image:build:
   tags:
