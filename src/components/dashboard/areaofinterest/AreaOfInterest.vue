@@ -50,7 +50,7 @@
                             'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                         }
 
-                        axios.post('http://arcx-development-admin-api.devsecops-eval.epa.gov/api/area_of_interest',
+                        axios.post('https://arcx-development-admin-api.devsecops-eval.epa.gov/api/area_of_interest',
                             this.area_of_interest, { 'headers': headers})
                             .then(function (response) {
                                 if (response.status == 201) {
@@ -78,7 +78,7 @@
 
                         var _this = this;
 
-                        jQuery.getJSON('http://arcx-development-admin-api.devsecops-eval.epa.gov/api/area_of_interest', function (areaofint) {
+                        jQuery.getJSON('https://arcx-development-admin-api.devsecops-eval.epa.gov/api/area_of_interest', function (areaofint) {
                             _this.areaofint = areaofint._embedded.area_of_interest;
                         });
                     }
