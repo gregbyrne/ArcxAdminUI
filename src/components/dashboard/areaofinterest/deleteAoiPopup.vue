@@ -66,8 +66,7 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
-    const AOE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_URL;
+    const AOE_DELETE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_DELETE_URL;
 
 
     export default {
@@ -89,19 +88,20 @@
             //DELETE
             deleteAreaOfInterest(areaid)
             {
-                alert("delete started id =  " + areaid)
+                let _this = this;
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
-                alert(API_URL + AOE_URL + areaid);
-                alert(headers);
 
-                axios.delete(API_URL + AOE_URL + areaid,{ 'headers': headers})
+                // eslint-disable-next-line no-console
+                console.log("URL: " + AOE_DELETE_URL + areaid)
+
+                axios.delete(AOE_DELETE_URL + areaid,{ 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 204) {
-                            alert(response.status)
+                        if (response.status == 200) {
+                            _this.$emit('update')
                             alert('Area of Interest has been deleted');
                         }
                         else
