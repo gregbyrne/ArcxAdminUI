@@ -37,7 +37,7 @@
                 </v-flex>
                 <v-flex md1>
                     <div>
-                        <pop-aoi-delete v-bind:areaname="area.name"
+                        <pop-aoi-delete @update="getAreaOfInterest()" v-bind:areaname="area.name"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
