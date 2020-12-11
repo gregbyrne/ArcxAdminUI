@@ -25,9 +25,9 @@
                     <div>{{ area.name }} </div>
                 </v-flex>
 
-                <v-flex md1>
+                <v-flex md1 pt-2>
 
-                    <div>
+                    <div >
                         <pop-aoi-edit  @update="getAreaOfInterest()" v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind="areaofint"
@@ -35,14 +35,14 @@
 
                     ></pop-aoi-edit></div>
                 </v-flex>
-                <v-flex md1>
+                <v-flex md1  pt-2>
                     <div>
                         <pop-aoi-delete @update="getAreaOfInterest()" v-bind:areaname="area.name"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
                 </v-flex>
-                <v-flex md1  pl-5 >
+                <v-flex md1  pl-5 pt-1>
                     <v-img  v-show="!expandAoiArray.includes(index)"
 
                             alt="Expand Area Of Interests"
