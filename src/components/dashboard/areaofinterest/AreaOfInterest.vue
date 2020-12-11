@@ -19,7 +19,6 @@
 
             <v-layout class="pa-1" row wrap>
                 <v-flex md9 class="pl-3" >
-                    <h6 style="color: #0071bc">Area of Interest Name</h6>
                     <div style="font-size: 20px">{{ area.name }} </div>
                 </v-flex>
 
