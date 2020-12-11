@@ -2,10 +2,6 @@
 
 
     <v-container class="my-5">
-        <div>
-
-
-        </div>
 
         <v-layout pa-1 row wrap>
             <v-flex md3 pl-3>
@@ -18,7 +14,7 @@
         </v-layout>
 
 
-        <v-card flat class="pa-1" v-for="area in areaofint" :key="area.id">
+        <v-card flat class="pa-1" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
 
 
@@ -26,7 +22,7 @@
             <v-layout class="pa-1" row wrap>
                 <v-flex md9 class="pl-3" >
                     <div class="caption grey--text" outline>Area of Interest Name</div>
-                    <div>{{ area.name }}</div>
+                    <div>{{ area.name }} </div>
                 </v-flex>
 
                 <v-flex md1>
@@ -47,23 +43,23 @@
                     </div>
                 </v-flex>
                 <v-flex md1  pl-5 >
-                    <v-img  v-show="!expand"
+                    <v-img  v-show="!expandAoiArray.includes(index)"
 
                             alt="Expand Area Of Interests"
                             width="31"
                             :src="require('@/assets/mdi/expand_more-24px.svg')"
-                            @click = "expandAOI(expand)"
+                            @click = "expandAOI(index, expandAoiArray)"
 
                             >
 
 
                     </v-img>
-                    <v-img  v-show="expand"
+                    <v-img  v-show="expandAoiArray.includes(index)"
 
                             alt="Hide expansion"
                             width="31"
                             :src="require('@/assets/mdi/expand_less-24px.svg')"
-                            @click = "expandAOI(expand)"
+                            @click = "expandAOI(index, expandAoiArray)"
 
                     >
 
@@ -75,7 +71,21 @@
 
             <v-divider></v-divider>
 
-            <div v-show="expand">
+            <div v-show="expandAoiArray.includes(index)">
+                <v-layout class="pa-1" row wrap >
+
+                    <v-flex md9 pl-15>
+                        <pop-item-new  @update="getAreaOfInterest()"
+                                       v-bind:area="area"
+                        ></pop-item-new>
+
+                    </v-flex>
+
+                </v-layout>
+
+                <v-divider></v-divider>
+
+
                 <v-layout class="pa-1" row wrap >
 
                     <v-flex md9 pl-15>
@@ -127,6 +137,7 @@
     import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
     import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
+    import addItem from '@/components/dashboard/areaofinterest/items/newItemPopup.vue'
 
 
 
@@ -137,6 +148,7 @@
             'pop-aoi-edit' : editAOI,
             'pop-aoi-delete' : deleteAOI,
             'pop-aoi-new' : addAOI,
+            'pop-item-new' : addItem,
 
         },
         data: function() {
@@ -144,7 +156,9 @@
                 area_of_interest: new area_of_interest(''),
                 areaofint: null,
                 expand: false,
-                expandsauce: '@/assets/mdi/expand_more-24px.svg'
+                areatest: new area_of_interest(''),
+                expandsauce: '@/assets/mdi/expand_more-24px.svg',
+                expandAoiArray: []
 
 
 
@@ -160,15 +174,23 @@
         },
         methods:
                 {
-                    expandAOI(expand){
+                    expandAOI(index, expandAoiArray){
 
-                        if(expand == false){
-                            expand = true;
+                        //if already expanded, remove expand
+                        if( expandAoiArray.includes(index) ){
+                            for( var i = 0; i < expandAoiArray.length; i++){
+                                if (expandAoiArray[i] === index){
+                                    expandAoiArray = expandAoiArray.splice(i,1)
+
+                                }
+                            }
 
                         }else{
-                            expand = false;
+                            expandAoiArray.push(index);
+
                         }
-                        this.expand = expand
+
+
                     },
 
                     //PUT
@@ -202,7 +224,6 @@
                     //DELETE
                     deleteAreaOfInterest(area)
                     {
-                        alert("delete started id =  " + area.id)
 
                         const headers = {
                             'Content-Type': 'application/json',
@@ -267,7 +288,9 @@
 
                         jQuery.getJSON('http://localhost:7100/api/area_of_interest', function (areaofint) {
                             _this.areaofint = areaofint._embedded.area_of_interest;
-                        });
+
+
+                         });
                     }
 
 
