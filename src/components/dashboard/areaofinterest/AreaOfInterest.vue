@@ -4,25 +4,23 @@
     <v-container class="my-5">
 
         <v-layout pa-1 row wrap>
-            <v-flex md3 pl-3>
-                <h1>Area of Interests </h1>
-            </v-flex>
-            <v-flex md2 pt-1>
-                <pop-aoi-new  @update="getAreaOfInterest()"></pop-aoi-new>
+            <v-flex md6 pl-3>
+                <h2 style="float: left;color: #0071bc">Area of Interests </h2>
+                <pop-aoi-new  @update="getAreaOfInterest()" style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
             </v-flex>
 
         </v-layout>
 
 
-        <v-card flat class="pa-1" v-for="(area, index)  in areaofint" :key="area.id">
+        <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
 
 
 
             <v-layout class="pa-1" row wrap>
                 <v-flex md9 class="pl-3" >
-                    <div class="caption grey--text" outline>Area of Interest Name</div>
-                    <div>{{ area.name }} </div>
+                    <h6 style="color: #0071bc">Area of Interest Name</h6>
+                    <div style="font-size: 20px">{{ area.name }} </div>
                 </v-flex>
 
                 <v-flex md1 pt-2>
@@ -68,17 +66,15 @@
 
                 </v-flex>
             </v-layout>
-
             <v-divider></v-divider>
+
 
             <div v-show="expandAoiArray.includes(index)">
                 <v-layout class="pa-1" row wrap >
 
                     <v-flex md9 pl-15>
-                        <pop-item-new  @update="getAreaOfInterest()"
-                                       v-bind:area="area"
-                        ></pop-item-new>
-
+                        <h3 style="float: left;color: #0071bc">Items</h3>
+                        <pop-item-new  @update="getAreaOfInterest()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
                 </v-layout>
@@ -117,11 +113,9 @@
                 </v-layout>
                 <v-divider></v-divider>
 
-            </div >
+            </div>
 
-            <!-- ITEM end -->
         </v-card>
-
 
      </v-container>
 
@@ -305,6 +299,8 @@
 </script>
 <style>
 
-
+    .container {
+        max-width: 1100px;
+    }
 
 </style>

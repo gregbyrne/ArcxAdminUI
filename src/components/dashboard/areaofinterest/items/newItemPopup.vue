@@ -10,10 +10,11 @@
                 <v-btn
                         color="primary"
                         dark
+                        small
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add New Items to {{ area.name }}
+                    Add
                 </v-btn>
             </template>
             <v-card>
