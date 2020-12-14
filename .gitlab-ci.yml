@@ -1,0 +1,51 @@
+stages:
+  - images
+  - deploy
+
+admin-ui-app:image:build:
+  tags:
+    - docker
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_REF_SLUG
+
+admin-ui-web:image:build:
+  tags:
+    - docker
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_REF_SLUG
+
+deploy to dev:
+  when: manual
+  stage: deploy
+  tags:
+    - docker
+  image: dtzar/helm-kubectl
+  script:
+    - apk add gettext
+    - kubectl config set-cluster dev-cluster --server="$KUBE_URL"
+    - kubectl config set-cluster dev-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=dev-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context default
+    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+  environment:
+    name: development
+    url: https://arcx-development-admin-ui.devsecops-eval.epa.gov
+  only:
+    - branches
+  except:
+    - master

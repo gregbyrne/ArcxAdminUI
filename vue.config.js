@@ -6,5 +6,8 @@ module.exports = {
           args[0].title = 'ARC-X Admin'
           return args
         })
+  },
+  devServer: {
+    disableHostCheck: true
   }
 }
