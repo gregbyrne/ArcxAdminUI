@@ -28,7 +28,16 @@ export default {
 
 <style scoped>
 .theme--light.v-application {
-  background : #F5F5F5;
+  background: #F5F5F5;
 }
+
+</style>
+
+<style>
+
+  .v-main__wrap
+  {
+    background-color: #d9d9d9
+  }
 
 </style>
