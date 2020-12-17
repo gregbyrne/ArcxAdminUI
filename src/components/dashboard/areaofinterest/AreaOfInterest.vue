@@ -5,8 +5,8 @@
 
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
-                <h2 style="float: left;color: #0071bc">Area of Interests </h2>
-                <pop-aoi-new  @update="getAreaOfInterest()" style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
+                <h2 style="float: left;color: #0071bc">Area of Interests  </h2>
+                <pop-aoi-new  @update="updatePage()" style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
             </v-flex>
 
         </v-layout>
@@ -25,7 +25,7 @@
                 <v-flex md1 pt-2>
 
                     <div >
-                        <pop-aoi-edit  @update="getAreaOfInterest()" v-bind:areaname="area.name"
+                        <pop-aoi-edit  @update="updatePage()" v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind="areaofint"
                                        right
@@ -34,7 +34,7 @@
                 </v-flex>
                 <v-flex md1  pt-2>
                     <div>
-                        <pop-aoi-delete @update="getAreaOfInterest()" v-bind:areaname="area.name"
+                        <pop-aoi-delete @update="updatePage()" v-bind:areaname="area.name"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
@@ -73,7 +73,7 @@
 
                     <v-flex md9 pl-15>
                         <h3 style="float: left;color: #0071bc">Items</h3>
-                        <pop-item-new  @update="getAreaOfInterest()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                        <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
                 </v-layout>
@@ -81,21 +81,20 @@
                 <v-divider></v-divider>
 
 
-                <v-layout class="pa-1" row wrap >
+                <v-layout class="pa-1" row wrap  v-for="(item)  in aoiitems" :key="item.id" v-show="area.id == item.parentid">
 
                     <v-flex md9 pl-15>
                         <div class="caption grey--text">Item Name</div>
-                        <div> item name</div>
+                        <div>{{item.name }}</div>
                     </v-flex>
                     <v-flex md1>
 
 
                         <div>
-                            <pop-aoi-edit v-bind:areaname="area.name"
-                                          v-bind:areaid="area.id"
-                                          v-bind="areaofint"
-
-                            ></pop-aoi-edit></div>
+                            <pop-item-edit
+                                    v-bind:area="area"
+                                    v-bind:item="item"
+                            ></pop-item-edit></div>
                     </v-flex>
                     <v-flex md1>
                         <div>
@@ -127,10 +126,12 @@
     import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
+    import area_of_interest_item from "@/models/area_of_interest_item";
     import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
     import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
     import addItem from '@/components/dashboard/areaofinterest/items/newItemPopup.vue'
+    import editItem from '@/components/dashboard/areaofinterest/items/editItemPopup.vue'
 
 
 
@@ -142,15 +143,16 @@
             'pop-aoi-delete' : deleteAOI,
             'pop-aoi-new' : addAOI,
             'pop-item-new' : addItem,
+            'pop-item-edit' : editItem,
 
         },
         data: function() {
         return {
                 area_of_interest: new area_of_interest(''),
+                area_of_interest_item: new area_of_interest_item(''),
                 areaofint: null,
+                aoiitems: null,
                 expand: false,
-                areatest: new area_of_interest(''),
-                expandsauce: '@/assets/mdi/expand_more-24px.svg',
                 expandAoiArray: []
 
 
@@ -279,11 +281,33 @@
 
                         var _this = this;
 
-                        jQuery.getJSON('https://arcx-development-admin-api.devsecops-eval.epa.gov/api/area_of_interest', function (areaofint) {
+                        jQuery.getJSON('http://localhost:7100/api/area_of_interest', function (areaofint) {
                             _this.areaofint = areaofint._embedded.area_of_interest;
 
-
                          });
+                    },
+                    getAreaOfInterestItem(){
+
+                        jQuery.ajaxSetup({
+                            headers : {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            }
+                        });
+
+                        var _this = this;
+
+                        jQuery.getJSON('http://localhost:7100/api/area_of_interest_items', function (aoiitems) {
+                            _this.aoiitems = aoiitems._embedded.area_of_interest_items;
+
+
+
+                        });
+
+                    },
+                    updatePage(){
+                        this.getAreaOfInterest()
+                        this.getAreaOfInterestItem()
                     }
 
 
@@ -293,6 +317,7 @@
                 },
             created() {
                 this.getAreaOfInterest()
+                this.getAreaOfInterestItem()
             }
         }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center">
 
         <v-dialog
                 v-model="dialog"
@@ -14,12 +14,12 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    delete
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Area of Interest</span>
+                    <span class="headline">Delete Area of Interest</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
@@ -27,15 +27,16 @@
                             <v-col cols="12">
                                 <v-text-field
                                         v-model="areaname"
-                                        label="Area Of Interest Name*"
+                                        label="Area Of Interest to delete"
                                         required
+                                        readonly
                                 ></v-text-field>
                             </v-col>
 
 
                         </v-row>
                     </v-container>
-                    <small>*indicates required field</small>
+                    Are you sure you want to delete {{areaname}}? This will also delete all items and sub-items associated with the area.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -49,13 +50,11 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewAoe(areaname)"
+                            @click="deleteAreaOfInterest(areaid)"
                     >
 
 
-
-
-                        Save
+                        Delete
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -67,8 +66,8 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
-    const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_URL;
+    const AOE_DELETE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_DELETE_URL;
+
 
     export default {
         name: 'Popup',
@@ -86,42 +85,39 @@
         }),
         methods:{
 
-            addNewAoe(newname) {
-
+            //DELETE
+            deleteAreaOfInterest(itemid)
+            {
                 let _this = this;
-
-
-                alert(process.env.VUE_API_ENVIRONMENT)
-
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + AOI_URL ,
-                    { name: newname}, { 'headers': headers})
-                    .then(function (response) {
-                        if (response.status == 201) {
+                // eslint-disable-next-line no-console
+                console.log("URL: " + AOE_DELETE_URL + itemid)
 
+                axios.delete(AOE_DELETE_URL + itemid,{ 'headers': headers})
+                    .then(function (response) {
+                        if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Area of Interest has been created');
+                            alert('Item has been deleted');
                         }
                         else
                         {
-                            alert('Area of Interest was not created');
+                            alert('Item was not deleted');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with delete ' + error);
+                    });
 
-                this.dialog = false
+                this.dialog = false;
+
+
 
             },
-
-
 
 
 

@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center">
 
         <v-dialog
                 v-model="dialog"
@@ -14,20 +14,20 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    Edit
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Area of Interest</span>
+                    <span class="headline">Edit Item {{  item.name }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="areaname"
-                                        label="Area Of Interest Name*"
+                                        v-model="item.name"
+                                        label="Item Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewAoe(areaname)"
+                            @click="editAOE(item)"
                     >
 
 
@@ -68,12 +68,15 @@
 <script>
     import axios from "axios";
     const API_URL = process.env.VUE_APP_API_URL;
-    const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_URL;
+
+
 
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid'],
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'item'],
+
+
 
 
         data: () => ({
@@ -86,41 +89,35 @@
         }),
         methods:{
 
-            addNewAoe(newname) {
+
+            editAOE(item ){
 
                 let _this = this;
-
-
-                alert(process.env.VUE_API_ENVIRONMENT)
-
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + AOI_URL ,
-                    { name: newname}, { 'headers': headers})
+                axios.put(API_URL + 'area_of_interest_items/' + item.id ,{ name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
                     .then(function (response) {
-                        if (response.status == 201) {
-
+                        if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Area of Interest has been created');
+                            alert('Area of Interest has been edited');
                         }
                         else
                         {
-                            alert('Area of Interest was not created');
+                            alert('Area of Interest was not edited');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with edit ' + error);
+                    });
 
                 this.dialog = false
 
-            },
 
+            },
 
 
 

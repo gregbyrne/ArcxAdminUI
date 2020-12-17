@@ -26,7 +26,7 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="aoeName"
+                                        v-model="itemName"
                                         label="Item Name*"
                                         required
                                 ></v-text-field>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(aoeName)"
+                            @click="addNewItem(itemName, area)"
                     >
 
 
@@ -66,9 +66,13 @@
 </template>
 
 <script>
+    import axios from "axios";
+    const API_URL = process.env.VUE_APP_API_URL;
 
     export default {
         name: 'Popup',
+        aoeName: 'default',
+
         props: ['areaname', 'areaid', 'area'],
 
 
@@ -82,16 +86,37 @@
         }),
         methods:{
 
-            addNewItem(newname) {
+            addNewItem(itemName, area) {
 
                 //let _this = this;
+                alert('Add New Item: ' + itemName +  area.id + headers)
 
-                alert('Add New Item' + newname)
+                let _this = this;
 
 
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                }
+
+                axios.post(API_URL + 'area_of_interest_items/' ,
+                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                    .then(function (response) {
+                        if (response.status == 201) {
+
+                            _this.$emit('update')
+                            alert('Item has been created');
+                        }
+                        else
+                        {
+                            alert('Item was not created');
+                        }
+                    })
+                    .catch((error) => {
+                        alert('ERROR: ' + error);
+                    })
 
                 this.dialog = false
-
             },
 
 
