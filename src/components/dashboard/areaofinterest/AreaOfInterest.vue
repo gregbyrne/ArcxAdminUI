@@ -11,11 +11,6 @@
 
         </v-layout>
 
-        <v-layout class="pa-1" row wrap  v-for="(subitem, subitemIndex)  in subitems" :key="subitemIndex" >
-            {{subitem.name}}            asdasd
-        </v-layout>
-
-
         <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
 
@@ -140,8 +135,8 @@
 
                             <v-row  no-gutters >
 
-                                <v-col cols="12">a
-                                    <h4 style="float: middle;color: #0071bc">{{item.name}} Sub Items</h4>
+                                <v-col cols="12">
+                                    <h4 style="color: #0071bc">{{item.name}} Sub Items</h4>
                                     <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                                 </v-col>
 
