@@ -136,18 +136,21 @@
                             <v-row  no-gutters >
 
                                 <v-col cols="12">
-                                    <h4 style="color: #0071bc">{{item.name}} Sub Items</h4>
-                                    <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                                    <h4 style="float: left;color: #0071bc">{{item.name}} Sub Items</h4>
+                                    <pop-sub-item-new  @update="updatePage()" v-bind:item="item" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
                                 </v-col>
 
                             </v-row>
 
-                            <v-row  no-gutters >
+                            <v-row  no-gutters v-for="(subItem, subItemIndex)  in subitems" :key="subItemIndex" v-show="item.id == subItem.parentid">
 
+                                <v-col cols="7">
+                                    <div class="caption grey--text">Sub Item Name </div>
+                                    <div>{{subItem.name }}</div>
+                                </v-col>
 
-                                <v-col cols="12">
-                                    <h4 style="float: left;color: #0071bc">{{item.name}} Sub Items</h4>
-                                    <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                                <v-col cols="3">
+                                    <pop-sub-item-edit  @update="updatePage()" v-bind:subItem="subItem" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-edit>
                                 </v-col>
 
                             </v-row>
@@ -187,9 +190,9 @@
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
     import addItem from '@/components/dashboard/areaofinterest/items/newItemPopup.vue'
     import editItem from '@/components/dashboard/areaofinterest/items/editItemPopup.vue'
+    import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
+    import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
 
-   // import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
-   // import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
 
 
 
@@ -204,8 +207,8 @@
             'pop-item-new' : addItem,
             'pop-item-edit' : editItem,
 
-            //'pop-sub-item-new' : addSubItem,
-            //'pop-sub-item-edit' : editSubItem,
+            'pop-sub-item-new' : addSubItem,
+            'pop-sub-item-edit' : editSubItem,
 
         },
         data: function() {

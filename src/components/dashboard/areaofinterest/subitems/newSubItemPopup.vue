@@ -26,7 +26,7 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
+                                        v-model="newName"
                                         label="Sub Item Name*"
                                         required
                                 ></v-text-field>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="addNewItem(newName, item)"
                     >
 
 
@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['areaname', 'areaid', 'area'],
+        props: ['areaname', 'areaid', 'area', 'item', 'newName'],
 
 
         data: () => ({
@@ -86,10 +86,10 @@
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+            addNewItem(itemName, parent) {
 
                 //let _this = this;
-                alert('Add New Item: ' + itemName +  area.id + headers)
+                alert('Add New Item: ' + itemName +  parent.id + headers)
 
                 let _this = this;
 
@@ -100,7 +100,7 @@
                 }
 
                 axios.post(API_URL + 'area_of_interest_sub_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                    { name: itemName, parentid: parent.id, value: 'testvalue'}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status == 201) {
 

@@ -19,15 +19,15 @@
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Edit Item {{  item.name }}</span>
+                    <span class="headline">Edit Sub Item {{  subItem.name }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="item.name"
-                                        label="Item Name*"
+                                        v-model="subItem.name"
+                                        label="Sub Item Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="editAOE(item)"
+                            @click="editAOE(subItem)"
                     >
 
 
@@ -74,7 +74,8 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid', 'areaofint', 'area', 'item'],
+        newName: '',
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'subItem'],
 
 
 
@@ -90,7 +91,7 @@
         methods:{
 
 
-            editAOE(item ){
+            editAOE(subItem ){
 
                 let _this = this;
 
@@ -99,15 +100,15 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.put(API_URL + 'area_of_interest_items/' + item.id ,{ name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
+                axios.put(API_URL + 'area_of_interest_sub_items/' + subItem.id ,{ name: subItem.name, parentid: subItem.parentid, value: subItem.value}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Area of Interest has been edited');
+                            alert('Sub Item has been edited');
                         }
                         else
                         {
-                            alert('Area of Interest was not edited');
+                            alert('Sub Item was not edited');
                         }
                     })
                     .catch((error) => {
