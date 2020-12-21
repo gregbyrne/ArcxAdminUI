@@ -11,6 +11,10 @@
 
         </v-layout>
 
+        <v-layout class="pa-1" row wrap  v-for="(subitem, subitemIndex)  in subitems" :key="subitemIndex" >
+            {{subitem.name}}            asdasd
+        </v-layout>
+
 
         <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
@@ -67,12 +71,13 @@
             </v-layout>
             <v-divider></v-divider>
 
+            <!-- ITEMS -->
 
             <div v-show="expandAoiArray.includes(index)">
                 <v-layout class="pa-1" row wrap >
 
                     <v-flex md9 pl-15>
-                        <h3 style="float: left;color: #0071bc">Items</h3>
+                        <h3 style="float: left;color: #0071bc">{{area.name}} Items</h3>
                         <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
@@ -81,10 +86,10 @@
                 <v-divider></v-divider>
 
 
-                <v-layout class="pa-1" row wrap  v-for="(item)  in aoiitems" :key="item.id" v-show="area.id == item.parentid">
+                <v-layout class="pa-1" row wrap  v-for="(item, itemIndex)  in aoiitems" :key="item.id" v-show="area.id == item.parentid">
 
-                    <v-flex md9 pl-15>
-                        <div class="caption grey--text">Item Name</div>
+                    <v-flex sm6 md9 pl-15>
+                        <div class="caption grey--text">Item Name </div>
                         <div>{{item.name }}</div>
                     </v-flex>
                     <v-flex md1>
@@ -104,14 +109,68 @@
                         </div>
                     </v-flex>
                     <v-flex md1>
+                        <v-img  v-show="!expandItemArray.includes(itemIndex)"
 
+                                alt="Expand Items"
+                                width="31"
+                                :src="require('@/assets/mdi/expand_more-24px.svg')"
+                                @click = "expandAOI(itemIndex, expandItemArray)"
+
+                        >
+
+
+                        </v-img>
+                        <v-img  v-show="expandItemArray.includes(itemIndex)"
+
+                                alt="Hide Item expansion"
+                                width="31"
+                                :src="require('@/assets/mdi/expand_less-24px.svg')"
+                                @click = "expandAOI(itemIndex, expandItemArray)"
+
+                        ></v-img>
 
 
                     </v-flex>
+
+
+                    <!-- SUB ITEMS start -->
+
+                    <v-row v-show="expandItemArray.includes(itemIndex)">
+                        <v-col cols="12">
+
+                            <v-row  no-gutters >
+
+                                <v-col cols="12">a
+                                    <h4 style="float: middle;color: #0071bc">{{item.name}} Sub Items</h4>
+                                    <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                                </v-col>
+
+                            </v-row>
+
+                            <v-row  no-gutters >
+
+
+                                <v-col cols="12">
+                                    <h4 style="float: left;color: #0071bc">{{item.name}} Sub Items</h4>
+                                    <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                                </v-col>
+
+                            </v-row>
+
+
+
+                        </v-col>
+                    </v-row>
+
                 </v-layout>
                 <v-divider></v-divider>
 
-            </div>
+
+
+
+
+
+                </div>
 
         </v-card>
 
@@ -127,11 +186,16 @@
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
     import area_of_interest_item from "@/models/area_of_interest_item";
+    import area_of_interest_sub_item from "@/models/area_of_interest_sub_item";
     import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
     import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
     import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
     import addItem from '@/components/dashboard/areaofinterest/items/newItemPopup.vue'
     import editItem from '@/components/dashboard/areaofinterest/items/editItemPopup.vue'
+
+   // import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
+   // import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
+
 
 
 
@@ -145,15 +209,21 @@
             'pop-item-new' : addItem,
             'pop-item-edit' : editItem,
 
+            //'pop-sub-item-new' : addSubItem,
+            //'pop-sub-item-edit' : editSubItem,
+
         },
         data: function() {
         return {
                 area_of_interest: new area_of_interest(''),
                 area_of_interest_item: new area_of_interest_item(''),
+                area_of_interest_sub_item: new area_of_interest_sub_item(''),
                 areaofint: null,
                 aoiitems: null,
+                subitems: null,
                 expand: false,
-                expandAoiArray: []
+                expandAoiArray: [],
+                expandItemArray: []
 
 
 
@@ -182,6 +252,23 @@
 
                         }else{
                             expandAoiArray.push(index);
+
+                        }
+
+
+                    },expandItem(itemIndex, expandItemArray){
+
+                        //if already expanded, remove expand
+                        if( expandItemArray.includes(itemIndex) ){
+                            for( var i = 0; i < expandItemArray.length; i++){
+                                if (expandItemArray[i] === itemIndex){
+                                    expandItemArray = expandItemArray.splice(i,1)
+
+                                }
+                            }
+
+                        }else{
+                            expandItemArray.push(itemIndex);
 
                         }
 
@@ -305,9 +392,29 @@
                         });
 
                     },
+                    getAreaOfInterestSubItem(){
+
+                        jQuery.ajaxSetup({
+                            headers : {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            }
+                        });
+
+                        var _this = this;
+
+                        jQuery.getJSON('http://localhost:7100/api/area_of_interest_sub_items', function (subitems) {
+                            _this.subitems = subitems._embedded.area_of_interest_sub_items;
+
+
+
+                        });
+
+                    },
                     updatePage(){
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
+                        this.getAreaOfInterestSubItem()
                     }
 
 
@@ -318,6 +425,8 @@
             created() {
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
+                this.getAreaOfInterestSubItem()
+
             }
         }
 </script>
