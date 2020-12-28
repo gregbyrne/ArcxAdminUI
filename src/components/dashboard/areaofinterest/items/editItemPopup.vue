@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="editAOE(item)"
+                            @click="editItem(item)"
                     >
 
 
@@ -90,7 +90,7 @@
         methods:{
 
 
-            editAOE(item ){
+            editItem(item ){
 
                 let _this = this;
 

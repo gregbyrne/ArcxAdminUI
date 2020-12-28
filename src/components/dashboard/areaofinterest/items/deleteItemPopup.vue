@@ -19,15 +19,15 @@
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Delete Area of Interest</span>
+                    <span class="headline">Delete Item</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="areaname"
-                                        label="Area Of Interest to delete"
+                                        v-model="item.name"
+                                        label="Item to delete"
                                         required
                                         readonly
                                 ></v-text-field>
@@ -36,7 +36,7 @@
 
                         </v-row>
                     </v-container>
-                    Are you sure you want to delete {{areaname}}? This will also delete all items and sub-items associated with the area.
+                    Are you sure you want to delete {{item.name}}? This will also delete all sub-items associated with the area.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -50,7 +50,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="deleteAreaOfInterest(areaid)"
+                            @click="deleteItem(item.id)"
                     >
 
 
@@ -66,13 +66,12 @@
 
 <script>
     import axios from "axios";
-    const AOE_DELETE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_DELETE_URL;
 
 
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid'],
+        props: ['item'],
 
 
         data: () => ({
@@ -86,9 +85,11 @@
         methods:{
 
             //DELETE
-            deleteAreaOfInterest(itemid)
+            deleteItem(itemid)
             {
                 let _this = this;
+
+                let newURL = 'http://localhost:7100/api/delete_item?item_id=';
 
                 const headers = {
                     'Content-Type': 'application/json',
@@ -96,9 +97,9 @@
                 }
 
                 // eslint-disable-next-line no-console
-                console.log("URL: " + AOE_DELETE_URL + itemid)
+                console.log("URL: " + newURL + itemid)
 
-                axios.delete(AOE_DELETE_URL + itemid,{ 'headers': headers})
+                axios.delete(newURL + itemid,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('update')
