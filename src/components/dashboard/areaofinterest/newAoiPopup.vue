@@ -82,7 +82,7 @@
             notifications: false,
             sound: true,
             widgets: false,
-
+            newName: '',
         }),
         methods:{
 

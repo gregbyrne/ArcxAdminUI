@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['areaname', 'areaid', 'area', 'item', 'newName'],
+        props: ['areaname', 'areaid', 'area', 'item'],
 
 
         data: () => ({
@@ -82,6 +82,7 @@
             notifications: false,
             sound: true,
             widgets: false,
+            newName: '',
 
         }),
         methods:{
@@ -89,7 +90,6 @@
             addNewItem(itemName, parent) {
 
                 //let _this = this;
-                alert('Add New Item: ' + itemName +  parent.id + headers)
 
                 let _this = this;
 
@@ -105,11 +105,11 @@
                         if (response.status == 201) {
 
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Sub Item has been created');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Sub Item was not created');
                         }
                     })
                     .catch((error) => {
