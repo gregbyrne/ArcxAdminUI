@@ -26,7 +26,7 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="aoeName"
+                                        v-model="areaname"
                                         label="Area Of Interest Name*"
                                         required
                                 ></v-text-field>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewAoe(aoeName)"
+                            @click="addNewAoe(areaname)"
                     >
 
 
@@ -82,7 +82,7 @@
             notifications: false,
             sound: true,
             widgets: false,
-
+            newName: '',
         }),
         methods:{
 
@@ -90,7 +90,10 @@
 
                 let _this = this;
 
-                alert(newname)
+
+                alert(process.env.VUE_API_ENVIRONMENT)
+
+
 
                 const headers = {
                     'Content-Type': 'application/json',

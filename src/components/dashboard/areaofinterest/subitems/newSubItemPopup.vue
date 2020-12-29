@@ -19,15 +19,15 @@
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Sub Item</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="newName"
+                                        label="Sub Item Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="addNewItem(newName, item)"
                     >
 
 
@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['areaname', 'areaid', 'area'],
+        props: ['areaname', 'areaid', 'area', 'item'],
 
 
         data: () => ({
@@ -82,14 +82,14 @@
             notifications: false,
             sound: true,
             widgets: false,
+            newName: '',
 
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+            addNewItem(itemName, parent) {
 
                 //let _this = this;
-                alert('Add New Item: ' + itemName +  area.id + headers)
 
                 let _this = this;
 
@@ -99,17 +99,17 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.post(API_URL + 'area_of_interest_sub_items/' ,
+                    { name: itemName, parentid: parent.id, value: 'testvalue'}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status == 201) {
 
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Sub Item has been created');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Sub Item was not created');
                         }
                     })
                     .catch((error) => {

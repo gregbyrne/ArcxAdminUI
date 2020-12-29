@@ -38,6 +38,7 @@
 <script>
     export default {
         name: 'Dashboard',
+        aoeName: 'asdasd',
         props: {
             msg: String
         },

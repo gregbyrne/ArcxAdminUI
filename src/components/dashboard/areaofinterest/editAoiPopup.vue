@@ -69,7 +69,6 @@
     import axios from "axios";
     const API_URL = process.env.VUE_APP_API_URL;
     const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_URL;
-    import jQuery from "jquery";
 
 
 
@@ -92,7 +91,7 @@
         methods:{
 
 
-            editAOE(newname, areaid ){
+            editAOE(changedName, areaid ){
 
                 let _this = this;
 
@@ -101,7 +100,7 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.put(API_URL + AOI_URL + areaid,{ name: newname}, {'headers': headers} )
+                axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('update')
@@ -121,24 +120,7 @@
 
 
             },
-            //New GET request
-            getAreaOfInterest()
-            {
-                jQuery.ajaxSetup({
-                    headers : {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                    }
-                });
 
-                var _this = this;
-
-                jQuery.getJSON('http://localhost:7100/api/area_of_interest', function (areaofint) {
-                    _this.areaofint = areaofint._embedded.area_of_interest;
-                });
-                alert('ahere')
-
-            }
 
 
 
