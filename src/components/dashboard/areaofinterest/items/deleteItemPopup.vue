@@ -66,6 +66,7 @@
 
 <script>
     import axios from "axios";
+    const AOE_ITEM_DELETE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEM_DELETE_URL;
 
 
     export default {
@@ -89,17 +90,12 @@
             {
                 let _this = this;
 
-                let newURL = 'http://localhost:7100/api/delete_item?item_id=';
-
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                // eslint-disable-next-line no-console
-                console.log("URL: " + newURL + itemid)
-
-                axios.delete(newURL + itemid,{ 'headers': headers})
+                axios.delete(AOE_ITEM_DELETE_URL + itemid,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('update')
