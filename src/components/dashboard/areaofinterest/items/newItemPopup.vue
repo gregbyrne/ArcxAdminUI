@@ -88,9 +88,6 @@
 
             addNewItem(itemName, area) {
 
-                //let _this = this;
-                alert('Add New Item: ' + itemName +  area.id + headers)
-
                 let _this = this;
 
 

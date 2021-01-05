@@ -73,7 +73,7 @@
                 <v-layout class="pa-1" row wrap >
 
                     <v-flex md9 pl-15>
-                        <h3 style="float: left;color: #0071bc">{{area.name}} Items</h3>
+                        <h3 style="float: left;color: #0071bc">Items</h3>
                         <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
@@ -140,7 +140,7 @@
                                 <v-col cols="1"></v-col>
 
                                 <v-col cols="10">
-                                    <h4 style="float: left;color: #0071bc">Sub Items</h4>
+                                    <h4 style="float: left;color: #0071bc">Sub-Items</h4>
                                     <pop-sub-item-new  @update="updatePage()" v-bind:item="item" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
                                 </v-col>
 
@@ -187,6 +187,9 @@
 <script>
 
     const API_URL = process.env.VUE_APP_API_URL;
+    const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST;
+    const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
+    const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 
     import axios from "axios";
     import jQuery from "jquery";
@@ -350,7 +353,7 @@
 
                         var _this = this;
 
-                        jQuery.getJSON('http://localhost:7100/api/area_of_interest', function (areaofint) {
+                        jQuery.getJSON(AOI_URL, function (areaofint) {
                             _this.areaofint = areaofint._embedded.area_of_interest;
 
                          });
@@ -366,7 +369,7 @@
 
                         var _this = this;
 
-                        jQuery.getJSON('http://localhost:7100/api/area_of_interest_items', function (aoiitems) {
+                        jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
                             _this.aoiitems = aoiitems._embedded.area_of_interest_items;
 
 
@@ -385,7 +388,7 @@
 
                         var _this = this;
 
-                        jQuery.getJSON('http://localhost:7100/api/area_of_interest_sub_items', function (subitems) {
+                        jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
                             _this.subitems = subitems._embedded.area_of_interest_sub_items;
 
 
