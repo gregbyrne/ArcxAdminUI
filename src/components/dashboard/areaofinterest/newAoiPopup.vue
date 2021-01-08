@@ -90,11 +90,6 @@
 
                 let _this = this;
 
-
-                alert(process.env.VUE_API_ENVIRONMENT)
-
-
-
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
