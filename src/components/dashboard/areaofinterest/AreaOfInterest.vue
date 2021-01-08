@@ -253,6 +253,21 @@
         },
         methods:
                 {
+                    logOut() {
+
+                        this.$store.dispatch('auth/logout');
+                        this.$router.push('/login');
+
+                    },
+                    checkStatusOfAccessToken() {
+
+                        if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
+                        {
+                            this.$store.dispatch('auth/logout');
+                            this.$router.push('/login');
+                        }
+
+                    },
                     expandAOI(index, expandAoiArray){
 
                         //if already expanded, remove expand
@@ -353,10 +368,17 @@
 
                         var _this = this;
 
-                        jQuery.getJSON(AOI_URL, function (areaofint) {
+                        var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
                             _this.areaofint = areaofint._embedded.area_of_interest;
 
                          });
+
+                        jsonData.fail(function(data) {
+                            if (data.status == '401')
+                            {
+                                _this.logOut()
+                            }
+                        })
                     },
                     getAreaOfInterestItem(){
 
@@ -397,6 +419,7 @@
 
                     },
                     updatePage(){
+                        this.checkStatusOfAccessToken()
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
                         this.getAreaOfInterestSubItem()
@@ -408,6 +431,7 @@
 
                 },
             created() {
+                this.checkStatusOfAccessToken()
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
