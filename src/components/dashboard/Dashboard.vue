@@ -11,18 +11,26 @@
 
                 </v-col>
             </v-row>
-            <AreaOfInterestList />
+          <button @click="this.swapComponent('AreaOfInterestList')">Area of Interest</button>
+          <button @click="this.swapComponent('SortAreaOfInterest')">Sort Area of Interest</button>
+          <component :is="currentComponent"></component>
         </v-container>
     </v-container>
-</template>0
+</template>
 
 <script>
 
     import AreaOfInterestList from './areaofinterest/AreaOfInterest'
+    import SortAreaOfInterest from './areaofinterest/SortAreaOfInterest'
 
     export default {
-        components : { 'AreaOfInterestList': AreaOfInterestList},
+        components : { 'AreaOfInterestList': AreaOfInterestList, 'SortAreaOfInterest': SortAreaOfInterest},
         name: 'Dashboard',
+      data: function() {
+        return {
+          currentComponent: 'AreaOfInterestList'
+        }
+        },
         computed: {
             date : function () {
                 return Date.now()
@@ -30,7 +38,12 @@
             currentUser() {
                 return this.$store.state.auth.user
             }
+        },
+      methods: {
+        swapComponent(component) {
+          this.currentComponent = component;
         }
+      }
     }
 </script>
 

@@ -11,10 +11,17 @@ import Popup from './components/dashboard/Popup'
 import AreaOfInterestList from "./components/dashboard/areaofinterest/AreaOfInterest";
 import Dashboard from "./components/dashboard/Dashboard";
 import axios from 'axios';
+import Sortable from 'sortablejs';
 
 Vue.config.productionTip = false;
 
 Vue.use(VeeValidate, Vuex, vuetify, axios);
+
+Vue.directive('sortable', {
+  update(options = {}) {
+    Sortable.create(this.el, options);
+  },
+});
 
 Vue.component('Popup', Popup);
 

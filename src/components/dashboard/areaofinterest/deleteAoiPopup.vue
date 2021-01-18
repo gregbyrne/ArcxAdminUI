@@ -100,13 +100,13 @@
 
                 axios.delete(AOE_DELETE_URL + areaid,{ 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 200) {
+                        if (response.status.toString().includes("20")) {
                             _this.$emit('update')
                             alert('Area of Interest has been deleted');
                         }
                         else
                         {
-                            alert('Area of Interest was not deleted');
+                            alert('Area of Interest was NOT deleted');
                         }
                     })
                     .catch((error) => {
