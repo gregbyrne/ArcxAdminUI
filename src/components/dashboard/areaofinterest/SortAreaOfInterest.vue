@@ -2,6 +2,26 @@
 
     <v-container class="my-5">
 
+      <v-layout pa-1 row wrap>
+        <v-flex md6 pl-3>
+          <h2 style="float: left;color: #0071bc">Area of Interests Sorting</h2>
+        </v-flex>
+        <v-flex md6 pl-3>
+        <v-btn
+            color="primary"
+            dark
+            small
+            v-bind="attrs"
+            v-on="on"
+            class="saveButton"
+            @click="saveOrder"
+        >
+          Save
+        </v-btn>
+        </v-flex>
+
+      </v-layout>
+
       <draggable v-model="areaofint" ghost-class="ghost" @end="onEnd">
         <transition-group type="transition" name="flip-list">
           <div class="sortable" v-for="aoi in areaofint" :key="aoi.id">
@@ -10,6 +30,13 @@
               <transition-group type="transition" name="flip-list">
                 <div class="sortable" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id">
                   {{aoiitem.name}}
+                  <draggable v-model="subitems" ghost-class="ghost" @end="onEnd">
+                    <transition-group type="transition" name="flip-list">
+                      <div class="sortable" v-for="subitem in subitems" v-if="aoiitem.id == subitem.parentid" :key="subitem.id">
+                        {{subitem.name}}
+                      </div>
+                    </transition-group>
+                  </draggable>
                 </div>
               </transition-group>
             </draggable>
@@ -47,17 +74,6 @@
     export default {
         name: 'CreateAreaOfInterest',
         components:{
-            'pop-aoi-edit' : editAOI,
-            'pop-aoi-delete' : deleteAOI,
-            'pop-aoi-new' : addAOI,
-
-            'pop-item-new' : addItem,
-            'pop-item-edit' : editItem,
-            'pop-item-delete' : deleteItem,
-
-            'pop-sub-item-new' : addSubItem,
-            'pop-sub-item-edit' : editSubItem,
-            'pop-sub-item-delete' : deleteSubItem,
             draggable,
 
         },
@@ -85,163 +101,113 @@
 
         },
         methods:
+            {
+              logOut() {
+
+                this.$store.dispatch('auth/logout');
+                this.$router.push('/login');
+
+              },
+              checkStatusOfAccessToken() {
+
+                if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
                 {
+                  this.$store.dispatch('auth/logout');
+                  this.$router.push('/login');
+                }
 
-                  onEnd(evt) {
-                    console.log(evt)
-                    this.oldIndex = evt.oldIndex;
-                    this.newIndex = evt.newIndex;
-                  },
-                    logOut() {
+              },
 
-                        this.$store.dispatch('auth/logout');
-                        this.$router.push('/login');
+              //New GET request
+              getAreaOfInterest() {
+                jQuery.ajaxSetup({
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  }
+                });
 
-                    },
-                    checkStatusOfAccessToken() {
+                var _this = this;
 
-                        if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                        {
-                            this.$store.dispatch('auth/logout');
-                            this.$router.push('/login');
-                        }
+                var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
+                  _this.areaofint = areaofint._embedded.area_of_interest;
 
-                    },
-                    expandAOI(index, expandAoiArray){
+                });
 
-                        //if already expanded, remove expand
-                        if( expandAoiArray.includes(index) ){
-                            for( var i = 0; i < expandAoiArray.length; i++){
-                                if (expandAoiArray[i] === index){
-                                    expandAoiArray = expandAoiArray.splice(i,1)
+                jsonData.fail(function (data) {
+                  if (data.status == '401') {
+                    _this.logOut()
+                  }
+                })
+              },
+              getAreaOfInterestItem() {
 
-                                }
-                            }
+                jQuery.ajaxSetup({
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  }
+                });
 
-                        }else{
-                            expandAoiArray.push(index);
+                var _this = this;
 
-                        }
-
-
-                    },expandItem(itemIndex, expandItemArray){
-
-                        //if already expanded, remove expand
-                        if( expandItemArray.includes(itemIndex) ){
-                            for( var i = 0; i < expandItemArray.length; i++){
-                                if (expandItemArray[i] === itemIndex){
-                                    expandItemArray = expandItemArray.splice(i,1)
-
-                                }
-                            }
-
-                        }else{
-                            expandItemArray.push(itemIndex);
-
-                        }
+                jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
+                  _this.aoiitems = aoiitems._embedded.area_of_interest_items;
 
 
-                    },
+                });
 
-                    //DELETE
-                    deleteAreaOfInterest(area)
-                    {
+              },
+              getAreaOfInterestSubItem() {
 
-                        const headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                        }
+                jQuery.ajaxSetup({
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  }
+                });
 
-                        axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
-                            .then(function (response) {
-                                if (response.status.toString().includes("20")) {
-                                    alert('Area of Interest has been deleted');
-                                }
-                                else
-                                {
-                                    alert('Area of Interest was not deleted');
-                                }
-                            })
-                                .catch((error) => {
-                                    alert('ERROR: with delete ' + error);
-                                });
+                var _this = this;
+
+                jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
+                  _this.subitems = subitems._embedded.area_of_interest_sub_items;
 
 
-                    },
-                    //New GET request
-                    getAreaOfInterest()
-                    {
-                        jQuery.ajaxSetup({
-                            headers : {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                            }
-                        });
+                });
 
-                        var _this = this;
+              },
+              updatePage() {
+                this.checkStatusOfAccessToken()
+                this.getAreaOfInterest()
+                this.getAreaOfInterestItem()
+                this.getAreaOfInterestSubItem()
+              },
+              saveOrder() {
+                let _this = this;
 
-                        var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
-                            _this.areaofint = areaofint._embedded.area_of_interest;
+                const headers = {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                }
 
-                         });
+                axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )
+                    .then(function (response) {
+                      if (response.status.toString().includes("20")) {
+                        alert('Area of Interest has been edited');
+                      }
+                      else
+                      {
+                        alert('Area of Interest was NOT edited');
+                      }
+                    })
+                    .catch((error) => {
+                      alert('ERROR: with edit ' + error);
+                    });
 
-                        jsonData.fail(function(data) {
-                            if (data.status == '401')
-                            {
-                                _this.logOut()
-                            }
-                        })
-                    },
-                    getAreaOfInterestItem(){
-
-                        jQuery.ajaxSetup({
-                            headers : {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                            }
-                        });
-
-                        var _this = this;
-
-                        jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
-                            _this.aoiitems = aoiitems._embedded.area_of_interest_items;
-
-
-
-                        });
-
-                    },
-                    getAreaOfInterestSubItem(){
-
-                        jQuery.ajaxSetup({
-                            headers : {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                            }
-                        });
-
-                        var _this = this;
-
-                        jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                            _this.subitems = subitems._embedded.area_of_interest_sub_items;
-
-
-
-                        });
-
-                    },
-                    updatePage(){
-                        this.checkStatusOfAccessToken()
-                        this.getAreaOfInterest()
-                        this.getAreaOfInterestItem()
-                        this.getAreaOfInterestSubItem()
-                    }
-
-
-
-
-
-                },
+                this.dialog = false
+                this.updatePage()
+              }
+            },
             created() {
                 this.checkStatusOfAccessToken()
                 this.getAreaOfInterest()
@@ -262,6 +228,11 @@
       padding: 1em;
       cursor: move;
       margin-bottom: 2px;
+    }
+    .saveButton
+    {
+      float: right;
+      margin-right: 10px;
     }
 
 </style>

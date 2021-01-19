@@ -2,21 +2,6 @@
 
     <v-container class="my-5">
 
-      <draggable v-model="areaofint" ghost-class="ghost" @end="onEnd">
-        <transition-group type="transition" name="flip-list">
-          <div class="sortable" v-for="aoi in areaofint" :key="aoi.id">
-            {{aoi.name}}
-            <draggable v-model="aoiitems" ghost-class="ghost" @end="onEnd">
-              <transition-group type="transition" name="flip-list">
-                <div class="sortable" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id">
-                  {{aoiitem.name}}
-                </div>
-              </transition-group>
-            </draggable>
-          </div>
-        </transition-group>
-        </draggable>
-
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
                 <h2 style="float: left;color: #0071bc">Area of Interests  </h2>
@@ -260,12 +245,6 @@
         },
         methods:
                 {
-
-                  onEnd(evt) {
-                    console.log(evt)
-                    this.oldIndex = evt.oldIndex;
-                    this.newIndex = evt.newIndex;
-                  },
                     logOut() {
 
                         this.$store.dispatch('auth/logout');
