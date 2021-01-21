@@ -11,8 +11,6 @@
             color="primary"
             dark
             small
-            v-bind="attrs"
-            v-on="on"
             class="saveButton"
             @click="saveOrder"
         >
@@ -22,17 +20,19 @@
 
       </v-layout>
 
-      <draggable v-model="areaofint" ghost-class="ghost" @end="onEnd">
+      <draggable v-model="areaofint" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
-          <div class="sortable" v-for="aoi in areaofint" :key="aoi.id">
+          <div class="sortable aoi" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
             {{aoi.name}}
-            <draggable v-model="aoiitems" ghost-class="ghost" @end="onEnd">
+            <img id="itemimagedown" @click="displayHideItems($event.target)" src="http://localhost:8080/img/expand_more-24px.95a46151.svg" style="float: right; cursor: pointer">
+            <draggable v-model="aoiitems" ghost-class="ghost">
               <transition-group type="transition" name="flip-list">
-                <div class="sortable" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id">
+                <div class="sortable item" name="items" :id="aoiitem.id" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id" style="display: none">
                   {{aoiitem.name}}
-                  <draggable v-model="subitems" ghost-class="ghost" @end="onEnd">
+                  <img id="subimagedown" @click="displayHideSubItems($event.target)" src="http://localhost:8080/img/expand_more-24px.95a46151.svg" style="float: right; cursor: pointer">
+                  <draggable v-model="subitems" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
-                      <div class="sortable" v-for="subitem in subitems" v-if="aoiitem.id == subitem.parentid" :key="subitem.id">
+                      <div class="sortable sub" name="subs"  :id="subitem.id" v-for="subitem in subitems" v-if="aoiitem.id == subitem.parentid" :key="subitem.id" style="display: none">
                         {{subitem.name}}
                       </div>
                     </transition-group>
@@ -60,15 +60,6 @@
     import area_of_interest from "@/models/area_of_interest";
     import area_of_interest_item from "@/models/area_of_interest_item";
     import area_of_interest_sub_item from "@/models/area_of_interest_sub_item";
-    import editAOI from '@/components/dashboard/areaofinterest/editAoiPopup.vue'
-    import deleteAOI from '@/components/dashboard/areaofinterest/deleteAoiPopup.vue'
-    import addAOI from '@/components/dashboard/areaofinterest/newAoiPopup.vue'
-    import addItem from '@/components/dashboard/areaofinterest/items/newItemPopup.vue'
-    import editItem from '@/components/dashboard/areaofinterest/items/editItemPopup.vue'
-    import deleteItem from '@/components/dashboard/areaofinterest/items/deleteItemPopup.vue'
-    import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
-    import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
-    import deleteSubItem from '@/components/dashboard/areaofinterest/subitems/deleteSubItemPopup.vue'
     import draggable from 'vuedraggable'
 
     export default {
@@ -88,16 +79,7 @@
                 expand: false,
                 expandAoiArray: [],
                 expandItemArray: [],
-                oldIndex: '',
-                newIndex: ''
             };
-
-        },
-        computed:{
-          currentImage: function(){
-              return this.expandsauce
-          }
-
 
         },
         methods:
@@ -182,31 +164,118 @@
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
               },
-              saveOrder() {
-                let _this = this;
+              savePositionRequest(name, url, id, position, parentid) {
 
                 const headers = {
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )
-                    .then(function (response) {
-                      if (response.status.toString().includes("20")) {
-                        alert('Area of Interest has been edited');
-                      }
-                      else
-                      {
-                        alert('Area of Interest was NOT edited');
-                      }
-                    })
-                    .catch((error) => {
-                      alert('ERROR: with edit ' + error);
+                console.log("NAME: " + name.trim())
+
+                var foundError = false;
+                if (parentid == null)
+                {
+                  axios.put(url + "/" + id, {name: name.trim(), position: position}, {'headers': headers})
+                      .then(function (response) {
+                        if (response.status.toString().includes("20")) {
+                        } else {
+                          alert('Something went wrong saving the positions');
+                        }
+                      })
+                      .catch((error) => {
+                        alert('ERROR: with edit ' + error);
+                        foundError = true
+                      });
+              }
+              else
+                {
+                  axios.put(url + "/" + id, {name: name.trim(), position: position, parentid: parentid}, {'headers': headers})
+                      .then(function (response) {
+                        if (response.status.toString().includes("20")) {
+
+                        } else {
+                          alert('Something went wrong saving the positions');
+                        }
+                      })
+                      .catch((error) => {
+                        alert('ERROR: with edit ' + error);
+                        foundError = true
+                      });
+                }
+
+              return !foundError ? false : true
+
+              },
+              saveOrder() {
+
+                var _this = this;
+
+                var foundError = false;
+
+                  jQuery( ".mainDraggable" ).last().find(".aoi").toArray().map(function (el, index) {
+
+                    var aoiid = el.id
+
+                    foundError = _this.savePositionRequest(jQuery(el).contents().not(jQuery(el).children()).text(), AOI_URL, el.id, index, null)
+
+                    jQuery(el).find(".item").toArray().map(function (elem, index) {
+
+                      var itemid = elem.id
+
+                      foundError = _this.savePositionRequest(jQuery(elem).contents().not(jQuery(elem).children()).text(), AOI_ITEMS_URL, elem.id, index, aoiid)
+
+                      jQuery(elem).find(".sub").toArray().map(function (element, index) {
+
+                        foundError = _this.savePositionRequest(jQuery(element).contents().not(jQuery(element).children()).text(), AOI_SUB_ITEMS_URL, element.id, index, itemid)
+
+                      });
+
                     });
 
-                this.dialog = false
-                this.updatePage()
+                  });
+
+                  if (foundError)
+                  {
+                    alert("THERE WERE ERRORS!")
+                  }
+                  else
+                  {
+                    alert("Positions have been saved successfully")
+                  }
+              },
+            displayHideItems(elem)
+            {
+
+             if (jQuery(elem).attr('id') == "itemimagedown")
+              {
+                jQuery(elem).attr("id","itemimageup");
+                jQuery(elem).attr("src","http://localhost:8080/img/expand_less-24px.47f91d3c.svg");
+                jQuery(elem).parent().find(".item").css({"display": "block"});
               }
+              else
+              {
+                jQuery(elem).attr("id","itemimagedown");
+                jQuery(elem).attr("src","http://localhost:8080/img/expand_more-24px.95a46151.svg");
+                jQuery(elem).parent().find(".item").css({"display": "none"});
+              }
+
+            },
+            displayHideSubItems(elem) {
+
+              if (jQuery(elem).attr('id') == "subimagedown")
+              {
+                jQuery(elem).attr("id","subimageup");
+                jQuery(elem).attr("src","http://localhost:8080/img/expand_less-24px.47f91d3c.svg");
+                jQuery(elem).parent().find(".sub").css({"display": "block"});
+              }
+              else
+              {
+                jQuery(elem).attr("id","subimagedown");
+                jQuery(elem).attr("src","http://localhost:8080/img/expand_more-24px.95a46151.svg");
+                jQuery(elem).parent().find(".sub").css({"display": "none"});
+              }
+            }
             },
             created() {
                 this.checkStatusOfAccessToken()

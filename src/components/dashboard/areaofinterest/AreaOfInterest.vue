@@ -201,7 +201,6 @@
     import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
     import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
     import deleteSubItem from '@/components/dashboard/areaofinterest/subitems/deleteSubItemPopup.vue'
-    import draggable from 'vuedraggable'
 
     export default {
         name: 'CreateAreaOfInterest',
@@ -217,7 +216,6 @@
             'pop-sub-item-new' : addSubItem,
             'pop-sub-item-edit' : editSubItem,
             'pop-sub-item-delete' : deleteSubItem,
-            draggable,
 
         },
         data: function() {
