@@ -98,14 +98,14 @@
                 axios.post(API_URL + AOI_URL ,
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 201) {
+                        if (response.status.toString().includes("20")) {
 
                             _this.$emit('update')
                             alert('Area of Interest has been created');
                         }
                         else
                         {
-                            alert('Area of Interest was not created');
+                            alert('Area of Interest was NOT created');
                         }
                     })
                     .catch((error) => {

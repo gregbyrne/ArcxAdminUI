@@ -97,7 +97,7 @@
 
                 axios.delete(AOE_SUB_ITEM_DELETE_URL + subItemId,{ 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 204) {
+                        if (response.status == 204 || response.status == 202) {
                             _this.$emit('update')
                             alert('Sub Item has been deleted');
                         }
