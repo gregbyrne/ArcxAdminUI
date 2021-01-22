@@ -16,6 +16,10 @@ Vue.config.productionTip = false;
 
 Vue.use(VeeValidate, Vuex, vuetify, axios);
 
+Vue.config.silent = true;
+
+Vue.config.productionTip = false;
+
 Vue.component('Popup', Popup);
 
 Vue.component('AreaOfInterestList', AreaOfInterestList);
