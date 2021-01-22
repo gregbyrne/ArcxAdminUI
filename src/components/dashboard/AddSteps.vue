@@ -11,18 +11,18 @@
 
                 </v-col>
             </v-row>
-            <AreaOfInterestList />
+            <steps></steps>
         </v-container>
     </v-container>
 </template>
 
 <script>
 
-    import AreaOfInterestList from './areaofinterest/AreaOfInterest'
+    import steps from './steps/StepsToHelpPrepare'
 
     export default {
-        components : { 'AreaOfInterestList': AreaOfInterestList},
-        name: 'Dashboard',
+        components : { 'steps': steps},
+        name: 'Add Steps',
         computed: {
             date : function () {
                 return Date.now()
@@ -33,4 +33,5 @@
         }
     }
 </script>
+
 

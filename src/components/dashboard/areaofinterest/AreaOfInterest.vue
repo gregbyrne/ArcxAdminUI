@@ -85,9 +85,12 @@
                 <v-layout class="pa-1" row wrap  v-for="(item, itemIndex)  in aoiitems" :key="item.id" v-show="area.id == item.parentid">
 
                     <v-flex sm6 md9 pl-15>
-                        <div class="caption grey--text">Item Name </div>
+                        <div class="caption grey--text">Item Name</div>
                         <div>{{item.name }}</div>
+
                     </v-flex>
+
+
                     <v-flex md1>
 
 
@@ -208,9 +211,6 @@
 
 
 
-
-
-
     export default {
         name: 'CreateAreaOfInterest',
         components:{
@@ -225,6 +225,8 @@
             'pop-sub-item-new' : addSubItem,
             'pop-sub-item-edit' : editSubItem,
             'pop-sub-item-delete' : deleteSubItem,
+
+
 
         },
         data: function() {
