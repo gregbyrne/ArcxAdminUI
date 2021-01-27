@@ -24,12 +24,12 @@
         <transition-group type="transition" name="flip-list">
           <div class="sortable aoi" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
             {{aoi.name}}
-            <img id="itemimagedown" @click="displayHideItems($event.target)" src="http://localhost:8080/img/expand_more-24px.95a46151.svg" style="float: right; cursor: pointer">
+            <img id="itemimagedown" @click="displayHideItems($event.target)" :src="expandMoreIcon" style="float: right; cursor: pointer">
             <draggable v-model="aoiitems" ghost-class="ghost">
               <transition-group type="transition" name="flip-list">
                 <div class="sortable item" name="items" :id="aoiitem.id" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id" style="display: none">
                   {{aoiitem.name}}
-                  <img id="subimagedown" @click="displayHideSubItems($event.target)" src="http://localhost:8080/img/expand_more-24px.95a46151.svg" style="float: right; cursor: pointer">
+                  <img id="subimagedown" @click="displayHideSubItems($event.target)" :src="expandMoreIcon" style="float: right; cursor: pointer">
                   <draggable v-model="subitems" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
                       <div class="sortable sub" name="subs"  :id="subitem.id" v-for="subitem in subitems" v-if="aoiitem.id == subitem.parentid" :key="subitem.id" style="display: none">
@@ -55,6 +55,9 @@
     const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 
+    import expandMore from "../../../assets/mdi/expand_more-24px.svg";
+    import expandLess from "../../../assets/mdi/expand_less-24px.svg";
+
     import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
@@ -79,6 +82,8 @@
                 expand: false,
                 expandAoiArray: [],
                 expandItemArray: [],
+                expandMoreIcon: expandMore,
+                expandLessIcon: expandLess
             };
 
         },
@@ -250,13 +255,13 @@
              if (jQuery(elem).attr('id') == "itemimagedown")
               {
                 jQuery(elem).attr("id","itemimageup");
-                jQuery(elem).attr("src","http://localhost:8080/img/expand_less-24px.47f91d3c.svg");
+                jQuery(elem).attr(":src",this.expandLessIcon);
                 jQuery(elem).parent().find(".item").css({"display": "block"});
               }
               else
               {
                 jQuery(elem).attr("id","itemimagedown");
-                jQuery(elem).attr("src","http://localhost:8080/img/expand_more-24px.95a46151.svg");
+                jQuery(elem).attr(":src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".item").css({"display": "none"});
               }
 
@@ -266,13 +271,13 @@
               if (jQuery(elem).attr('id') == "subimagedown")
               {
                 jQuery(elem).attr("id","subimageup");
-                jQuery(elem).attr("src","http://localhost:8080/img/expand_less-24px.47f91d3c.svg");
+                jQuery(elem).attr(":src",this.expandLessIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "block"});
               }
               else
               {
                 jQuery(elem).attr("id","subimagedown");
-                jQuery(elem).attr("src","http://localhost:8080/img/expand_more-24px.95a46151.svg");
+                jQuery(elem).attr(":src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "none"});
               }
             }
