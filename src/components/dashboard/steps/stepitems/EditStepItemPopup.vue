@@ -86,7 +86,7 @@
                                     item-text="name"
                                     item-value="id"
                                     :label="subItemLabel"
-                                    :disabled="subItemStatus"    >
+                                        >
 
                             </v-select>
                         </v-col>
@@ -167,7 +167,7 @@
                                     outlined
                             ></v-textarea>
 
-                            <p>HTML Preview. Does not include stylings.
+                            <p>HTML Preview. Styling does not include eoa
                             <br/><span v-html="item.content"></span></p>
 
 
@@ -270,7 +270,6 @@
                 let newOptions = []
 
 
-                console.log('this.item.aoiItemsId: ' + this.item.aoiItemsId)
                 if( (this.subitems == null) || (this.item.aoiItemsId == null)|| (this.item.aoiItemsId == '')) {
                     newOptions = ''
                 }else{
@@ -296,9 +295,10 @@
                 }
                 return label
             },subItemStatus(){
+
+                //for later
                 let status = false
-                if(this.item.aoiItemsId == null){
-                    console.log('this.item.aoiItemsId: ' + this.item.aoiItemsId)
+                if((this.item.aoiItemsId == null) || (this.item.aoiItemsId == '')){
                     status = true
                 }else{
                     status = false
@@ -403,7 +403,10 @@
 
         },addLinkHTML(){
                 let precontent = this.item.content
-                let link = "\n <a href = 'https://www.google.com' > defaulttest url </a>"
+                if(precontent == null){
+                    precontent = ''
+                }
+                let link = "<a href = 'https://www.google.com' > defaulttest url </a>"
 
                 this.item.content = precontent + link
 
@@ -412,8 +415,12 @@
 
             },
             addListItem(){
-
                 let precontent = this.item.content
+
+                if(precontent == null){
+                    precontent = ''
+                }
+
                 let list = "<ul>" +
                     "\n<li>item 1</li>" +
                     "\n<li>item 2</li>" +
@@ -426,6 +433,9 @@
             },addImage(){
 
                 let precontent = this.item.content
+                if(precontent == null){
+                    precontent = ''
+                }
                 let list = "<span class='figure image file file-image file-image-png right view-mode-full' " +
                     "style='width:300px;'><img alt='CREAT Climate Scenarios Projection Map' " +
                 "height='169' width='300' class='right media-element file-full' " +
@@ -439,6 +449,9 @@
             },addTable(){
 
                 let precontent = this.item.content
+                if(precontent == null){
+                    precontent = ''
+                }
                 let table = '<table><thead>' +
                     '\n<tr><th scope="col">State</th>' +
                     '\n<th scope="col">Climate Change Adaptation Website, if available</th>' +
