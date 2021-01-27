@@ -35,7 +35,7 @@
                         <v-btn
                                 dark
                                 text
-                                @click="dialog = false"
+                                @click="saveStepItem(item)"
                         >
                             Save
                         </v-btn>
@@ -54,23 +54,23 @@
                         </v-list-item-content>
                     </v-list-item>
 
-                    <v-row class="pa-1" row wrap>
+                    <v-list-item><v-row class="pa-1" row wrap>
                         <v-col cols="3">
                             <!--<div class="caption grey--text">Area of Interest</div>
                             <div>{{item.name }}</div>-->
 
                             <v-select
-                                    v-model="areaselect"
-                                :items="areaofint"
-                                item-text="name"
-                                item-value="id"
-                                label = "Area of Interest">
+                                    v-model="item.aoiId"
+                                    :items="areaofint"
+                                    item-text="name"
+                                    item-value="id"
+                                    label = "Area of Interest">
 
                             </v-select>
                         </v-col>
                         <v-col cols="3">
                             <v-select
-                                    v-model="itemselect"
+                                    v-model="item.aoiItemsId"
                                     :items="filteredItems"
                                     item-text="name"
                                     item-value="id"
@@ -81,64 +81,111 @@
 
                         <v-col cols="3">
                             <v-select
-                                    v-model="subitemselect"
+                                    v-model="item.aoiSubItemsId"
                                     :items="filteredSubItems"
                                     item-text="name"
                                     item-value="id"
-                                    :label="subItemLabel">
+                                    :label="subItemLabel"
+                                    :disabled="subItemStatus"    >
 
                             </v-select>
                         </v-col>
-                    </v-row>
+                    </v-row></v-list-item>
+
+
+
 
                     <v-list-item>
-                        <v-container>
                                     <v-text-field
                                             v-model="item.name"
                                             label="Step To Help Name*"
                                             required
                                     ></v-text-field>
 
-                        </v-container>
                     </v-list-item>
                     <v-list-item>
-                        <v-container>
-                            <v-row>
-                                <v-col cols="12">
                                     <v-text-field
                                             v-model="item.subTitle"
                                             label="Subtitle"
 
                                     ></v-text-field>
-                                </v-col>
-
-
-                            </v-row>
-                        </v-container>
                     </v-list-item>
 
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title>Description</v-list-item-title>
                             <v-list-item-subtitle>Set the text that will show with each step item. This text allows for HTML to be used. Such as for making lists and links</v-list-item-subtitle>
+
+                            <v-btn
+                                    color="primary"
+                                    dark
+                                    small
+                                    v-bind="attrs"
+                                    v-on:click="addLinkHTML()"
+                                    class="descButton"
+                            >
+                                Add Link
+                            </v-btn>
+                                <v-btn
+                                        color="primary"
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on:click="addListItem()"
+                                        class="descButton"
+
+                                >
+                                    Add List
+                                </v-btn>
+                                <v-btn
+                                        color="primary"
+                                        class="descButton"
+
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on:click="addImage()"
+
+                                >
+                                    Add Image
+                                </v-btn>
+                                <v-btn
+                                        color="primary"
+                                        dark
+                                        small
+                                        v-bind="attrs"
+                                        v-on:click="addTable()"
+                                        class="descButton"
+
+                                >
+                                    Add Table
+                                </v-btn>
+
+                            <v-textarea
+                                    v-model="item.content"
+                                    clearable
+                                    outlined
+                            ></v-textarea>
+
+                            <p>HTML Preview. Does not include stylings.
+                            <br/><span v-html="item.content"></span></p>
+
+
                         </v-list-item-content>
                     </v-list-item>
 
-                    <v-textarea
-                            v-model="item.description"
-                            clearable
-                            outlined
-                    ></v-textarea>
+
+
 
 
 
                 </v-list>
                 <v-divider></v-divider>
                 <v-list
-                        three-line
+                        three-line1
                         subheader
                 >
-                    <v-subheader>test</v-subheader>
+                    <v-subheader></v-subheader>
 
                 </v-list>
             </v-card>
@@ -147,6 +194,15 @@
 
 
 </template>
+
+<style>
+    .descButton{
+        max-width: 95px;
+        margin-right: 25px;
+    }
+
+
+</style>
 
 <script>
     import axios from "axios";
@@ -181,6 +237,10 @@
             areaselect: null,
             itemselect: null,
             subitemselect: null,
+            nullItem: { name: 'All Items', id: null  },
+            nullSubItem: { name: 'All Sub Items', id: null  },
+            subItemStatus: false,
+
 
 
         }),
@@ -189,11 +249,15 @@
                 let options = this.aoiitems
                 let newOptions = []
 
-                if( this.areaselect == null){
+
+                if( (this.aoiitems == null) || (this.item.aoiId == null)){
                     newOptions = ''
                 }else{
+                    newOptions.push(this.nullItem)
                     for(let i = 0; i < options.length; i++){
-                        if(options[i].parentid == this.areaselect){
+                        //console.log( 'options[i].parentid: ' + options[i].parentid  + '==  this.item.aoiId: ' + this.item.aoiId)
+
+                        if(options[i].parentid == this.item.aoiId){
                             newOptions.push(options[i])
                         }
                     }
@@ -205,11 +269,15 @@
                 let options = this.subitems
                 let newOptions = []
 
-                if( this.itemselect == null){
+
+                console.log('this.item.aoiItemsId: ' + this.item.aoiItemsId)
+                if( (this.subitems == null) || (this.item.aoiItemsId == null)|| (this.item.aoiItemsId == '')) {
                     newOptions = ''
                 }else{
+
+                    newOptions.push(this.nullSubItem)
                     for(let i = 0; i < options.length; i++){
-                        if(options[i].parentid == this.itemselect){
+                        if(options[i].parentid == this.item.aoiItemsId){
                             newOptions.push(options[i])
                         }
                     }
@@ -227,10 +295,22 @@
                     label = 'N/A'
                 }
                 return label
+            },subItemStatus(){
+                let status = false
+                if(this.item.aoiItemsId == null){
+                    console.log('this.item.aoiItemsId: ' + this.item.aoiItemsId)
+                    status = true
+                }else{
+                    status = false
+                }
+                return status
+
             },
         },
         methods:{
-            editAOE(item ){
+            saveStepItem(item ){
+
+                alert(this.areaselect)
 
                 let _this = this;
 
@@ -239,7 +319,9 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.put(API_URL + 'area_of_interest_sub_items/' + item.id ,{ name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
+                axios.put(API_URL + 'steps_to_help_prepare_items/' + item.id ,{ name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
+                    aoiId: item.aoiId, aoiItemsId: item.aoiItemsId, aoiSubItemsId : item.aoiSubItemsId }, {'headers': headers} )
+
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('update')
@@ -319,7 +401,67 @@
 
             });
 
-        },
+        },addLinkHTML(){
+                let precontent = this.item.content
+                let link = "\n <a href = 'https://www.google.com' > defaulttest url </a>"
+
+                this.item.content = precontent + link
+
+
+
+
+            },
+            addListItem(){
+
+                let precontent = this.item.content
+                let list = "<ul>" +
+                    "\n<li>item 1</li>" +
+                    "\n<li>item 2</li>" +
+                    "\n<li>item 3</li>" +
+                    "\n</ul>"
+
+                this.item.content = precontent + list
+
+
+            },addImage(){
+
+                let precontent = this.item.content
+                let list = "<span class='figure image file file-image file-image-png right view-mode-full' " +
+                    "style='width:300px;'><img alt='CREAT Climate Scenarios Projection Map' " +
+                "height='169' width='300' class='right media-element file-full' " +
+                    "src='https:/www.epa.gov//sites/production/files/styles/large/public/2016-08/final_climate_projection_map_snapshot_-_2080_warm_scenarios_lower_48.png'></span>"
+
+
+
+                this.item.content = precontent + list
+
+
+            },addTable(){
+
+                let precontent = this.item.content
+                let table = '<table><thead>' +
+                    '\n<tr><th scope="col">State</th>' +
+                    '\n<th scope="col">Climate Change Adaptation Website, if available</th>' +
+                    '\n<th scope="col" style="width:20%">EPA Region</th>' +
+                    '\n</tr></thead>' +
+                    '\n<tbody><tr>' +
+                    '\n<td>Alabama</td>' +
+                    '\n<td>No State Level Climate Adaptation Website Currently Identified</td>' +
+                    '\n<td>Region 4</td>' +
+                    '\n</tr>' +
+                    '\n<tr><td>Arkansas</td>' +
+                    '\n<td>No State Level Climate Adaptation Website Currently Identified</td>' +
+                    '\n<td>Region 6</td>' +
+                    '\n</tr>'
+
+
+
+
+
+                this.item.content = precontent + table
+
+
+            },
 
 
 

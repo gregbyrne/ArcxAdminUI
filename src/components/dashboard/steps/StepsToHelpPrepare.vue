@@ -77,16 +77,24 @@
                 </v-row>
                 <v-row  v-for="(item)  in stepitems" :key="item.id" v-show="step.id == item.parentid">
                     <v-col cols="1"> </v-col>
-                    <v-col cols="7">
+                    <v-col cols="8">
                         <div class="caption grey--text">Item Name</div>
                         <div>{{item.name }}</div>
                     </v-col>
-                    <v-col cols="2" ><pop-edit-step-item
+                    <v-col cols="1" ><pop-edit-step-item
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
 
                     ></pop-edit-step-item>
+                    </v-col>
+
+                    <v-col cols="1" ><pop-delete-step-item
+                            @update="updatePage()"
+                            v-bind:item="item"
+                            v-bind:step="step"
+
+                    ></pop-delete-step-item>
                     </v-col>
 
                 </v-row>
@@ -128,6 +136,7 @@
 
     import addStepItem from '@/components/dashboard/steps/stepitems/NewStepItemPopup.vue'
     import editStepItem from '@/components/dashboard/steps/stepitems/EditStepItemPopup.vue'
+    import DeleteStepItem from '@/components/dashboard/steps/stepitems/DeleteStepItemPopup.vue'
 
 
 
@@ -144,6 +153,7 @@
 
             'pop-add-step-item' : addStepItem,
             'pop-edit-step-item' : editStepItem,
+            'pop-delete-step-item' : DeleteStepItem,
 
 
         },
