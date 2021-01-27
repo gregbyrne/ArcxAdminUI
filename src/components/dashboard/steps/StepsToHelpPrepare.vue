@@ -68,8 +68,8 @@
 
                 <v-row class="pa-1" row wrap >
 
-                    <v-col cols="3" pt-2 pl-15>
-                        <h3 style="float: left;color: #0071bc">Sub-Steps</h3>
+                    <v-col cols="6" pt-2 pl-15>
+                        <h3 style="float: left;color: #0071bc">Step to Help Prepare Items</h3>
                         <pop-add-step-item  @update="updatePage()" v-bind:step="step" style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
                     </v-col>
 

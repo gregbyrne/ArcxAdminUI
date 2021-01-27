@@ -310,7 +310,6 @@
         methods:{
             saveStepItem(item ){
 
-                alert(this.areaselect)
 
                 let _this = this;
 
