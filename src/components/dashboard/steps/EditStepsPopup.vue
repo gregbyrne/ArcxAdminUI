@@ -121,7 +121,6 @@
 
 
             editStep(changedName, step ){
-                alert(step.id)
                 let _this = this;
 
                 const headers = {

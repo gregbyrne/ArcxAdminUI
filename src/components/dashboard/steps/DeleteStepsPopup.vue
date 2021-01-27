@@ -88,8 +88,6 @@
             {
                 let _this = this;
 
-                alert(stepid)
-
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
