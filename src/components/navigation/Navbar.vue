@@ -54,6 +54,22 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
+
+        <v-navigation-drawer v-if="!currentUser" v-model="drawer" app class="primary">
+            <v-list>
+                <v-list-item v-for="link in links" :key="link.text" href="/login">
+                    <v-list-item-action>
+                        <v-icon class="white--text">{{link.icon }}
+                        </v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class = "white--text">
+                            {{ link.text }}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
     </nav>
 </template>
 
@@ -68,7 +84,8 @@
             drawer : false,
             links: [
                 { icon: 'mdi-information-outline', text: 'Profile', route: '/profile' },
-                { icon: 'mdi-view-dashboard-outline', text: 'Dashboard', route: '/dashboard' }
+                { icon: 'mdi-view-dashboard-outline', text: 'Dashboard', route: '/' },
+                { icon: 'mdi-view-dashboard-outline', text: 'Steps', route: '/addsteps' }
 
             ]
         }

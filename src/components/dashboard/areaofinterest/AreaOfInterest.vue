@@ -1,5 +1,6 @@
 <template>
 
+
     <v-container class="my-5">
 
         <v-layout pa-1 row wrap>
@@ -10,8 +11,11 @@
 
         </v-layout>
 
-        <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id" v-sortable>
+
+
+        <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
+
 
             <v-layout class="pa-1" row wrap>
                 <v-flex md9 class="pl-3" >
@@ -81,9 +85,12 @@
                 <v-layout class="pa-1" row wrap  v-for="(item, itemIndex)  in aoiitems" :key="item.id" v-show="area.id == item.parentid">
 
                     <v-flex sm6 md9 pl-15>
-                        <div class="caption grey--text">Item Name </div>
+                        <div class="caption grey--text">Item Name</div>
                         <div>{{item.name }}</div>
+
                     </v-flex>
+
+
                     <v-flex md1>
 
 
@@ -201,6 +208,8 @@
     import addSubItem from '@/components/dashboard/areaofinterest/subitems/newSubItemPopup.vue'
     import editSubItem from '@/components/dashboard/areaofinterest/subitems/editSubItemPopup.vue'
     import deleteSubItem from '@/components/dashboard/areaofinterest/subitems/deleteSubItemPopup.vue'
+    
+
 
     export default {
         name: 'CreateAreaOfInterest',
@@ -217,6 +226,8 @@
             'pop-sub-item-edit' : editSubItem,
             'pop-sub-item-delete' : deleteSubItem,
 
+
+
         },
         data: function() {
         return {
@@ -228,9 +239,10 @@
                 subitems: null,
                 expand: false,
                 expandAoiArray: [],
-                expandItemArray: [],
-                oldIndex: '',
-                newIndex: ''
+                expandItemArray: []
+
+
+
             };
 
         },
@@ -294,6 +306,33 @@
 
                     },
 
+                    //PUT
+
+                    putAreaOfInterest(area){
+
+                        const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                        }
+
+                        axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
+                            .then(function (response) {
+                                if (response.status == 204) {
+                                    alert('Area of Interest has been edited');
+                                }
+                                else
+                                {
+                                    alert('Area of Interest was not edited');
+                                }
+                            })
+                            .catch((error) => {
+                                alert('ERROR: with edit ' + error);
+                            });
+
+
+
+                    },
+
                     //DELETE
                     deleteAreaOfInterest(area)
                     {
@@ -305,7 +344,7 @@
 
                         axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
                             .then(function (response) {
-                                if (response.status.toString().includes("20")) {
+                                if (response.status == 204) {
                                     alert('Area of Interest has been deleted');
                                 }
                                 else
@@ -406,13 +445,6 @@
 
     .container {
         max-width: 1100px;
-    }
-    .sortable {
-      width: 100%;
-      background: white;
-      padding: 1em;
-      cursor: move;
-      margin-bottom: 2px;
     }
 
 </style>
