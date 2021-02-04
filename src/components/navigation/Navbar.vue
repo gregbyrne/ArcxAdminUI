@@ -7,6 +7,16 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
+            <v-btn href="/areaofinterest" depressed color="grey--lighten4">
+              <span>Area of Interest</span>
+              <v-icon>mdi-view-dashboard-outline</v-icon>
+            </v-btn>
+
+            <v-btn href="/stepstohelpprepare" depressed color="grey--lighten4">
+              <span>Steps To Help Prepare</span>
+              <v-icon>mdi-view-dashboard-outline</v-icon>
+            </v-btn>
+
             <v-btn href="/profile" depressed color="grey--lighten4">
                 <span>Profile</span>
                 <v-icon>mdi-account</v-icon>
@@ -83,9 +93,9 @@
         return{
             drawer : false,
             links: [
-                { icon: 'mdi-information-outline', text: 'Profile', route: '/profile' },
-                { icon: 'mdi-view-dashboard-outline', text: 'Dashboard', route: '/' },
-                { icon: 'mdi-view-dashboard-outline', text: 'Steps', route: '/addsteps' }
+                { icon: 'mdi-account', text: 'Profile', route: '/profile' },
+                { icon: 'mdi-view-dashboard-outline', text: 'AreaOfInterest', route: '/areaofinterest' },
+                { icon: 'mdi-view-dashboard-outline', text: 'Steps', route: '/stepstohelpprepare' }
 
             ]
         }
