@@ -32,7 +32,7 @@ spec:
         fsGroup: 555
       containers:
       - name: app
-        image: $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_REF_SLUG
+        image: $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHA
         imagePullPolicy: Always
         envFrom:
           - configMapRef:

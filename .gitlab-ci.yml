@@ -12,7 +12,7 @@ admin-ui-app:image:build:
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_REF_SLUG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHA
 
 admin-ui-web:image:build:
   tags:
@@ -24,7 +24,7 @@ admin-ui-web:image:build:
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_REF_SLUG
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHA
 
 deploy to dev:
   when: manual
@@ -49,3 +49,29 @@ deploy to dev:
     - branches
   except:
     - master
+
+  deploy to staging:
+    when: manual
+    stage: deploy
+    tags:
+      - docker
+    image: dtzar/helm-kubectl
+    variables:
+      INGRESS_HOST: "arcx-public-ui-stg.devsecops-eval.epa.gov"
+    script:
+      - apk add gettext
+      - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
+      - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+      - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+      - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+      - kubectl config use-context default
+      - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+      - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+      - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+    environment:
+      name: staging
+      url: "https://$INGRESS_HOST"
+    only:
+      refs:
+        - stage
+
