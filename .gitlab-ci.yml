@@ -50,28 +50,28 @@ deploy to dev:
   except:
     - master
 
-  deploy to staging:
-    when: manual
-    stage: deploy
-    tags:
-      - docker
-    image: dtzar/helm-kubectl
-    variables:
-      INGRESS_HOST: "arcx-public-ui-stg.devsecops-eval.epa.gov"
-    script:
-      - apk add gettext
-      - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
-      - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
-      - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
-      - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
-      - kubectl config use-context default
-      - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
-      - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
-      - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
-    environment:
-      name: staging
-      url: "https://$INGRESS_HOST"
-    only:
-      refs:
-        - stage
+deploy to staging:
+  when: manual
+  stage: deploy
+  tags:
+    - docker
+  image: dtzar/helm-kubectl
+  variables:
+    INGRESS_HOST: "arcx-public-ui-stg.devsecops-eval.epa.gov"
+  script:
+    - apk add gettext
+    - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
+    - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context default
+    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+  environment:
+    name: staging
+    url: "https://$INGRESS_HOST"
+  only:
+    refs:
+      - stage
 
