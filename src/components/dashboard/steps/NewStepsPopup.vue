@@ -19,15 +19,15 @@
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Step to Help</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="stepName"
+                                        label="Step Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="addNewStep(stepName)"
                     >
 
 
@@ -67,46 +67,41 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
+    const STEP_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
 
     export default {
-        name: 'Popup',
-        aoeName: 'default',
-
-        props: ['areaname', 'areaid', 'area'],
 
 
         data: () => ({
-
+            stepName: '',
             dialog: false,
             notifications: false,
             sound: true,
             widgets: false,
-
+            newName: '',
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+            addNewStep(newname) {
 
                 let _this = this;
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.post(STEP_URL ,
+                    { name: newname}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status == 201) {
 
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Step to Help has been created');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Step to Help was not created');
                         }
                     })
                     .catch((error) => {
@@ -114,6 +109,7 @@
                     })
 
                 this.dialog = false
+
             },
 
 

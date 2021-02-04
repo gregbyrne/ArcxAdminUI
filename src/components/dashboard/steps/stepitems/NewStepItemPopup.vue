@@ -19,15 +19,15 @@
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Sub Step {{step.id}}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="newName"
+                                        label="Sub Step Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="addNewItem(newName, step)"
                     >
 
 
@@ -67,13 +67,13 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
+    const API_URL_STEPS_ITEMS = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEMS;
 
     export default {
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['areaname', 'areaid', 'area'],
+        props: ['step'],
 
 
         data: () => ({
@@ -82,12 +82,14 @@
             notifications: false,
             sound: true,
             widgets: false,
+            newName: '',
 
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+            addNewItem(itemName, step) {
 
+                //let _this = this;
                 let _this = this;
 
 
@@ -96,8 +98,9 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+
+                axios.post(API_URL_STEPS_ITEMS,
+                    { name: itemName, parentid: step.id}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status == 201) {
 
@@ -106,7 +109,7 @@
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('5Item was not created');
                         }
                     })
                     .catch((error) => {

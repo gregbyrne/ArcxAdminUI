@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center">
 
         <v-dialog
                 v-model="dialog"
@@ -14,19 +14,19 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    Edit
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Edit Item {{  item.name }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
+                                        v-model="item.name"
                                         label="Item Name*"
                                         required
                                 ></v-text-field>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="editItem(item)"
                     >
 
 
@@ -69,11 +69,14 @@
     import axios from "axios";
     const API_URL = process.env.VUE_APP_API_URL;
 
+
+
     export default {
         name: 'Popup',
         aoeName: 'default',
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'item'],
 
-        props: ['areaname', 'areaid', 'area'],
+
 
 
         data: () => ({
@@ -86,36 +89,35 @@
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+
+            editItem(item ){
 
                 let _this = this;
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.put(API_URL + 'area_of_interest_items/' + item.id ,{ name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
                     .then(function (response) {
-                        if (response.status == 201) {
-
+                        if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Area of Interest has been edited');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Area of Interest was not edited');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with edit ' + error);
+                    });
 
                 this.dialog = false
-            },
 
+
+            },
 
 
 

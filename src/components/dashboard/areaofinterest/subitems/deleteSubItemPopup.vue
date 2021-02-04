@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center">
 
         <v-dialog
                 v-model="dialog"
@@ -14,28 +14,29 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    delete
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Delete Sub Item</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="subItem.name"
+                                        label="Sub Item to delete"
                                         required
+                                        readonly
                                 ></v-text-field>
                             </v-col>
 
 
                         </v-row>
                     </v-container>
-                    <small>*indicates required field</small>
+                    Are you sure you want to delete {{subItem.name}}? This will also delete all items and sub-items associated with the area.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -49,13 +50,11 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="deleteSubItem(subItem.id)"
                     >
 
 
-
-
-                        Save
+                        Delete
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -67,13 +66,13 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
+    const AOE_SUB_ITEM_DELETE_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEM_DELETE_URL;
+
 
     export default {
         name: 'Popup',
         aoeName: 'default',
-
-        props: ['areaname', 'areaid', 'area'],
+        props: [ 'subItem'],
 
 
         data: () => ({
@@ -86,37 +85,36 @@
         }),
         methods:{
 
-            addNewItem(itemName, area) {
-
+            //DELETE
+            deleteSubItem(subItemId)
+            {
                 let _this = this;
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.delete(AOE_SUB_ITEM_DELETE_URL + subItemId,{ 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 201) {
-
+                        if (response.status == 204 || response.status == 202) {
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Sub Item has been deleted');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Sub Item was not deleted');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with delete ' + error);
+                    });
 
-                this.dialog = false
+                this.dialog = false;
+
+
+
             },
-
-
 
 
 

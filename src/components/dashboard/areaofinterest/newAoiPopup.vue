@@ -26,7 +26,7 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="aoeName"
+                                        v-model="areaname"
                                         label="Area Of Interest Name*"
                                         required
                                 ></v-text-field>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewAoe(aoeName)"
+                            @click="addNewAoe(areaname)"
                     >
 
 
@@ -82,15 +82,13 @@
             notifications: false,
             sound: true,
             widgets: false,
-
+            newName: '',
         }),
         methods:{
 
             addNewAoe(newname) {
 
                 let _this = this;
-
-                alert(newname)
 
                 const headers = {
                     'Content-Type': 'application/json',
@@ -100,14 +98,14 @@
                 axios.post(API_URL + AOI_URL ,
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 201) {
+                        if (response.status.toString().includes("20")) {
 
                             _this.$emit('update')
                             alert('Area of Interest has been created');
                         }
                         else
                         {
-                            alert('Area of Interest was not created');
+                            alert('Area of Interest was NOT created');
                         }
                     })
                     .catch((error) => {

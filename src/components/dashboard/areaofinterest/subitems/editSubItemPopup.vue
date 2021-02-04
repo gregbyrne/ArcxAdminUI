@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center">
 
         <v-dialog
                 v-model="dialog"
@@ -14,20 +14,20 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    Edit
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Edit Sub Item {{  subItem.name }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="subItem.name"
+                                        label="Sub Item Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -35,7 +35,7 @@
 
                         </v-row>
                     </v-container>
-                    <small>*indicates required field</small>
+                    <small>*indicates required field</small> {{newName}}
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -49,7 +49,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="editAOE(subItem)"
                     >
 
 
@@ -69,11 +69,15 @@
     import axios from "axios";
     const API_URL = process.env.VUE_APP_API_URL;
 
+
+
     export default {
         name: 'Popup',
         aoeName: 'default',
+        newName: '',
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'subItem'],
 
-        props: ['areaname', 'areaid', 'area'],
+
 
 
         data: () => ({
@@ -86,36 +90,35 @@
         }),
         methods:{
 
-            addNewItem(itemName, area) {
+
+            editAOE(subItem ){
 
                 let _this = this;
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.put(API_URL + 'area_of_interest_sub_items/' + subItem.id ,{ name: subItem.name, parentid: subItem.parentid, value: subItem.value}, {'headers': headers} )
                     .then(function (response) {
-                        if (response.status == 201) {
-
+                        if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Sub Item has been edited');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Sub Item was not edited');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with edit ' + error);
+                    });
 
                 this.dialog = false
-            },
 
+
+            },
 
 
 

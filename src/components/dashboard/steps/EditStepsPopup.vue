@@ -1,5 +1,5 @@
 <template>
-    <v-row mt-n12 justify="center" >
+    <v-row justify="center" >
 
         <v-dialog
                 v-model="dialog"
@@ -14,20 +14,20 @@
                         v-bind="attrs"
                         v-on="on"
                 >
-                    Add
+                    Edit
                 </v-btn>
             </template>
             <v-card>
                 <v-card-title>
-                    <span class="headline">Item</span>
+                    <span class="headline">Edit Step To Help</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                        v-model="itemName"
-                                        label="Item Name*"
+                                        v-model="step.name"
+                                        label="Step To Help Name*"
                                         required
                                 ></v-text-field>
                             </v-col>
@@ -35,8 +35,38 @@
 
                         </v-row>
                     </v-container>
+                    <v-container>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-text-field
+                                        v-model="step.subTitle"
+                                        label="Subtitle"
+
+                                ></v-text-field>
+                            </v-col>
+
+
+                        </v-row>
+                    </v-container>
+                    <v-container>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-textarea
+                                        v-model="step.description"
+                                        label="Description"
+                                        clearable
+                                        outlined
+                                ></v-textarea>
+                            </v-col>
+
+
+                        </v-row>
+                    </v-container>
                     <small>*indicates required field</small>
                 </v-card-text>
+
+
+
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -49,7 +79,7 @@
                     <v-btn
                             color="blue darken-1"
                             text
-                            @click="addNewItem(itemName, area)"
+                            @click="editStep(step.name, step)"
                     >
 
 
@@ -67,13 +97,16 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
+    const STEPS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
+
+
 
     export default {
         name: 'Popup',
-        aoeName: 'default',
+        stepName: 'default',
+        props: ['step'],
 
-        props: ['areaname', 'areaid', 'area'],
+
 
 
         data: () => ({
@@ -86,39 +119,40 @@
         }),
         methods:{
 
-            addNewItem(itemName, area) {
 
+            editStep(changedName, step ){
                 let _this = this;
-
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(API_URL + 'area_of_interest_items/' ,
-                    { name: itemName, parentid: area.id, value: 'testvalue'}, { 'headers': headers})
+                axios.put(STEPS_URL + step.id,{ name: changedName, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
                     .then(function (response) {
-                        if (response.status == 201) {
-
+                        if (response.status == 200) {
                             _this.$emit('update')
-                            alert('Item has been created');
+                            alert('Steps to Help has been edited');
                         }
                         else
                         {
-                            alert('Item was not created');
+                            alert('Steps to Help was not edited');
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
-                    })
+                        alert('ERROR: with edit ' + error);
+                    });
 
                 this.dialog = false
+
+
             },
 
 
 
 
+        },
+        computed:{
 
         }
 
