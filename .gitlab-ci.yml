@@ -57,7 +57,7 @@ deploy to staging:
     - docker
   image: dtzar/helm-kubectl
   variables:
-    INGRESS_HOST: "arcx-public-ui-stg.devsecops-eval.epa.gov"
+    INGRESS_HOST: "arcx-admin-ui-stg.devsecops-eval.epa.gov"
   script:
     - apk add gettext
     - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
