@@ -97,7 +97,7 @@
 
                 axios.delete(STEP_ITEM_DELETE_URL + itemId,{ 'headers': headers})
                     .then(function (response) {
-                        if (response.status == 204 || response.status == 202) {
+                        if (response.status.toString().includes("20")) {
                             _this.$emit('update')
                             alert('Item has been deleted');
                         }
