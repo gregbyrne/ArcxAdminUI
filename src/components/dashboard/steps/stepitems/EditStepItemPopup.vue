@@ -362,8 +362,6 @@
         },
         methods:{
             saveStepItem(item ){
-
-
                 let _this = this;
 
                 const headers = {
