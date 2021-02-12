@@ -103,16 +103,16 @@
                 axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {
+                            _this.$emit('success', 'Area of Interest has been edited')
                             _this.$emit('update')
-                            alert('Area of Interest has been edited');
                         }
                         else
                         {
-                            alert('Area of Interest was NOT edited');
+                            _this.$emit('error', 'Area of Interest was NOT edited')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with edit ' + error);
+                        _this.$emit('error', 'ERROR: with edit ' + error)
                     });
 
                 this.dialog = false

@@ -100,16 +100,17 @@
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {
 
+                            _this.$emit('success', 'Area of Interest has been created')
                             _this.$emit('update')
-                            alert('Area of Interest has been created');
+
                         }
                         else
                         {
-                            alert('Area of Interest was NOT created');
+                            _this.$emit('error', 'Area of Interest was NOT created')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
+                      _this.$emit('error', 'ERROR: ' + error)
                     })
 
                 this.dialog = false

@@ -98,16 +98,17 @@
                 axios.delete(STEP_ITEM_DELETE_URL + itemId,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {
-                            _this.$emit('update')
-                            alert('Item has been deleted');
+                          _this.$emit('success', 'Step item deleted successfully')
+
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Item was not deleted');
+                          _this.$emit('error', 'Step item was not deleted. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with delete ' + error);
+                        _this.$emit('error', 'ERROR: with delete ' + error)
                     });
 
                 this.dialog = false;

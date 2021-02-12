@@ -101,16 +101,16 @@
                     .then(function (response) {
                         if (response.status == 201) {
 
-                            _this.$emit('update')
-                            alert('Item has been created');
+                          _this.$emit('success', 'Area of Interest item has been created')
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Item was not created');
+                          _this.$emit('error', 'Area of Interest item was NOT created')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
+                      _this.$emit('error', 'ERROR: ' + error)
                     })
 
                 this.dialog = false

@@ -16,18 +16,25 @@ const routes = [
     component: Profile
   },
   {
+    path: "/",
+    name: "AreaOfInterest",
+    component: Dashboard
+  },
+  {
     path: "/areaofinterest",
     name: "AreaOfInterest",
     component: Dashboard
-  },{
+  },
+  {
     path: "/stepstohelpprepare",
     name: "AddSteps",
     component: addSteps
-  },{
-        path: "/additionalinformation",
-        name: "AdditionalInfo",
-        component: additionalInfo
-    }
+  },
+  {
+    path: "/additionalinformation",
+    name: "AdditionalInfo",
+    component: additionalInfo
+  }
 
 
 

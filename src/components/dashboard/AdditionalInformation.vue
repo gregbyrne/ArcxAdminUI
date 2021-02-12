@@ -29,6 +29,8 @@
 
                 </v-layout>
 
+              <p id="resultselem" style="display: none"></p>
+
                 <v-select
                         v-model="regionSelect"
                         :items="regions"
@@ -151,6 +153,20 @@
         },
         methods:
             {
+              logOut() {
+
+                this.$store.dispatch('auth/logout');
+                this.$router.push('/login');
+
+              },
+              checkStatusOfAccessToken() {
+
+                if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
+                {
+                  this.logOut()
+                }
+
+              },
                 getRegions(){
 
                     jQuery.ajaxSetup({
@@ -162,12 +178,17 @@
 
                     var _this = this;
 
-                    jQuery.getJSON(REGIONS_URL, function (regions) {
+                    var jsonData = jQuery.getJSON(REGIONS_URL, function (regions) {
                         _this.regions = regions._embedded.regions;
 
-
-
                     });
+
+                  jsonData.fail(function(data) {
+                    if (data.status == '401')
+                    {
+                      _this.logOut()
+                    }
+                  })
 
                 },
                 getAdditionalInfo(){
@@ -257,56 +278,90 @@
                     this.description = precontent + table
 
 
-                },saveAI(description, regionSelect ){
-                    let _this = this;
-                    //_this.description = ''
+                },
+                resetResultsElem()
+                {
+                  setTimeout(function() {
+                    document.getElementById("resultselem").style.display = "none";
+                  }, 3000)
+                },
 
-                    //get ID
-                    let AI = this.additionalInfo
-                    let id = null
-                    let region = null
-                    for(let i = 0; i < AI.length; i++){
-                        if(regionSelect == AI[i].regioncode){
-                            id = AI[i].id
-                            region = AI[i].regioncode
+                showSuccessResults(message)
+                {
+                  document.getElementById("resultselem").style.display = "block";
+                  document.getElementById("resultselem").textContent= message;
+                  document.getElementById("resultselem").style.color = 'darkgreen';
+                  this.resetResultsElem()
+                },
+
+                showErrorResults(message)
+                {
+                  document.getElementById("resultselem").style.display = "block";
+                  document.getElementById("resultselem").textContent= message;
+                  document.getElementById("resultselem").style.color = 'darkred';
+                  this.resetResultsElem()
+                }
+                ,saveAI(description, regionSelect ){
+
+                    if (regionSelect != null && regionSelect != "") {
+                      let _this = this;
+                      //_this.description = ''
+
+                      //get ID
+                      let AI = this.additionalInfo
+                      let id = null
+                      let region = null
+                      for (let i = 0; i < AI.length; i++) {
+                        if (regionSelect == AI[i].regioncode) {
+                          id = AI[i].id
+                          region = AI[i].regioncode
                         }
 
+                      }
+
+
+                      const headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                      }
+
+
+                      axios.put(ADDITIONAL_INFO_URL + id, {
+                        description: description,
+                        regioncode: region
+                      }, {'headers': headers})
+
+                          .then(function (response) {
+                            if (response.status == 200) {
+                              _this.showSuccessResults("Additional Information has been edited")
+
+                              _this.getAdditionalInfo()
+
+                            } else {
+                              _this.showErrorResults("Additional Information was not edited.")
+                            }
+                          })
+                          .catch((error) => {
+                            _this.showErrorResults("An error has occurred! Error message: " + error)
+                          });
                     }
-
-
-                        const headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                        }
-
-
-                        axios.put(ADDITIONAL_INFO_URL + id ,{ description: description, regioncode:region}, {'headers': headers} )
-
-                            .then(function (response) {
-                                if (response.status == 200) {
-                                    alert('Additional Information has been edited');
-                                    _this.getAdditionalInfo()
-                                    //_this.description = description
-
-                                }
-                                else
-                                {
-                                    alert('Additional Information was not edited');
-                                }
-                            })
-                            .catch((error) => {
-                                alert('ERROR: with edit ' + error);
-                            });
+                    else
+                    {
+                      alert("No region selected! Please select a region and try again.")
+                    }
 
 
 
                 },updatePage(){
+                    this.checkStatusOfAccessToken()
+                    this.getRegions()
                     this.getAdditionalInfo()
                 }
 
 
             },
         created(){
+            this.checkStatusOfAccessToken()
             this.getRegions()
             this.getAdditionalInfo()
 

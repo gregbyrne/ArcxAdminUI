@@ -20,6 +20,8 @@
 
       </v-layout>
 
+      <div id="resultselem"></div>
+
       <draggable v-model="areaofint" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
           <div class="sortable aoi" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
@@ -242,7 +244,7 @@
 
                   if (foundError)
                   {
-                    alert("THERE WERE ERRORS!")
+                    alert("There was an issue saving the area of interest positions. Please try again later.")
                   }
                   else
                   {

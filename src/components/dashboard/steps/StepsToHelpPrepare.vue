@@ -6,10 +6,15 @@
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
                 <h2 style="float: left;color: #0071bc">Steps to Help</h2>
-                <pop-addSteps  @update="updatePage()" style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>
+                <pop-addSteps @success="showSuccessResults"
+                              @error="showErrorResults"
+                              @update="updatePage()"
+                              style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>
             </v-flex>
 
         </v-layout>
+
+        <p id="resultselem" style="display: none"></p>
 
 
         <v-card flat class="ma-0 pa-0" v-for="(step, index)  in steps" :key="step.id">
@@ -24,7 +29,9 @@
                 <v-col cols="1" pt-2>
 
                     <div >
-                        <pop-step-edit  @update="updatePage()"
+                        <pop-step-edit @success="showSuccessResults"
+                                       @error="showErrorResults"
+                                       @update="updatePage()"
                                        v-bind:step="step"
                                        right
 
@@ -32,7 +39,11 @@
                 </v-col>
                 <v-col cols="1" pt-2>
                     <div>
-                        <pop-step-delete @update="updatePage()" v-bind:step="step"
+                        <pop-step-delete
+                            @success="showSuccessResults"
+                            @error="showErrorResults"
+                            @update="updatePage()"
+                            v-bind:step="step"
                         ></pop-step-delete>
                     </div>
                 </v-col>
@@ -70,7 +81,11 @@
 
                     <v-col cols="6" pt-2 pl-15>
                         <h3 style="float: left;color: #0071bc">Step to Help Prepare Items</h3>
-                        <pop-add-step-item  @update="updatePage()" v-bind:step="step" style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
+                        <pop-add-step-item @success="showSuccessResults"
+                                           @error="showErrorResults"
+                                           @update="updatePage()"
+                                           v-bind:step="step"
+                                           style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
                     </v-col>
 
 
@@ -82,6 +97,8 @@
                         <div>{{item.name }}</div>
                     </v-col>
                     <v-col cols="1" ><pop-edit-step-item
+                            @success="showSuccessResults"
+                            @error="showErrorResults"
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
@@ -90,6 +107,8 @@
                     </v-col>
 
                     <v-col cols="1" ><pop-delete-step-item
+                            @success="showSuccessResults"
+                            @error="showErrorResults"
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
@@ -128,21 +147,13 @@
     import area_of_interest_item from "@/models/area_of_interest_item";
     import area_of_interest_sub_item from "@/models/area_of_interest_sub_item";
 
-
     import deleteStep from '@/components/dashboard/steps/DeleteStepsPopup.vue'
     import addSteps from '@/components/dashboard/steps/NewStepsPopup.vue'
     import editSteps from '@/components/dashboard/steps/EditStepsPopup.vue'
 
-
     import addStepItem from '@/components/dashboard/steps/stepitems/NewStepItemPopup.vue'
     import editStepItem from '@/components/dashboard/steps/stepitems/EditStepItemPopup.vue'
     import DeleteStepItem from '@/components/dashboard/steps/stepitems/DeleteStepItemPopup.vue'
-
-
-
-
-
-
 
     export default {
         name: 'CreateAreaOfInterest',
@@ -193,8 +204,7 @@
 
                     if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
                     {
-                        this.$store.dispatch('auth/logout');
-                        this.$router.push('/login');
+                        this.logOut()
                     }
 
                 },
@@ -233,6 +243,28 @@
 
 
                 },
+              resetResultsElem()
+              {
+                setTimeout(function() {
+                  document.getElementById("resultselem").style.display = "none";
+                }, 3000)
+              },
+
+              showSuccessResults(message)
+              {
+                document.getElementById("resultselem").style.display = "block";
+                document.getElementById("resultselem").textContent= message;
+                document.getElementById("resultselem").style.color = 'darkgreen';
+                this.resetResultsElem()
+              },
+
+              showErrorResults(message)
+              {
+                document.getElementById("resultselem").style.display = "block";
+                document.getElementById("resultselem").textContent= message;
+                document.getElementById("resultselem").style.color = 'darkred';
+                this.resetResultsElem()
+              },
 
                 //PUT
 
@@ -243,18 +275,21 @@
                         'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                     }
 
+                    var _this = this
+
                     axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
                         .then(function (response) {
                             if (response.status == 204) {
-                                alert('Area of Interest has been edited');
+                                _this.showSuccessResults('Area of Interest has been edited')
+
                             }
                             else
                             {
-                                alert('Area of Interest was not edited');
+                                _this.showErrorResults('Area of Interest was not edited')
                             }
                         })
                         .catch((error) => {
-                            alert('ERROR: with edit ' + error);
+                            _this.showErrorResults('ERROR: with edit ' + error)
                         });
 
 
@@ -270,18 +305,20 @@
                         'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                     }
 
+                    var _this = this
+
                     axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
                         .then(function (response) {
                             if (response.status == 204) {
-                                alert('Area of Interest has been deleted');
+                                _this.showSuccessResults('Area of Interest has been deleted')
                             }
                             else
                             {
-                                alert('Area of Interest was not deleted');
+                                _this.showErrorResults('Area of Interest was not deleted')
                             }
                         })
                         .catch((error) => {
-                            alert('ERROR: with delete ' + error);
+                            _this.showErrorResults('ERROR: with delete ' + error)
                         });
 
 
