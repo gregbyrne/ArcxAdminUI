@@ -96,25 +96,22 @@
                     .then(function (response) {
                         if (response.status == 201) {
 
+                            _this.$emit('success', 'Step added successfully')
+
                             _this.$emit('update')
-                            alert('Step to Help has been created');
                         }
                         else
                         {
-                            alert('Step to Help was not created');
+                          _this.$emit('error', 'Step was not added. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
+                      _this.$emit('error', 'ERROR MESSAGE: ' + error)
                     })
 
                 this.dialog = false
 
             },
-
-
-
-
 
         }
 

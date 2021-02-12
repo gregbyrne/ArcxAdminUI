@@ -198,16 +198,17 @@
                 axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
-                            _this.$emit('update')
-                            alert('Steps to Help has been edited');
+                          _this.$emit('success', 'Step edited successfully')
+
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Steps to Help was not edited');
+                          _this.$emit('error', 'Step was not edited. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with edit ' + error);
+                        _this.$emit('error', 'ERROR: with edit ' + error)
                     });
 
                 this.dialog = false

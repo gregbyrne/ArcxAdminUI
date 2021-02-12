@@ -7,6 +7,11 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
 
+            <v-btn href="/additionalinformation" depressed color="grey--lighten4">
+                <span>Additional Information</span>
+                <v-icon>mdi-view-dashboard-outline</v-icon>
+            </v-btn>
+
             <v-btn href="/areaofinterest" depressed color="grey--lighten4">
               <span>Area of Interest</span>
               <v-icon>mdi-view-dashboard-outline</v-icon>
@@ -94,8 +99,9 @@
             drawer : false,
             links: [
                 { icon: 'mdi-account', text: 'Profile', route: '/profile' },
-                { icon: 'mdi-view-dashboard-outline', text: 'AreaOfInterest', route: '/areaofinterest' },
-                { icon: 'mdi-view-dashboard-outline', text: 'Steps', route: '/stepstohelpprepare' }
+                { icon: 'mdi-view-dashboard-outline', text: 'Additional Information', route: '/additionalinformation' },
+                { icon: 'mdi-view-dashboard-outline', text: 'Area Of Interest', route: '/areaofinterest' },
+                { icon: 'mdi-view-dashboard-outline', text: 'Steps To Help Prepare', route: '/stepstohelpprepare' },
 
             ]
         }

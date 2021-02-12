@@ -362,8 +362,6 @@
         },
         methods:{
             saveStepItem(item ){
-
-
                 let _this = this;
 
                 const headers = {
@@ -376,16 +374,17 @@
 
                     .then(function (response) {
                         if (response.status == 200) {
-                            _this.$emit('update')
-                            alert('Sub Item has been edited');
+                          _this.$emit('success', 'Step item edited successfully')
+
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Sub Item was not edited');
+                          _this.$emit('error', 'Step item was not edited. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with edit ' + error);
+                      _this.$emit('error', 'ERROR: with edit ' + error)
                     });
 
                 this.dialog = false

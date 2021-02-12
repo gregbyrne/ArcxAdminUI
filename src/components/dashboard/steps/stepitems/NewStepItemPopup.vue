@@ -104,16 +104,17 @@
                     .then(function (response) {
                         if (response.status == 201) {
 
-                            _this.$emit('update')
-                            alert('Item has been created');
+                          _this.$emit('success', 'Step item added successfully')
+
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('5Item was not created');
+                          _this.$emit('error', 'Step item was not added. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
+                        _this.$emit('error', 'ERROR MESSAGE: ' + error)
                     })
 
                 this.dialog = false

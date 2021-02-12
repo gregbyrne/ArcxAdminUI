@@ -99,16 +99,18 @@
                 axios.delete(STEP_DELETE_URL + stepid,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status == 200) {
+                            _this.$emit('success', 'Step deleted successfully')
+
                             _this.$emit('update')
-                            alert('Step to Help Prepare has been deleted');
+
                         }
                         else
                         {
-                            alert('Step to Help Prepare was not deleted');
+                          _this.$emit('error', 'Step was not deleted. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with delete ' + error);
+                        _this.$emit('error', 'ERROR: with delete ' + error)
                     });
 
                 this.dialog = false;
