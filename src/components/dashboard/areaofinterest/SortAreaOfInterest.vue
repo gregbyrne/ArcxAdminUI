@@ -256,14 +256,16 @@
 
              if (jQuery(elem).attr('id') == "itemimagedown")
               {
+                console.log("HERE1")
                 jQuery(elem).attr("id","itemimageup");
-                jQuery(elem).attr(":src",this.expandLessIcon);
+                jQuery(elem).attr("src",this.expandLessIcon);
                 jQuery(elem).parent().find(".item").css({"display": "block"});
               }
               else
               {
+                console.log("HERE2")
                 jQuery(elem).attr("id","itemimagedown");
-                jQuery(elem).attr(":src",this.expandMoreIcon);
+                jQuery(elem).attr("src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".item").css({"display": "none"});
               }
 
@@ -273,13 +275,13 @@
               if (jQuery(elem).attr('id') == "subimagedown")
               {
                 jQuery(elem).attr("id","subimageup");
-                jQuery(elem).attr(":src",this.expandLessIcon);
+                jQuery(elem).attr("src",this.expandLessIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "block"});
               }
               else
               {
                 jQuery(elem).attr("id","subimagedown");
-                jQuery(elem).attr(":src",this.expandMoreIcon);
+                jQuery(elem).attr("src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "none"});
               }
             }
