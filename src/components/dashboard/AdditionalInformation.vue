@@ -27,7 +27,6 @@
                         </v-btn>
                     </v-flex>
 
-
                 </v-layout>
 
                 <v-select
@@ -260,6 +259,7 @@
 
                 },saveAI(description, regionSelect ){
                     let _this = this;
+                    //_this.description = ''
 
                     //get ID
                     let AI = this.additionalInfo
@@ -267,7 +267,6 @@
                     let region = null
                     for(let i = 0; i < AI.length; i++){
                         if(regionSelect == AI[i].regioncode){
-                            this.description = AI[i].description
                             id = AI[i].id
                             region = AI[i].regioncode
                         }
@@ -286,6 +285,8 @@
                             .then(function (response) {
                                 if (response.status == 200) {
                                     alert('Additional Information has been edited');
+                                    _this.getAdditionalInfo()
+                                    //_this.description = description
 
                                 }
                                 else
