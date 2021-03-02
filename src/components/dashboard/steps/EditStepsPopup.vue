@@ -57,14 +57,35 @@
 
                     </v-list-item>
 
-                    <v-list-item>
-                        <v-text-field
-                                v-model="step.subTitle"
-                                label="Step To Help Prepare Subtitle"
-                                required
-                        ></v-text-field>
 
-                    </v-list-item>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+
+                        <v-list-item>
+                                <v-text-field
+                                        v-model="step.subTitle"
+                                        label="Step To Help Prepare Subtitle"
+                                        required
+                                ></v-text-field>
+
+                        </v-list-item>
+                        </template>
+                        <span>test tool</span>
+                    </v-tooltip>
+
+                    <v-tooltip
+                            v-model="show"
+                            top
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                    v-model="step.subTitle"
+                                    label="Step To Help Prepare Subtitle"
+                                    required
+                            ></v-text-field>
+                        </template>
+                        <span>Programmatic tooltip</span>
+                    </v-tooltip>
 
 
                     <v-list-item>
