@@ -24,7 +24,7 @@
 
       <draggable v-model="steps" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
-          <div class="sortable aoi" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
+          <div class="sortable step" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
             {{step.name}}
 
           </div>
@@ -132,29 +132,11 @@
                   'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                console.log("NAME: " + name.trim())
-
                 var foundError = false;
-                if (parentid == null)
-                {
-                  axios.put(url + "/" + id, {name: name.trim(), position: position}, {'headers': headers})
-                      .then(function (response) {
-                        if (response.status.toString().includes("20")) {
-                        } else {
-                          alert('Something went wrong saving the positions');
-                        }
-                      })
-                      .catch((error) => {
-                        alert('ERROR: with edit ' + error);
-                        foundError = true
-                      });
-              }
-              else
-                {
-                  axios.put(url + "/" + id, {name: name.trim(), position: position, parentid: parentid}, {'headers': headers})
-                      .then(function (response) {
-                        if (response.status.toString().includes("20")) {
 
+                  axios.put(url + id, {name: name.trim(), position: position}, {'headers': headers})
+                      .then(function (response) {
+                        if (response.status.toString().includes("20")) {
                         } else {
                           alert('Something went wrong saving the positions');
                         }
@@ -163,7 +145,8 @@
                         alert('ERROR: with edit ' + error);
                         foundError = true
                       });
-                }
+
+
 
               return !foundError ? false : true
 
@@ -174,27 +157,12 @@
 
                 var foundError = false;
 
-                  jQuery( ".mainDraggable" ).last().find(".aoi").toArray().map(function (el, index) {
+                  jQuery( ".mainDraggable" ).last().find(".step").toArray().map(function (el, index) {
 
-                    var aoiid = el.id
-
-                    foundError = _this.savePositionRequest(jQuery(el).contents().not(jQuery(el).children()).text(), AOI_URL, el.id, index, null)
-
-                    jQuery(el).find(".item").toArray().map(function (elem, index) {
-
-                      var itemid = elem.id
-
-                      foundError = _this.savePositionRequest(jQuery(elem).contents().not(jQuery(elem).children()).text(), AOI_ITEMS_URL, elem.id, index, aoiid)
-
-                      jQuery(elem).find(".sub").toArray().map(function (element, index) {
-
-                        foundError = _this.savePositionRequest(jQuery(element).contents().not(jQuery(element).children()).text(), AOI_SUB_ITEMS_URL, element.id, index, itemid)
-
-                      });
-
-                    });
+                    foundError = _this.savePositionRequest(jQuery(el).contents().not(jQuery(el).children()).text(), STEPS_URL, el.id, index, null)
 
                   });
+
 
                   if (foundError)
                   {

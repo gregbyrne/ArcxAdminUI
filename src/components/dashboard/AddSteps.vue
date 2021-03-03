@@ -5,9 +5,9 @@
 
 
             <input type="radio" name="tabs" id="tab1" @click="componentView= 'StepsToHelpPrepare'" checked />
-            <label for="tab1">Area of Interest</label>
+            <label for="tab1">Steps to Help Prepare</label>
             <input type="radio" name="tabs" id="tab2" @click="componentView= 'SortStepToHelpPrepare'" />
-            <label for="tab2">Sort Area of Interest</label>
+            <label for="tab2">Sort Steps to Help Prepare</label>
 
             <div class="tab content1"><component :is="componentView"></component></div>
             <div class="tab content2"><component :is="componentView"></component></div>

@@ -57,36 +57,14 @@
 
                     </v-list-item>
 
+                    <v-list-item>
+                        <v-text-field
+                                v-model="step.subTitle"
+                                label="Step To Help Prepare Subtitle"
+                                required
+                        ></v-text-field>
 
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on, attrs }">
-
-                        <v-list-item>
-                                <v-text-field
-                                        v-model="step.subTitle"
-                                        label="Step To Help Prepare Subtitle"
-                                        required
-                                ></v-text-field>
-
-                        </v-list-item>
-                        </template>
-                        <span>test tool</span>
-                    </v-tooltip>
-
-                    <v-tooltip
-                            v-model="show"
-                            top
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                    v-model="step.subTitle"
-                                    label="Step To Help Prepare Subtitle"
-                                    required
-                            ></v-text-field>
-                        </template>
-                        <span>Programmatic tooltip</span>
-                    </v-tooltip>
-
+                    </v-list-item>
 
                     <v-list-item>
                         <v-list-item-content>
@@ -219,13 +197,13 @@
                 axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
-                          _this.$emit('success', 'Step edited successfully')
+                            _this.$emit('success', 'Step edited successfully')
 
-                          _this.$emit('update')
+                            _this.$emit('update')
                         }
                         else
                         {
-                          _this.$emit('error', 'Step was not edited. Something went wrong.')
+                            _this.$emit('error', 'Step was not edited. Something went wrong.')
                         }
                     })
                     .catch((error) => {
