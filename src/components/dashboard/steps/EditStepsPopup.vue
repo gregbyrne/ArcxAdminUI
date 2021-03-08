@@ -66,7 +66,6 @@
 
                     </v-list-item>
 
-
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title>Description</v-list-item-title>
@@ -198,13 +197,13 @@
                 axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
-                          _this.$emit('success', 'Step edited successfully')
+                            _this.$emit('success', 'Step edited successfully')
 
-                          _this.$emit('update')
+                            _this.$emit('update')
                         }
                         else
                         {
-                          _this.$emit('error', 'Step was not edited. Something went wrong.')
+                            _this.$emit('error', 'Step was not edited. Something went wrong.')
                         }
                     })
                     .catch((error) => {

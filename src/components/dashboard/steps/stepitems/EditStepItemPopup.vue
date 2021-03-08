@@ -50,14 +50,12 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title>Choose Item or SubItem to apply this Step To Help </v-list-item-title>
-                            <v-list-item-subtitle>Filter through the drop down boxes to select the correct item</v-list-item-subtitle>
+                            <v-list-item-subtitle>Filter through the drop down boxes to select the correct item. You must select an Area of Interest. After, specify the Area of Interest Item and Sub Item if needed.</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
 
                     <v-list-item><v-row class="pa-1" row wrap>
                         <v-col cols="3">
-                            <!--<div class="caption grey--text">Area of Interest</div>
-                            <div>{{item.name }}</div>-->
 
                             <v-select
                                     v-model="item.aoiId"
