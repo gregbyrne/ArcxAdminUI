@@ -104,16 +104,16 @@
                     .then(function (response) {
                         if (response.status == 201) {
 
+                            _this.$emit('success', 'Area of Interest sub-item has been created')
                             _this.$emit('update')
-                            alert('Sub Item has been created');
                         }
                         else
                         {
-                            alert('Sub Item was not created');
+                          _this.$emit('error', 'Area of Interest sub-item was NOT created')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: ' + error);
+                        _this.$emit('error', 'ERROR: ' + error)
                     })
 
                 this.dialog = false

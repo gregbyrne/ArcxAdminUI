@@ -20,6 +20,8 @@
 
       </v-layout>
 
+      <div id="resultselem"></div>
+
       <draggable v-model="areaofint" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
           <div class="sortable aoi" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
@@ -242,7 +244,7 @@
 
                   if (foundError)
                   {
-                    alert("THERE WERE ERRORS!")
+                    alert("There was an issue saving the area of interest positions. Please try again later.")
                   }
                   else
                   {
@@ -254,14 +256,16 @@
 
              if (jQuery(elem).attr('id') == "itemimagedown")
               {
+                console.log("HERE1")
                 jQuery(elem).attr("id","itemimageup");
-                jQuery(elem).attr(":src",this.expandLessIcon);
+                jQuery(elem).attr("src",this.expandLessIcon);
                 jQuery(elem).parent().find(".item").css({"display": "block"});
               }
               else
               {
+                console.log("HERE2")
                 jQuery(elem).attr("id","itemimagedown");
-                jQuery(elem).attr(":src",this.expandMoreIcon);
+                jQuery(elem).attr("src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".item").css({"display": "none"});
               }
 
@@ -271,13 +275,13 @@
               if (jQuery(elem).attr('id') == "subimagedown")
               {
                 jQuery(elem).attr("id","subimageup");
-                jQuery(elem).attr(":src",this.expandLessIcon);
+                jQuery(elem).attr("src",this.expandLessIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "block"});
               }
               else
               {
                 jQuery(elem).attr("id","subimagedown");
-                jQuery(elem).attr(":src",this.expandMoreIcon);
+                jQuery(elem).attr("src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".sub").css({"display": "none"});
               }
             }

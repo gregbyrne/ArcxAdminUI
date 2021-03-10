@@ -98,16 +98,16 @@
                 axios.delete(AOE_ITEM_DELETE_URL + itemid,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status == 200) {
-                            _this.$emit('update')
-                            alert('Item has been deleted');
+                          _this.$emit('success', 'Area of Interest item has been deleted')
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Item was not deleted');
+                          _this.$emit('error', 'Area of Interest item was NOT deleted')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with delete ' + error);
+                      _this.$emit('error', 'ERROR: with delete ' + error)
                     });
 
                 this.dialog = false;

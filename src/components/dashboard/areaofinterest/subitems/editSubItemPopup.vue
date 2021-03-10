@@ -103,16 +103,16 @@
                 axios.put(API_URL + 'area_of_interest_sub_items/' + subItem.id ,{ name: subItem.name, parentid: subItem.parentid, value: subItem.value}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
-                            _this.$emit('update')
-                            alert('Sub Item has been edited');
+                          _this.$emit('success', 'Area of Interest sub-item has been edited')
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Sub Item was not edited');
+                          _this.$emit('error', 'Area of Interest sub-item was NOT edited')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with edit ' + error);
+                        _this.$emit('error', 'ERROR: with delete ' + error)
                     });
 
                 this.dialog = false

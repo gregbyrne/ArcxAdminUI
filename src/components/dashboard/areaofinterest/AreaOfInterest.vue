@@ -5,13 +5,16 @@
 
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
-                <h2 style="float: left;color: #0071bc">Area of Interests  </h2>
-                <pop-aoi-new  @update="updatePage()" style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
+                <h2 style="float: left;color: #0071bc">Area of Interests</h2>
+                <pop-aoi-new @success="showSuccessResults"
+                             @error="showErrorResults"
+                             @update="updatePage()"
+                             style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
             </v-flex>
 
         </v-layout>
 
-
+        <p id="resultselem" style="display: none"></p>
 
         <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
@@ -25,7 +28,10 @@
                 <v-flex md1 pt-2>
 
                     <div >
-                        <pop-aoi-edit  @update="updatePage()" v-bind:areaname="area.name"
+                        <pop-aoi-edit  @update="updatePage()"
+                                       @success="showSuccessResults"
+                                       @error="showErrorResults"
+                                       v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind="areaofint"
                                        right
@@ -34,7 +40,10 @@
                 </v-flex>
                 <v-flex md1  pt-2>
                     <div>
-                        <pop-aoi-delete @update="updatePage()" v-bind:areaname="area.name"
+                        <pop-aoi-delete @update="updatePage()"
+                                        @success="showSuccessResults"
+                                        @error="showErrorResults"
+                                        v-bind:areaname="area.name"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
@@ -74,7 +83,10 @@
 
                     <v-flex md9 pl-15>
                         <h3 style="float: left;color: #0071bc">Items</h3>
-                        <pop-item-new  @update="updatePage()" v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                        <pop-item-new @success="showSuccessResults"
+                                      @error="showErrorResults"
+                                      @update="updatePage()"
+                                       v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
                 </v-layout>
@@ -96,6 +108,8 @@
 
                         <div>
                             <pop-item-edit
+                                    @success="showSuccessResults"
+                                    @error="showErrorResults"
                                     @update="updatePage()"
                                     v-bind:area="area"
                                     v-bind:item="item"
@@ -104,6 +118,8 @@
                     <v-flex md1>
                         <div>
                             <pop-item-delete
+                                    @success="showSuccessResults"
+                                    @error="showErrorResults"
                                     @update="updatePage()"
                                     v-bind:item="item"
                             ></pop-item-delete>
@@ -144,7 +160,11 @@
 
                                 <v-col cols="10">
                                     <h4 style="float: left;color: #0071bc">Sub-Items</h4>
-                                    <pop-sub-item-new  @update="updatePage()" v-bind:item="item" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
+                                    <pop-sub-item-new @success="showSuccessResults"
+                                                      @error="showErrorResults"
+                                                      @update="updatePage()"
+                                                      v-bind:item="item"
+                                                      style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
                                 </v-col>
 
                             </v-row>
@@ -158,10 +178,18 @@
                                 </v-col>
 
                                 <v-col cols="1" style="padding-left:6px">
-                                    <pop-sub-item-edit  @update="updatePage()" v-bind:subItem="subItem" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-edit>
+                                    <pop-sub-item-edit @success="showSuccessResults"
+                                                       @error="showErrorResults"
+                                                       @update="updatePage()"
+                                                       v-bind:subItem="subItem"
+                                                       style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-edit>
                                 </v-col>
                                 <v-col cols="1">
-                                    <pop-sub-item-delete  @update="updatePage()" v-bind:subItem="subItem" style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-delete>
+                                    <pop-sub-item-delete @success="showSuccessResults"
+                                                         @error="showErrorResults"
+                                                         @update="updatePage()"
+                                                         v-bind:subItem="subItem"
+                                                         style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-delete>
                                 </v-col>
 
                             </v-row>
@@ -265,11 +293,32 @@
 
                         if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
                         {
-                            this.$store.dispatch('auth/logout');
-                            this.$router.push('/login');
+                            this.logOut()
                         }
 
                     },
+                  resetResultsElem()
+                  {
+                    setTimeout(function() {
+                      document.getElementById("resultselem").style.display = "none";
+                    }, 3000)
+                  },
+
+                  showSuccessResults(message)
+                  {
+                    document.getElementById("resultselem").style.display = "block";
+                    document.getElementById("resultselem").textContent= message;
+                    document.getElementById("resultselem").style.color = 'darkgreen';
+                    this.resetResultsElem()
+                  },
+
+                  showErrorResults(message)
+                  {
+                    document.getElementById("resultselem").style.display = "block";
+                    document.getElementById("resultselem").textContent= message;
+                    document.getElementById("resultselem").style.color = 'darkred';
+                    this.resetResultsElem()
+                  },
                     expandAOI(index, expandAoiArray){
 
                         //if already expanded, remove expand

@@ -50,14 +50,12 @@
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title>Choose Item or SubItem to apply this Step To Help </v-list-item-title>
-                            <v-list-item-subtitle>Filter through the drop down boxes to select the correct item</v-list-item-subtitle>
+                            <v-list-item-subtitle>Filter through the drop down boxes to select the correct item. You must select an Area of Interest. After, specify the Area of Interest Item and Sub Item if needed.</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
 
                     <v-list-item><v-row class="pa-1" row wrap>
                         <v-col cols="3">
-                            <!--<div class="caption grey--text">Area of Interest</div>
-                            <div>{{item.name }}</div>-->
 
                             <v-select
                                     v-model="item.aoiId"
@@ -86,6 +84,7 @@
                                     item-text="name"
                                     item-value="id"
                                     :label="subItemLabel"
+                                    :disabled="subItemDisabled"
                                         >
 
                             </v-select>
@@ -167,8 +166,9 @@
                                     outlined
                             ></v-textarea>
 
-                            <p>HTML Preview. Styling does not include eoa
-                            <br/><span v-html="item.content"></span></p>
+                            <p>HTML Preview. The HTML code can contain styling, but the preview does not include the styling included on the search results page.
+                            <br/><br/>
+                                <span v-html="item.content"></span></p>
 
 
                         </v-list-item-content>
@@ -238,22 +238,49 @@
             itemselect: null,
             subitemselect: null,
             nullItem: { name: 'All Items', id: null  },
+            noItems: { name: 'No Items Available', id: null  },
             nullSubItem: { name: 'All Sub Items', id: null  },
-            subItemStatus: false,
 
 
 
         }),
+        watch:{
+            'item.aoiId':function(){
+                //reset AOI ITEM
+                this.item.aoiItemsId = this.nullItem
+
+
+                //RESET AOI SUB ITEM and make inactive
+                this.item.aoiSubItemsId = ''
+                this.subItemDisabled = true
+
+            },
+            'item.aoiItemsId':function(){
+
+                //RESET AOI SUB ITEM and make sure active
+                this.item.aoiSubItemsId = null
+
+                if(this.item.aoiItemsId == '' || this.item.aoiItemsId == null){
+                    this.subItemDisabled = true
+
+                }else{
+                    this.subItemDisabled = false
+                }
+
+
+            }
+        },
         computed: {
             filteredItems(){
                 let options = this.aoiitems
                 let newOptions = []
+                let submitOptions = []
+
 
 
                 if( (this.aoiitems == null) || (this.item.aoiId == null)){
                     newOptions = ''
                 }else{
-                    newOptions.push(this.nullItem)
                     for(let i = 0; i < options.length; i++){
                         //console.log( 'options[i].parentid: ' + options[i].parentid  + '==  this.item.aoiId: ' + this.item.aoiId)
 
@@ -264,17 +291,26 @@
 
                 }
 
-                return newOptions
+                if(newOptions.length == 0){
+                    submitOptions.push(this.noItems)
+                }else{
+                    submitOptions.push(this.nullItem)
+                    submitOptions = submitOptions.concat(newOptions)
+
+                }
+
+                return submitOptions
             },filteredSubItems(){
                 let options = this.subitems
                 let newOptions = []
+                let submitOptions = []
 
 
                 if( (this.subitems == null) || (this.item.aoiItemsId == null)|| (this.item.aoiItemsId == '')) {
                     newOptions = ''
                 }else{
 
-                    newOptions.push(this.nullSubItem)
+                    //newOptions.push(this.nullSubItem)
                     for(let i = 0; i < options.length; i++){
                         if(options[i].parentid == this.item.aoiItemsId){
                             newOptions.push(options[i])
@@ -284,17 +320,26 @@
                 }
 
 
+                if(newOptions.length == 0){
+                    submitOptions.push(this.noItems)
+                }else{
+                    submitOptions.push(this.nullSubItem)
+                    submitOptions = submitOptions.concat(newOptions)
 
-                return newOptions
+                }
+
+                return submitOptions
+
+
             },subItemLabel(){
                 let label = 'Area Of Interest Sub Items'
 
 
-                if(this.filteredSubItems.length == 0 ){
-                    label = 'N/A'
+                if(this.filteredSubItems.length == 1 ){
+                    label = 'No Sub Items'
                 }
                 return label
-            },subItemStatus(){
+            },subItemDisabled(){
 
                 //for later
                 let status = false
@@ -303,14 +348,18 @@
                 }else{
                     status = false
                 }
+
+                if (this.filteredSubItems.length == 1){
+                    status = true
+                }
+
+
                 return status
 
             },
         },
         methods:{
             saveStepItem(item ){
-
-
                 let _this = this;
 
                 const headers = {
@@ -323,16 +372,17 @@
 
                     .then(function (response) {
                         if (response.status == 200) {
-                            _this.$emit('update')
-                            alert('Sub Item has been edited');
+                          _this.$emit('success', 'Step item edited successfully')
+
+                          _this.$emit('update')
                         }
                         else
                         {
-                            alert('Sub Item was not edited');
+                          _this.$emit('error', 'Step item was not edited. Something went wrong.')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with edit ' + error);
+                      _this.$emit('error', 'ERROR: with edit ' + error)
                     });
 
                 this.dialog = false

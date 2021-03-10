@@ -2,27 +2,32 @@
     <v-container>
         <h1 style="text-align: center; color: #0071bc">ARC-X Dashboard</h1>
 
-        <v-container class="mx-6 my-10">
-            <v-row>
-                <v-col>
 
-                </v-col>
-                <v-col>
 
-                </v-col>
-            </v-row>
-            <steps></steps>
-        </v-container>
+            <input type="radio" name="tabs" id="tab1" @click="componentView= 'StepsToHelpPrepare'" checked />
+            <label for="tab1">Steps to Help Prepare</label>
+            <input type="radio" name="tabs" id="tab2" @click="componentView= 'SortStepToHelpPrepare'" />
+            <label for="tab2">Sort Steps to Help Prepare</label>
+
+            <div class="tab content1"><component :is="componentView"></component></div>
+            <div class="tab content2"><component :is="componentView"></component></div>
     </v-container>
 </template>
 
 <script>
 
-    import steps from './steps/StepsToHelpPrepare'
+    import StepsToHelpPrepare from './steps/StepsToHelpPrepare'
+    import SortStepToHelpPrepare from './steps/SortStepToHelpPrepare'
+
 
     export default {
-        components : { 'steps': steps},
+        components : { StepsToHelpPrepare, SortStepToHelpPrepare},
         name: 'Add Steps',
+        data: function() {
+            return {
+                componentView: StepsToHelpPrepare
+            }
+        },
         computed: {
             date : function () {
                 return Date.now()

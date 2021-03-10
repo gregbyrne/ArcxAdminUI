@@ -95,22 +95,19 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                // eslint-disable-next-line no-console
-                console.log("URL: " + AOE_DELETE_URL + areaid)
-
                 axios.delete(AOE_DELETE_URL + areaid,{ 'headers': headers})
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {
+                            _this.$emit('success', 'Area of Interest has been deleted')
                             _this.$emit('update')
-                            alert('Area of Interest has been deleted');
                         }
                         else
                         {
-                            alert('Area of Interest was NOT deleted');
+                            _this.$emit('error', 'Area of Interest was NOT deleted')
                         }
                     })
                     .catch((error) => {
-                        alert('ERROR: with delete ' + error);
+                        _this.$emit('error', 'ERROR: with delete ' + error)
                     });
 
                 this.dialog = false;
