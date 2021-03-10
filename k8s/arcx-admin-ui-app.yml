@@ -40,6 +40,34 @@ spec:
         env:
           - name: REDEPLOY_META
             value: $CI_JOB_ID-$CI_COMMIT_SHA
+
+          - name: VUE_APP_API_AREA_OF_INTEREST
+            value: "$VUE_APP_API_AREA_OF_INTEREST"
+          - name: VUE_APP_API_AREA_OF_INTEREST_ITEMS
+            value: "$VUE_APP_API_AREA_OF_INTEREST_ITEMS"
+          - name: VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS
+            value: "$VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS"
+          - name: VUE_APP_API_STEPS_TO_HELP_PREPARE
+            value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE"
+          - name: VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEMS
+            value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEMS"
+          - name: VUE_APP_API_URL
+            value: "$VUE_APP_API_URL"
+          - name: VUE_APP_API_AUTH_BASE_URL
+            value: "$VUE_APP_API_AUTH_BASE_URL"
+          - name: VUE_APP_API_AREA_OF_INTEREST_DELETE_URL
+            value: "$VUE_APP_API_AREA_OF_INTEREST_DELETE_URL"
+          - name: VUE_APP_API_AREA_OF_INTEREST_ITEM_DELETE_URL
+            value: "$VUE_APP_API_AREA_OF_INTEREST_ITEM_DELETE_URL"
+          - name: VUE_APP_API_AREA_OF_INTEREST_SUB_ITEM_DELETE_URL
+            value: "$VUE_APP_API_AREA_OF_INTEREST_SUB_ITEM_DELETE_URL"
+          - name: VUE_APP_API_AREA_OF_INTEREST_URL
+            value: "$VUE_APP_API_AREA_OF_INTEREST_URL"
+          - name: VUE_APP_API_STEPS_TO_HELP_PREPARE_DELETE_URL
+            value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE_DELETE_URL"
+          - name: VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEM_DELETE_URL
+            value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEM_DELETE_URL"
+  
         livenessProbe:
          tcpSocket:
             port: 8080
