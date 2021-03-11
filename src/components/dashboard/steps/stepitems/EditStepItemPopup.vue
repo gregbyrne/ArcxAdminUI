@@ -247,7 +247,7 @@
         watch:{
             'item.aoiId':function(){
                 //reset AOI ITEM
-                this.item.aoiItemsId = this.nullItem
+                this.item.aoiItemsId = null
 
 
                 //RESET AOI SUB ITEM and make inactive
@@ -366,6 +366,13 @@
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
+
+                console.log('id: ' + item.id )
+                console.log('name: ' + item.name )
+                console.log('parentid: ' + item.parentid )
+                console.log('aoiId: ' + item.aoiId )
+                console.log('aoiItemsId: ' + item.aoiItemsId )
+                console.log('aoiSubItemsId: ' + item.aoiSubItemsId )
 
                 axios.put(API_URL + 'steps_to_help_prepare_items/' + item.id ,{ name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
                     aoiId: item.aoiId, aoiItemsId: item.aoiItemsId, aoiSubItemsId : item.aoiSubItemsId }, {'headers': headers} )
