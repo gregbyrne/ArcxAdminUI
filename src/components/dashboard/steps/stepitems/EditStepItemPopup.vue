@@ -247,8 +247,7 @@
         watch:{
             'item.aoiId':function(){
                 //reset AOI ITEM
-                this.item.aoiItemsId = this.nullItem
-
+                this.item.aoiItemsId = null
 
                 //RESET AOI SUB ITEM and make inactive
                 this.item.aoiSubItemsId = ''
