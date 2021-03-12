@@ -67,6 +67,11 @@ spec:
             value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE_DELETE_URL"
           - name: VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEM_DELETE_URL
             value: "$VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEM_DELETE_URL"
+          - name: VUE_APP_API_REGIONS_URL
+            value: "$VUE_APP_API_REGIONS_URL"
+          - name: VUE_APP_API_ADDITIONAL_INFORMATION_URL
+            value: "$VUE_APP_API_ADDITIONAL_INFORMATION_URL"
+
   
         livenessProbe:
          tcpSocket:
