@@ -96,10 +96,7 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                console.log('url test: ' + AOI_URL2 + "/")
-
-
-                axios.post(AOI_URL2 + "/" ,
+                axios.post(AOI_URL2 + "/"  ,
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {

@@ -72,7 +72,7 @@ spec:
           - name: VUE_APP_API_ADDITIONAL_INFORMATION_URL
             value: "$VUE_APP_API_ADDITIONAL_INFORMATION_URL"
 
-  
+
         livenessProbe:
          tcpSocket:
             port: 8080
