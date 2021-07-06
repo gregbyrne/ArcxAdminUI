@@ -93,8 +93,8 @@
                 <v-row  v-for="(item)  in stepitems" :key="item.id" v-show="step.id == item.parentid">
                     <v-col cols="1"> </v-col>
                     <v-col cols="8">
-                        <div class="caption grey--text">Item Name</div>
-                        <div>{{item.name }}</div>
+                        <div class="caption grey--text">Item Name & Subtitle</div>
+                        <div>{{item.name }} - {{item.subTitle}}</div>
                     </v-col>
                     <v-col cols="1" ><pop-edit-step-item
                             @success="showSuccessResults"
