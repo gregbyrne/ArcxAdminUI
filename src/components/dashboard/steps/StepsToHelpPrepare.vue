@@ -209,13 +209,11 @@
 
                 },
                 expandSteps(index, expandStepsArray){
-
                     //if already expanded, remove expand
                     if( expandStepsArray.includes(index) ){
                         for( var i = 0; i < expandStepsArray.length; i++){
                             if (expandStepsArray[i] === index){
                                 expandStepsArray = expandStepsArray.splice(i,1)
-
                             }
                         }
 
