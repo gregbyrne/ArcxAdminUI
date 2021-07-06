@@ -94,7 +94,7 @@
                     <v-col cols="1"> </v-col>
                     <v-col cols="8">
                         <div class="caption grey--text">Item Name & Subtitle</div>
-                        <div>{{item.name }} - {{item.subTitle}}</div>
+                        <div>{{item.name }}<span v-if="item.subTitle != null && item.subTitle != '' "> - {{ item.subTitle }}</span></div>
                     </v-col>
                     <v-col cols="1" ><pop-edit-step-item
                             @success="showSuccessResults"
