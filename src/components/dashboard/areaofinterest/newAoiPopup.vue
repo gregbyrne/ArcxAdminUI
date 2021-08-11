@@ -67,8 +67,6 @@
 
 <script>
     import axios from "axios";
-    const API_URL = process.env.VUE_APP_API_URL;
-    const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_URL;
     const AOI_URL2 = process.env.VUE_APP_API_AREA_OF_INTEREST;
 
     export default {
@@ -96,7 +94,7 @@
                     'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
 
-                axios.post(AOI_URL2 + "/"  ,
+                axios.post(AOI_URL2 + "/" ,
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {

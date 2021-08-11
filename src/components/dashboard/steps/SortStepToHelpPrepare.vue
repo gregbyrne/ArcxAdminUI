@@ -26,7 +26,6 @@
         <transition-group type="transition" name="flip-list">
           <div class="sortable step" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
             {{step.name}}
-
           </div>
         </transition-group>
         </draggable>
@@ -37,10 +36,6 @@
 
 <script>
 
-    const API_URL = process.env.VUE_APP_API_URL;
-    const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST;
-    const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
-    const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
     const STEPS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
 
 
@@ -131,10 +126,23 @@
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
                 }
+                var steps = this.steps
+
+                var desc = "";
+                var subTitle = "";
+                var step;
+
+                for(var i = 0; i < steps.length; i++){
+                  step = steps[i];
+                  if( step.id == id){
+                    desc = step.description
+                    subTitle = step.subTitle
+                  }
+                }
 
                 var foundError = false;
 
-                  axios.put(url + id, {name: name.trim(), position: position}, {'headers': headers})
+                  axios.put(url + id, {name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
                       .then(function (response) {
                         if (response.status.toString().includes("20")) {
                         } else {
