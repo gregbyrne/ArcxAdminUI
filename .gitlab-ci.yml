@@ -3,9 +3,12 @@ stages:
   - deploy
   - Image Scan
 
-admin-ui-app:image:build:
+default:
   tags:
-    - docker
+    - devsecops-instance 
+
+
+admin-ui-app:image:build:
   stage: images
   image:
     name: gcr.io/kaniko-project/executor:debug
@@ -16,8 +19,6 @@ admin-ui-app:image:build:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
 
 admin-ui-web:image:build:
-  tags:
-    - docker
   stage: images
   image:
     name: gcr.io/kaniko-project/executor:debug
@@ -30,8 +31,6 @@ admin-ui-web:image:build:
 deploy to dev:
   when: manual
   stage: deploy
-  tags:
-    - docker
   image: dtzar/helm-kubectl
   script:
     - apk add gettext
@@ -54,8 +53,6 @@ deploy to dev:
 deploy to staging:
   when: manual
   stage: deploy
-  tags:
-    - docker
   image: dtzar/helm-kubectl
   variables:
     INGRESS_HOST: "arcx-admin-ui-stg.devsecops-eval.epa.gov"
