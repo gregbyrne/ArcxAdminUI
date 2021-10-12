@@ -7,7 +7,6 @@ default:
   tags:
     - devsecops-instance 
 
-
 admin-ui-app:image:build:
   stage: images
   image:
