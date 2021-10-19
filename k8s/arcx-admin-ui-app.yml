@@ -32,7 +32,7 @@ spec:
         fsGroup: 555
       containers:
       - name: app
-        image: $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_REF_SLUG
+        image: $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
         imagePullPolicy: Always
         envFrom:
           - configMapRef:
@@ -40,6 +40,7 @@ spec:
         env:
           - name: REDEPLOY_META
             value: $CI_JOB_ID-$CI_COMMIT_SHA
+
           - name: VUE_APP_API_AREA_OF_INTEREST
             value: "$VUE_APP_API_AREA_OF_INTEREST"
           - name: VUE_APP_API_AREA_OF_INTEREST_ITEMS
@@ -69,8 +70,9 @@ spec:
           - name: VUE_APP_API_REGIONS_URL
             value: "$VUE_APP_API_REGIONS_URL"
           - name: VUE_APP_API_ADDITIONAL_INFORMATION_URL
-            value: "$VUE_APP_API_ADDITIONAL_INFORMATION_URL"    
-            
+            value: "$VUE_APP_API_ADDITIONAL_INFORMATION_URL"
+
+
         livenessProbe:
          tcpSocket:
             port: 8080

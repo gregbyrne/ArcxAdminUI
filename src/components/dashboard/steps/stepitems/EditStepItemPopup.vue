@@ -249,7 +249,6 @@
                 //reset AOI ITEM
                 this.item.aoiItemsId = null
 
-
                 //RESET AOI SUB ITEM and make inactive
                 this.item.aoiSubItemsId = ''
                 this.subItemDisabled = true
@@ -288,7 +287,7 @@
                             newOptions.push(options[i])
                         }
                     }
-7
+
                 }
 
                 if(newOptions.length == 0){

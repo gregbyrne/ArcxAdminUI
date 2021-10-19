@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_REF_SLUG
+        image: $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -72,7 +72,7 @@ metadata:
     app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
 spec:
   rules:
-  - host: arcx-development-admin-ui.devsecops-eval.epa.gov
+  - host: ${INGRESS_HOST}
     http:
       paths:
       - backend:
