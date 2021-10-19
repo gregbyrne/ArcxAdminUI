@@ -1,0 +1,88 @@
+stages:
+  - images
+  - deploy
+  - Image Scan
+
+default:
+  tags:
+    - devsecops-instance 
+
+admin-ui-app:image:build:
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
+
+admin-ui-web:image:build:
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+
+deploy to dev:
+  when: manual
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - apk add gettext
+    - kubectl config set-cluster dev-cluster --server="$KUBE_URL"
+    - kubectl config set-cluster dev-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=dev-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context default
+    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+  environment:
+    name: development
+    url: https://arcx-development-admin-ui.devsecops-eval.epa.gov
+  only:
+    - branches
+  except:
+    - master
+
+deploy to staging:
+  when: manual
+  stage: deploy
+  image: dtzar/helm-kubectl
+  variables:
+    INGRESS_HOST: "arcx-admin-ui-stg.devsecops-eval.epa.gov"
+  script:
+    - apk add gettext
+    - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
+    - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context default
+    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+  environment:
+    name: staging
+    url: "https://$INGRESS_HOST"
+  only:
+    refs:
+      - stage
+
+Prisma:
+  stage: Image Scan
+  tags:
+    - twistcli
+  when: manual
+  variables:
+    GIT_STRATEGY: clone
+    PRISMA_URL: https://prismacloud.gitlab-prod.aws.epa.gov
+  script:
+    - docker pull $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+    - /public/server/apps/twistcli images scan --details --address $PRISMA_URL $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+
+    - docker pull $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
+    - /public/server/apps/twistcli images scan --details --address $PRISMA_URL $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
