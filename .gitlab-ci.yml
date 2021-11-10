@@ -33,44 +33,46 @@ deploy to dev:
   image: dtzar/helm-kubectl
   script:
     - apk add gettext
-    - kubectl config set-cluster dev-cluster --server="$KUBE_URL"
-    - kubectl config set-cluster dev-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-cluster $KUBECTL_DEV_CLUSTER --server="$KUBE_URL"
+    - kubectl config set-cluster $KUBECTL_DEV_CLUSTER --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
     - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
-    - kubectl config set-context default --cluster=dev-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config set-context default --cluster=$KUBECTL_DEV_CLUSTER --user=gitlab --namespace="$KUBE_NAMESPACE"
     - kubectl config use-context default
     - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
     - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
     - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
   environment:
-    name: development
-    url: https://arcx-development-admin-ui.devsecops-eval.epa.gov
+    name: dev
+    url: https://arcx-admin-ui.devsecops-dev.aws.epa.gov
+    kubernetes:
+      namespace: arc-x-admin-ui-234-dev
   only:
     - branches
   except:
     - master
 
-deploy to staging:
-  when: manual
-  stage: deploy
-  image: dtzar/helm-kubectl
-  variables:
-    INGRESS_HOST: "arcx-admin-ui-stg.devsecops-eval.epa.gov"
-  script:
-    - apk add gettext
-    - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
-    - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
-    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
-    - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
-    - kubectl config use-context default
-    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
-    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
-    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
-  environment:
-    name: staging
-    url: "https://$INGRESS_HOST"
-  only:
-    refs:
-      - stage
+#deploy to staging:
+#  when: manual
+#  stage: deploy
+#  image: dtzar/helm-kubectl
+#  variables:
+#    INGRESS_HOST: "arcx-admin-ui-stg.devsecops-eval.epa.gov"
+#  script:
+#    - apk add gettext
+#    - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
+#    - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE #--embed-certs=true
+#    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+#    - kubectl config set-context default --cluster=stg-cluster --user=gitlab #--namespace="$KUBE_NAMESPACE"
+#    - kubectl config use-context default
+#    - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply -f -
+#    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply -f -
+#    - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply -f -
+#  environment:
+#    name: staging
+#    url: "https://$INGRESS_HOST"
+#  only:
+#    refs:
+#      - stage
 
 Prisma:
   stage: Image Scan
