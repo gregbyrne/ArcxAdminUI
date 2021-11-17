@@ -70,6 +70,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
     app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
     app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+    nginx.ingress.kubernetes.io/auth-tls-secret: arc-x-admin-ui-234-dev/arc-x-cert
 spec:
   rules:
   - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
@@ -78,3 +79,7 @@ spec:
       - backend:
           serviceName: arcx-admin-ui-web-service
           servicePort: 80
+  tls:
+  - hosts:
+    - arcx-admin-ui.devsecops-dev.aws.epa.gov
+    secretName: arc-x-cert
