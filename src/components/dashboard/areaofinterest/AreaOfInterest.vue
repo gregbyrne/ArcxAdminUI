@@ -289,11 +289,15 @@
                         this.$router.push('/login');
 
                     },
+                    getNewCode(){
+
+
+                    },
                     checkStatusOfAccessToken() {
 
                         if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
                         {
-                            this.logOut()
+                           // this.logOut()
                         }
 
                     },
@@ -470,6 +474,7 @@
 
                     },
                     updatePage(){
+                      this.$store.state.auth.user.accessToken = 'test'
                         this.checkStatusOfAccessToken()
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
@@ -482,6 +487,7 @@
 
                 },
             created() {
+              this.$store.state.auth.user.accessToken = 'test'
                 this.checkStatusOfAccessToken()
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()

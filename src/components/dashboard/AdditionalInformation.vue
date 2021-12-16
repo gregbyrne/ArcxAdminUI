@@ -163,7 +163,7 @@
 
                 if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
                 {
-                  this.logOut()
+                  //this.logOut()
                 }
 
               },

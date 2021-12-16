@@ -29,9 +29,6 @@
         computed: {
             date : function () {
                 return Date.now()
-            },
-            currentUser() {
-                return this.$store.state.auth.user
             }
         }
     }
