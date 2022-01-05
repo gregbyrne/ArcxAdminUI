@@ -22,19 +22,7 @@
               <v-icon>mdi-view-dashboard-outline</v-icon>
             </v-btn>
 
-            <v-btn href="/profile" depressed color="grey--lighten4">
-                <span>Profile</span>
-                <v-icon>mdi-account</v-icon>
-            </v-btn>
-            <v-btn v-if="currentUser" @click.prevent="logOut" depressed color="grey--lighten4">
-                <span>Sign Out</span>
-                <v-icon>mdi-exit-to-app</v-icon>
-            </v-btn>
 
-            <v-btn v-if="!currentUser" to="/login" depressed color="grey--lighten4">
-                <span>Sign In</span>
-                <v-icon>mdi-login</v-icon>
-            </v-btn>
 
         </v-app-bar>
 
@@ -98,7 +86,6 @@
         return{
             drawer : false,
             links: [
-                { icon: 'mdi-account', text: 'Profile', route: '/profile' },
                 { icon: 'mdi-view-dashboard-outline', text: 'Additional Information', route: '/additionalinformation' },
                 { icon: 'mdi-view-dashboard-outline', text: 'Area Of Interest', route: '/areaofinterest' },
                 { icon: 'mdi-view-dashboard-outline', text: 'Steps To Help Prepare', route: '/stepstohelpprepare' },

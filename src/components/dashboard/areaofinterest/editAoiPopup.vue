@@ -97,7 +97,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )

@@ -92,7 +92,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.delete(AOE_SUB_ITEM_DELETE_URL + subItemId,{ 'headers': headers})

@@ -96,7 +96,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.post(API_URL + 'area_of_interest_sub_items/' ,

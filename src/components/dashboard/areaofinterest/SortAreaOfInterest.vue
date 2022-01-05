@@ -112,7 +112,7 @@
                 jQuery.ajaxSetup({
                   headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                   }
                 });
 
@@ -134,7 +134,7 @@
                 jQuery.ajaxSetup({
                   headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                   }
                 });
 
@@ -152,7 +152,7 @@
                 jQuery.ajaxSetup({
                   headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                   }
                 });
 
@@ -175,7 +175,7 @@
 
                 const headers = {
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  'Authorization': 'Bearer ' 
                 }
 
                 console.log("NAME: " + name.trim())

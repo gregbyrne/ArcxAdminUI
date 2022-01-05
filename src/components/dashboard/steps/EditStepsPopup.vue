@@ -191,7 +191,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )

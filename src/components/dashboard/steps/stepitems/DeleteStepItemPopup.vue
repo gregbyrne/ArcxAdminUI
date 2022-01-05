@@ -92,7 +92,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.delete(STEP_ITEM_DELETE_URL + itemId,{ 'headers': headers})

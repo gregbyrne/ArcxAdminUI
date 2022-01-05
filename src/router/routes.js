@@ -3,7 +3,6 @@ import Dashboard from "../components/dashboard/Dashboard.vue";
 import Profile from "../components/login/Profile"
 import addSteps from "../components/dashboard/AddSteps.vue";
 import additionalInfo from "../components/dashboard/AdditionalInformation.vue";
-import test from "../components/dashboard/areaofinterest/Test.vue";
 
 const routes = [
   {
@@ -35,13 +34,7 @@ const routes = [
     path: "/additionalinformation",
     name: "AdditionalInfo",
     component: additionalInfo
-  },
-  {
-    path: "/test",
-    name: "test",
-    component: test
   }
-
 
 
 ];

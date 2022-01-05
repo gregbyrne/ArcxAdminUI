@@ -363,7 +363,7 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
 
                 axios.put(API_URL + 'steps_to_help_prepare_items/' + item.id ,{ name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
@@ -394,7 +394,7 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
             });
 
@@ -417,7 +417,7 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
             });
 
@@ -436,7 +436,7 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                 }
             });
 

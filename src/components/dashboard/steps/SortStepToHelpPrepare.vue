@@ -76,17 +76,9 @@
             {
               logOut() {
 
-                this.$store.dispatch('auth/logout');
-                this.$router.push('/login');
 
               },
               checkStatusOfAccessToken() {
-
-                if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                {
-                  this.$store.dispatch('auth/logout');
-                  this.$router.push('/login');
-                }
 
               },
 
@@ -96,7 +88,7 @@
                 jQuery.ajaxSetup({
                   headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' 
                   }
                 });
 
@@ -116,7 +108,6 @@
               },
 
               updatePage() {
-                this.checkStatusOfAccessToken()
                 this.getStepsToHelp()
 
               },
@@ -124,7 +115,7 @@
 
                 const headers = {
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  'Authorization': 'Bearer ' 
                 }
                 var steps = this.steps
 
@@ -184,7 +175,6 @@
 
             },
             created() {
-                this.checkStatusOfAccessToken()
                 this.getStepsToHelp()
 
             }

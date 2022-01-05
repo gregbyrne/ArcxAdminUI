@@ -293,14 +293,6 @@
 
 
                     },
-                    checkStatusOfAccessToken() {
-
-                        if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                        {
-                           // this.logOut()
-                        }
-
-                    },
                   resetResultsElem()
                   {
                     setTimeout(function() {
@@ -365,7 +357,7 @@
 
                         const headers = {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            'Authorization': 'Bearer ' 
                         }
 
                         axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
@@ -392,7 +384,7 @@
 
                         const headers = {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            'Authorization': 'Bearer ' 
                         }
 
                         axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
@@ -417,7 +409,7 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer ' 
                             }
                         });
 
@@ -440,7 +432,7 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer ' 
                             }
                         });
 
@@ -459,7 +451,7 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer ' 
                             }
                         });
 
@@ -474,8 +466,6 @@
 
                     },
                     updatePage(){
-                      this.$store.state.auth.user.accessToken = 'test'
-                        this.checkStatusOfAccessToken()
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
                         this.getAreaOfInterestSubItem()
@@ -487,8 +477,6 @@
 
                 },
             created() {
-              this.$store.state.auth.user.accessToken = 'test'
-                this.checkStatusOfAccessToken()
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
