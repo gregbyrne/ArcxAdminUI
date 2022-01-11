@@ -178,7 +178,6 @@
                   'Authorization': 'Bearer ' 
                 }
 
-                console.log("NAME: " + name.trim())
 
                 var foundError = false;
                 if (parentid == null)
@@ -256,14 +255,12 @@
 
              if (jQuery(elem).attr('id') == "itemimagedown")
               {
-                console.log("HERE1")
                 jQuery(elem).attr("id","itemimageup");
                 jQuery(elem).attr("src",this.expandLessIcon);
                 jQuery(elem).parent().find(".item").css({"display": "block"});
               }
               else
               {
-                console.log("HERE2")
                 jQuery(elem).attr("id","itemimagedown");
                 jQuery(elem).attr("src",this.expandMoreIcon);
                 jQuery(elem).parent().find(".item").css({"display": "none"});
