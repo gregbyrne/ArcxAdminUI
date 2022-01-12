@@ -74,6 +74,12 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: 134.67.27.153,134.67.27.154,134.67.27.150,134.67.27.157,134.67.29.70
 spec:
   rules:
+  - host: climateadaptationadminstg.epa.gov
+    http:
+      paths:
+      - backend:
+          serviceName: arcx-admin-ui-web-service
+          servicePort: 80
   - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
     http:
       paths:
@@ -83,4 +89,5 @@ spec:
   tls:
   - hosts:
     - arcx-admin-ui.devsecops-dev.aws.epa.gov
+    - climateadaptationadminstg.epa.gov
     secretName: arc-x-cert
