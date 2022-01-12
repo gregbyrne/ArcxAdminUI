@@ -111,7 +111,7 @@
                 this.getStepsToHelp()
 
               },
-              savePositionRequest(name, url, id, position, parentid) {
+              savePositionRequest(name, url, id, position) {
 
                 const headers = {
                   'Content-Type': 'application/json',
@@ -135,7 +135,9 @@
 
                   axios.put(url + id, {name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
                       .then(function (response) {
+                        // eslint-disable-next-line no-empty
                         if (response.status.toString().includes("20")) {
+
                         } else {
                           alert('Something went wrong saving the positions');
                         }

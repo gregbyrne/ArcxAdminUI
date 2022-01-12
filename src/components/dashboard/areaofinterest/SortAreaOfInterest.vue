@@ -21,6 +21,7 @@
       </v-layout>
 
       <div id="resultselem"></div>
+      <!--
 
       <draggable v-model="areaofint" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
@@ -44,7 +45,7 @@
             </draggable>
           </div>
         </transition-group>
-        </draggable>
+        </draggable>-->
 
      </v-container>
 
@@ -52,7 +53,6 @@
 
 <script>
 
-    const API_URL = process.env.VUE_APP_API_URL;
     const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST;
     const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
@@ -70,6 +70,7 @@
     export default {
         name: 'CreateAreaOfInterest',
         components:{
+          // eslint-disable-next-line vue/no-unused-components
             draggable,
 
         },
@@ -184,6 +185,7 @@
                 {
                   axios.put(url + "/" + id, {name: name.trim(), position: position}, {'headers': headers})
                       .then(function (response) {
+                        // eslint-disable-next-line no-empty
                         if (response.status.toString().includes("20")) {
                         } else {
                           alert('Something went wrong saving the positions');
@@ -198,6 +200,7 @@
                 {
                   axios.put(url + "/" + id, {name: name.trim(), position: position, parentid: parentid}, {'headers': headers})
                       .then(function (response) {
+                        // eslint-disable-next-line no-empty
                         if (response.status.toString().includes("20")) {
 
                         } else {
