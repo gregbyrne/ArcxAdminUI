@@ -1,4 +1,6 @@
+
 <template>
+
 
     <v-container class="my-5">
 
@@ -21,31 +23,38 @@
       </v-layout>
 
       <div id="resultselem"></div>
-      <!--
 
       <draggable v-model="areaofint" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
-          <div class="sortable aoi" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
+          <div class="sortable aoi sortitem" name="aois" :id="aoi.id" v-for="aoi in areaofint" :key="aoi.id">
             {{aoi.name}}
             <img id="itemimagedown" @click="displayHideItems($event.target)" :src="expandMoreIcon" style="float: right; cursor: pointer">
             <draggable v-model="aoiitems" ghost-class="ghost">
               <transition-group type="transition" name="flip-list">
-                <div class="sortable item" name="items" :id="aoiitem.id" v-for="aoiitem in aoiitems" v-if="aoi.id == aoiitem.parentid" :key="aoiitem.id" style="display: none">
-                  {{aoiitem.name}}
+                <div class="sortable item" name="items" :id="aoiitem.id" v-for="aoiitem in aoiitems" :key="aoiitem.id" style="display: none">
+                  <div class ="sortitem" v-if="aoi.id == aoiitem.parentid" >
+
+                    {{aoiitem.name}}
                   <img id="subimagedown" @click="displayHideSubItems($event.target)" :src="expandMoreIcon" style="float: right; cursor: pointer">
                   <draggable v-model="subitems" ghost-class="ghost">
                     <transition-group type="transition" name="flip-list">
-                      <div class="sortable sub" name="subs"  :id="subitem.id" v-for="subitem in subitems" v-if="aoiitem.id == subitem.parentid" :key="subitem.id" style="display: none">
-                        {{subitem.name}}
+
+                      <div class="sortable sub" name="subs"  :id="subitem.id" v-for="subitem in subitems" :key="subitem.id" style="display: none">
+                       <div class ="sortitem"  v-show="aoiitem.id == subitem.parentid">
+                         {{subitem.name}}
+                       </div>
+
                       </div>
                     </transition-group>
                   </draggable>
+                  </div>
                 </div>
               </transition-group>
             </draggable>
           </div>
         </transition-group>
-        </draggable>-->
+      </draggable>
+
 
      </v-container>
 
@@ -73,6 +82,7 @@
           // eslint-disable-next-line vue/no-unused-components
             draggable,
 
+
         },
         data: function() {
         return {
@@ -93,18 +103,6 @@
         methods:
             {
               logOut() {
-
-                this.$store.dispatch('auth/logout');
-                this.$router.push('/login');
-
-              },
-              checkStatusOfAccessToken() {
-
-                if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                {
-                  this.$store.dispatch('auth/logout');
-                  this.$router.push('/login');
-                }
 
               },
 
@@ -286,8 +284,26 @@
               }
             }
             },
+            computed: {
+              filteredAOIItems: function () {
+                var itemsList = this.aoiitems
+
+                for( let i = 0 ; i < this.aoiitems; i++){
+                  var item = itemsList[i]
+
+                  if (item.parentid == item.parentid){
+                    filtered.push(item)
+                  }
+
+                }
+
+                var filtered
+
+
+                return filtered
+              }
+            },
             created() {
-                this.checkStatusOfAccessToken()
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
@@ -297,13 +313,17 @@
 </script>
 <style>
 
+
+    .sortitem{
+      padding: 1em;
+    }
+
     .container {
         max-width: 1100px;
     }
     .sortable {
       width: 100%;
       background: white;
-      padding: 1em;
       cursor: move;
       margin-bottom: 2px;
     }

@@ -24,7 +24,7 @@
 
       <draggable v-model="steps" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
-          <div class="sortable step" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
+          <div class="sortable step sortstep" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
             {{step.name}}
           </div>
         </transition-group>
@@ -187,7 +187,7 @@
     .container {
         max-width: 1100px;
     }
-    .sortable {
+    .sortstep {
       width: 100%;
       background: white;
       padding: 1em;
