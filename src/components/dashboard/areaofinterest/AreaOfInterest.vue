@@ -285,9 +285,6 @@
                 {
                     logOut() {
 
-                        this.$store.dispatch('auth/logout');
-                        this.$router.push('/login');
-
                     },
                     getNewCode(){
 
@@ -409,7 +406,8 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' 
+                                'Authorization': 'Bearer ',
+                                'userid': 'greg'
                             }
                         });
 
