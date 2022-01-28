@@ -481,17 +481,13 @@
                         }
                       });
 
-                      var _this = this;
 
                       axios.get(window.location.href).then(function (response){
                         // eslint-disable-next-line no-console
                         console.log(response.headers)
                       })
 
-                      jQuery.getJSON("http://localhost:7100/api/multiValue", function (maptest) {
-                        _this.maptest = maptest;
 
-                      });
 
 
                     }
