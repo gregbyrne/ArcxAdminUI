@@ -70,7 +70,7 @@ export default {
   },
   created() {
       this.$router.push('/areaofinterest');
-    
+
   },
   methods: {
     handleLogin() {

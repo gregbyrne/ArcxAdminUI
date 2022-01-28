@@ -16,6 +16,11 @@
 
         <p id="resultselem" style="display: none"></p>
 
+
+      <div name="aoiss" :id="test.id" v-for="test in maptest" :key="test.id">
+        {{test.name}}s
+      </div>
+
         <v-card flat class="ma-0 pa-0" v-for="(area, index)  in areaofint" :key="area.id">
             <!-- Area of Interest start -->
 
@@ -267,7 +272,8 @@
                 subitems: null,
                 expand: false,
                 expandAoiArray: [],
-                expandItemArray: []
+                expandItemArray: [],
+                maptest: null
 
 
 
@@ -407,14 +413,15 @@
                             headers : {
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ',
-                                'userid': 'greg'
+                                'userid' : 'gbyrne'
+
                             }
                         });
 
                         var _this = this;
 
                         var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
-                            _this.areaofint = areaofint._embedded.area_of_interest;
+                            _this.areaofint = areaofint;
 
                          });
 
@@ -458,11 +465,37 @@
                         jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
                             _this.subitems = subitems._embedded.area_of_interest_sub_items;
 
-
-
                         });
 
                     },
+                    getTestAPI(){
+
+                      var userid = 'gbyrne';
+                      var itemid = '12';
+                      jQuery.ajaxSetup({
+                        headers : {
+                          'Content-Type': 'application/json',
+                          'Authorization': 'Bearer ',
+                          'userid' : userid,
+                          'itemid' : itemid
+                        }
+                      });
+
+                      var _this = this;
+
+                      axios.get(window.location.href).then(function (response){
+                        // eslint-disable-next-line no-console
+                        console.log(response.headers)
+                      })
+
+                      jQuery.getJSON("http://localhost:7100/api/multiValue", function (maptest) {
+                        _this.maptest = maptest;
+
+                      });
+
+
+                    }
+                    ,
                     updatePage(){
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
@@ -478,6 +511,7 @@
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
+                this.getTestAPI()
 
             }
         }
