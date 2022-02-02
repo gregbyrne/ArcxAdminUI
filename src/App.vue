@@ -16,13 +16,13 @@
 
 <script>
   import Navbar from './components/navigation/Navbar';
+  import axios from "axios";
+  import $ from "jquery";
 
 export default {
   name: 'App',
   data: function() {
     return {
-
-
 
     };
 
@@ -33,8 +33,14 @@ export default {
   },
   methods:{
     getData(){
+      var site = "https://climateadaptationadminstg.epa.gov/headers/headers.jsp"
+      //site = "http://localhost:8080/headers.html"
+      // eslint-disable-next-line no-console
+      //console.log(response.headers["content-type"])
 
-      
+      var name = "codemzy";$.get(site, function(response) {  console.log(response);});
+
+
     },
   },
   created(){
