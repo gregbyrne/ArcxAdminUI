@@ -146,9 +146,6 @@
         computed: {
             date : function () {
                 return Date.now()
-            },
-            currentUser() {
-                return this.$store.state.auth.user
             }
         },
         methods:
@@ -168,14 +165,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' 
+                            'Authorization': 'Bearer ' ,
+                             'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     var jsonData = jQuery.getJSON(REGIONS_URL, function (regions) {
-                        _this.regions = regions._embedded.regions;
+                        _this.regions = regions;
 
                     });
 
@@ -192,15 +190,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' 
+                            'Authorization': 'Bearer '  ,
+                          'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     jQuery.getJSON(ADDITIONAL_INFO_URL, function (additionalInformation) {
-                        _this.additionalInfo = additionalInformation._embedded.additional_information;
-
+                        _this.additionalInfo = additionalInformation;
 
                     });
 
@@ -209,7 +207,7 @@
                     if(precontent == null){
                         precontent = ''
                     }
-                    let link = "<a href = 'https://www.google.com' > defaulttest url </a>"
+                    let link = "<a href = 'https://www.google.com' > Default url </a>"
 
                     this.description = precontent + link
 
@@ -318,11 +316,12 @@
 
                       const headers = {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' 
+                        'Authorization': 'Bearer ' ,
+                        'userid' : 'gbyrne'
                       }
 
 
-                      axios.put(ADDITIONAL_INFO_URL + id, {
+                      axios.put(ADDITIONAL_INFO_URL, { id: id,
                         description: description,
                         regioncode: region
                       }, {'headers': headers})
@@ -349,7 +348,6 @@
 
 
                 },updatePage(){
-                    this.checkStatusOfAccessToken()
                     this.getRegions()
                     this.getAdditionalInfo()
                 }
@@ -357,7 +355,6 @@
 
             },
         created(){
-            this.checkStatusOfAccessToken()
             this.getRegions()
             this.getAdditionalInfo()
 

@@ -437,14 +437,15 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' 
+                                'Authorization': 'Bearer',
+                                'userid' : 'gbyrne'
                             }
                         });
 
                         var _this = this;
 
                         jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
-                            _this.aoiitems = aoiitems._embedded.area_of_interest_items;
+                            _this.aoiitems = aoiitems;
 
 
 
@@ -456,59 +457,35 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' 
+                                'Authorization': 'Bearer ',
+                                'userid' : 'gbyrne'
                             }
                         });
 
                         var _this = this;
 
                         jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                            _this.subitems = subitems._embedded.area_of_interest_sub_items;
+                            _this.subitems = subitems;
 
                         });
 
                     },
-                    getTestAPI(){
-
-                      var userid = 'gbyrne';
-                      var itemid = '12';
-                      jQuery.ajaxSetup({
-                        headers : {
-                          'Content-Type': 'application/json',
-                          'Authorization': 'Bearer ',
-                          'userid' : userid,
-                          'itemid' : itemid
-                        }
-                      });
-
-
-                      axios.get(window.location.href).then(function (response){
-                        // eslint-disable-next-line no-console
-                        console.log(response.headers)
-                      })
+                  getUserId(){
 
 
 
-
-                    }
-                    ,
+                  },
                     updatePage(){
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
                         this.getAreaOfInterestSubItem()
                     }
 
-
-
-
-
                 },
             created() {
                 this.getAreaOfInterest()
                 this.getAreaOfInterestItem()
                 this.getAreaOfInterestSubItem()
-                this.getTestAPI()
-
             }
         }
 </script>

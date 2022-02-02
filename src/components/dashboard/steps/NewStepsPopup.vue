@@ -88,7 +88,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '
+                    'Authorization': 'Bearer ',
+                  'userid' : 'gbyrne'
                 }
 
                 axios.post(STEP_URL ,

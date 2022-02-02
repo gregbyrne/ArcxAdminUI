@@ -19,10 +19,28 @@
 
 export default {
   name: 'App',
+  data: function() {
+    return {
+
+
+
+    };
+
+  },
 
   components: {
     Navbar,
   },
+  methods:{
+    getData(){
+
+      
+    },
+  },
+  created(){
+    this.getData()
+
+  }
 };
 </script>
 

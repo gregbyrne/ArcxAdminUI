@@ -95,7 +95,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                  'userid' : 'gbyrne'
                 }
 
 

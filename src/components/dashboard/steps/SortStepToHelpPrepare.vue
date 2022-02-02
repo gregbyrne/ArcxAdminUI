@@ -88,14 +88,15 @@
                 jQuery.ajaxSetup({
                   headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                    'userid' : 'gbyrne'
                   }
                 });
 
                 var _this = this;
 
                 var jsonData = jQuery.getJSON(STEPS_URL, function (steps) {
-                  _this.steps = steps._embedded.steps_to_help_prepare;
+                  _this.steps = steps;
 
                 });
 

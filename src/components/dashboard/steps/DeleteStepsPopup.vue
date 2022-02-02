@@ -90,7 +90,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                  'userid' : 'gbyrne'
                 }
 
                 // eslint-disable-next-line no-console

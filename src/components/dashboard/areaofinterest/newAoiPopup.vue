@@ -91,10 +91,14 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                    'userid' : 'gbyrne',
+                    'name' : newname
                 }
 
-                axios.post(AOI_URL2 + "/" ,
+
+
+              axios.post(AOI_URL2 + "/" ,
                     { name: newname}, { 'headers': headers})
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {

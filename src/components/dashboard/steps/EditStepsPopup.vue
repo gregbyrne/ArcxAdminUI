@@ -191,10 +191,11 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                  'userid' : 'gbyrne'
                 }
 
-                axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
+                axios.put(STEPS_URL ,{  name: step.name, id: step.id, subTitle: step.subTitle, description: step.description, position: step.position}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('success', 'Step edited successfully')

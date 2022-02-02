@@ -92,7 +92,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' 
+                    'Authorization': 'Bearer ' ,
+                    'userid' : 'gbyrne'
                 }
 
                 axios.delete(AOE_ITEM_DELETE_URL + itemid,{ 'headers': headers})

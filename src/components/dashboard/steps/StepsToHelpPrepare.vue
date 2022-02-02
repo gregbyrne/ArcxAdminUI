@@ -319,14 +319,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer '
+                            'Authorization': 'Bearer ',
+                            'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     var jsonData = jQuery.getJSON(STEPS_URL, function (steps) {
-                        _this.steps = steps._embedded.steps_to_help_prepare;
+                        _this.steps = steps;
 
                     });
 
@@ -342,14 +343,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer '
+                            'Authorization': 'Bearer ',
+                          'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     jQuery.getJSON(STEPS_ITEMS_URL, function (stepitems) {
-                        _this.stepitems = stepitems._embedded.steps_to_help_prepare_items;
+                        _this.stepitems = stepitems;
 
 
 
@@ -361,14 +363,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer '
+                            'Authorization': 'Bearer ',
+                          'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                        _this.subitems = subitems._embedded.area_of_interest_sub_items;
+                        _this.subitems = subitems;
 
 
 
