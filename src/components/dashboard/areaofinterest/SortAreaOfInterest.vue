@@ -68,7 +68,7 @@ const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 import expandMore from "../../../assets/mdi/expand_more-24px.svg";
 import expandLess from "../../../assets/mdi/expand_less-24px.svg";
 
-import axios from "axios";
+//import axios from "axios";
 import jQuery from "jquery";
 import area_of_interest from "@/models/area_of_interest";
 import area_of_interest_item from "@/models/area_of_interest_item";
@@ -174,46 +174,47 @@ export default {
 
           // eslint-disable-next-line no-console
           console.log( "name: " + name.trim() + " url: " + url + " id: " + id + " position: " + position + " parentid: " + parentid )
-
-          const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' ,
-            'userid' : 'gbyrne'
-          }
           var foundError = false;
 
-/*
-          if (parentid == null)
-          {
-            axios.put(url, {id: id, name: name.trim(), position: position}, {'headers': headers})
-                .then(function (response) {
-                  // eslint-disable-next-line no-empty
-                  if (response.status.toString().includes("20")) {
-                  } else {
-                    alert('Something went wrong saving the positions');
-                  }
-                })
-                .catch((error) => {
-                  alert('ERROR: with edit ' + error);
-                  foundError = true
-                });
-          }
-          else
-          {
-            axios.put(url, {id: id, name: name, position: position, parentid: parentid}, {'headers': headers})
-                .then(function (response) {
-                  // eslint-disable-next-line no-empty
-                  if (response.status.toString().includes("20")) {
+          /*
+                    const headers = {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer ' ,
+                      'userid' : 'gbyrne'
+                    }
 
-                  } else {
-                    alert('Something went wrong saving the positions');
-                  }
-                })
-                .catch((error) => {
-                  alert('ERROR: with edit ' + error);
-                  foundError = true
-                });
-          }*/
+
+                    if (parentid == null)
+                    {
+                      axios.put(url, {id: id, name: name.trim(), position: position}, {'headers': headers})
+                          .then(function (response) {
+                            // eslint-disable-next-line no-empty
+                            if (response.status.toString().includes("20")) {
+                            } else {
+                              alert('Something went wrong saving the positions');
+                            }
+                          })
+                          .catch((error) => {
+                            alert('ERROR: with edit ' + error);
+                            foundError = true
+                          });
+                    }
+                    else
+                    {
+                      axios.put(url, {id: id, name: name, position: position, parentid: parentid}, {'headers': headers})
+                          .then(function (response) {
+                            // eslint-disable-next-line no-empty
+                            if (response.status.toString().includes("20")) {
+
+                            } else {
+                              alert('Something went wrong saving the positions');
+                            }
+                          })
+                          .catch((error) => {
+                            alert('ERROR: with edit ' + error);
+                            foundError = true
+                          });
+                    }*/
 
           return !foundError ? false : true
 
@@ -239,7 +240,7 @@ export default {
 
               jQuery(elem).find(".subitemsorting").toArray().map(function (element, index) {
 
-                console.log( "subitem: " + element.id)
+                //console.log( "subitem: " + element.id)
 
 
                 foundError = _this.savePositionRequest(jQuery(element).contents().not(jQuery(element).children()).text(), AOI_SUB_ITEMS_URL, element.id, index, itemid)

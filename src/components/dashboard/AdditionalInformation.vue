@@ -123,6 +123,8 @@
                 additionalInfo: [],
                 regionSelect: null,
                 description: null,
+                epauserid : null,
+
 
 
             };
@@ -166,7 +168,7 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' ,
-                             'userid' : 'gbyrne'
+                             'userid' : this.epauserid
                         }
                     });
 
@@ -191,8 +193,8 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer '  ,
-                          'userid' : 'gbyrne'
-                        }
+                             'userid' : this.epauserid
+                         }
                     });
 
                     var _this = this;
@@ -317,7 +319,7 @@
                       const headers = {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' ,
-                        'userid' : 'gbyrne'
+                        'userid' : this.epauserid
                       }
 
 
@@ -355,8 +357,14 @@
 
             },
         created(){
-            this.getRegions()
-            this.getAdditionalInfo()
+          this.getUserId()
+
+          var that = this;
+          setTimeout(function() {
+            that.getAdditionalInfo()
+            that.getRegions()
+          }, 500);
+
 
 
         }

@@ -75,7 +75,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid', 'areaofint'],
+        props: ['areaname', 'areaid', 'areaofint','epauserid'],
 
 
 
@@ -93,12 +93,13 @@
 
             editAOE(changedName, areaid ){
 
+
                 let _this = this;
 
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                    'userid' : 'test'
+                    'userid' : this.epauserid
                 }
 
                 axios.put(API_URL + AOI_URL,{ name: changedName, id: areaid}, {'headers': headers} )
@@ -117,7 +118,6 @@
                     });
 
                 this.dialog = false
-                this.getAreaOfInterest()
 
 
             },

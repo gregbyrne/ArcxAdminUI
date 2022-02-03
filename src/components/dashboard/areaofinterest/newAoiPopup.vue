@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid'],
+        props: ['areaname', 'areaid','epauserid'],
 
 
         data: () => ({
@@ -92,7 +92,7 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                    'userid' : 'gbyrne',
+                    'userid' : this.epauserid,
                     'name' : newname
                 }
 

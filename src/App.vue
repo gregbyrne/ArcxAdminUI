@@ -2,10 +2,9 @@
   <v-app >
     <navbar></navbar>
 
-
       <v-main >
         <v-container >
-          <router-view/>
+          <router-view />
         </v-container>
 
       </v-main>
@@ -16,13 +15,15 @@
 
 <script>
   import Navbar from './components/navigation/Navbar';
-  import axios from "axios";
   import $ from "jquery";
 
 export default {
   name: 'App',
   data: function() {
     return {
+      testing2: null,
+      log2: false,
+      epauserid : null,
 
     };
 
@@ -34,17 +35,21 @@ export default {
   methods:{
     getData(){
       var site = "https://climateadaptationadminstg.epa.gov/headers/headers.jsp"
-      //site = "http://localhost:8080/headers.html"
-      // eslint-disable-next-line no-console
-      //console.log(response.headers["content-type"])
+      site = "http://localhost:8080/headers.html"
+      var _this = this;
 
-      var name = "codemzy";$.get(site, function(response) {  console.log(response);});
+      $.get(site, function(response) {
+        _this.testing2 = response;
+        var text = $($.parseHTML(response)[9])[0];
+        var id =  $($(text).find("tbody>tr")[30]).find("td")[1].innerHTML;
+        _this.epauserid = id;
 
-
+      });
     },
+
   },
   created(){
-    this.getData()
+    this.getData();
 
   }
 };

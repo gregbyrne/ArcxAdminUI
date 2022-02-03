@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: [ 'item'],
+        props: [ 'item', 'epauserid'],
 
 
         data: () => ({

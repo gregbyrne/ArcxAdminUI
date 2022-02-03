@@ -11,6 +11,7 @@ import Popup from './components/dashboard/Popup'
 import AreaOfInterestList from "./components/dashboard/areaofinterest/AreaOfInterest";
 import Dashboard from "./components/dashboard/Dashboard";
 import axios from 'axios';
+import $ from "jquery";
 
 Vue.config.productionTip = false;
 
@@ -25,6 +26,26 @@ Vue.component('Popup', Popup);
 Vue.component('AreaOfInterestList', AreaOfInterestList);
 
 Vue.component('Dashboard', Dashboard);
+
+Vue.mixin({
+  methods:{
+    getUserId(){
+      var site = "https://climateadaptationadminstg.epa.gov/headers/headers.jsp"
+      //site = "http://localhost:8080/headers.html"
+      var _this = this;
+
+      $.get(site, function(response) {
+        _this.testing2 = response;
+        var text = $($.parseHTML(response)[9])[0];
+        var id =  $($(text).find("tbody>tr")[30]).find("td")[1].innerHTML;
+        _this.epauserid = id;
+
+      });
+
+
+    },
+  }
+})
 
 new Vue({
   vuetify,

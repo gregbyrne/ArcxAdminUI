@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['step'],
+        props: ['step', 'epauserid'],
 
 
         data: () => ({

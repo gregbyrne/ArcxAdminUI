@@ -2,6 +2,7 @@
 
 
     <v-container class="my-5">
+      {{steps}} {{epauserid}}
 
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
@@ -9,6 +10,7 @@
                 <pop-addSteps @success="showSuccessResults"
                               @error="showErrorResults"
                               @update="updatePage()"
+                              v-bind:epauserid="epauserid"
                               style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>
             </v-flex>
 
@@ -33,6 +35,7 @@
                                        @error="showErrorResults"
                                        @update="updatePage()"
                                        v-bind:step="step"
+                                       v-bind:epauserid="epauserid"
                                        right
 
                         ></pop-step-edit></div>
@@ -44,6 +47,7 @@
                             @error="showErrorResults"
                             @update="updatePage()"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
                         ></pop-step-delete>
                     </div>
                 </v-col>
@@ -85,6 +89,7 @@
                                            @error="showErrorResults"
                                            @update="updatePage()"
                                            v-bind:step="step"
+                                           v-bind:epauserid="epauserid"
                                            style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
                     </v-col>
 
@@ -102,6 +107,7 @@
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
 
                     ></pop-edit-step-item>
                     </v-col>
@@ -112,6 +118,7 @@
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
 
                     ></pop-delete-step-item>
                     </v-col>
@@ -178,8 +185,8 @@
                 subitems: null,
                 expand: false,
                 expandStepsArray: [],
-                expandItemArray: []
-
+                expandItemArray: [],
+               epauserid: null
 
 
             };
@@ -256,63 +263,6 @@
                 this.resetResultsElem()
               },
 
-                //PUT
-
-                putAreaOfInterest(area){
-
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer '
-                    }
-
-                    var _this = this
-
-                    axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
-                        .then(function (response) {
-                            if (response.status == 204) {
-                                _this.showSuccessResults('Area of Interest has been edited')
-
-                            }
-                            else
-                            {
-                                _this.showErrorResults('Area of Interest was not edited')
-                            }
-                        })
-                        .catch((error) => {
-                            _this.showErrorResults('ERROR: with edit ' + error)
-                        });
-
-
-
-                },
-
-                //DELETE
-                deleteAreaOfInterest(area)
-                {
-
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer '
-                    }
-
-                    var _this = this
-
-                    axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
-                        .then(function (response) {
-                            if (response.status == 204) {
-                                _this.showSuccessResults('Area of Interest has been deleted')
-                            }
-                            else
-                            {
-                                _this.showErrorResults('Area of Interest was not deleted')
-                            }
-                        })
-                        .catch((error) => {
-                            _this.showErrorResults('ERROR: with delete ' + error)
-                        });
-
-
-                },
                 //New GET request
                 getStepsToHelp()
                 {
@@ -320,7 +270,7 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ',
-                            'userid' : 'gbyrne'
+                            'userid' : this.epauserid
                         }
                     });
 
@@ -344,7 +294,7 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ',
-                          'userid' : 'gbyrne'
+                          'userid' : this.epauserid
                         }
                     });
 
@@ -390,9 +340,16 @@
 
             },
         created() {
-            this.getStepsToHelp()
-            this.getStepsToHelpPrepareItem()
-            //this.getAreaOfInterestSubItem()
+          this.getUserId()
+
+          var that = this;
+          setTimeout(function() {
+            that.getStepsToHelp()
+            that.getStepsToHelpPrepareItem()
+          }, 500);
+
+
+
 
         }
     }

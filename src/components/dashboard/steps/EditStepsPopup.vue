@@ -169,7 +169,7 @@
     export default {
         name: 'Popup',
         stepName: 'default',
-        props: ['step'],
+        props: ['step', 'epauserid'],
 
 
 
@@ -192,7 +192,7 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : 'gbyrne'
+                  'userid' : this.epauserid
                 }
 
                 axios.put(STEPS_URL ,{  name: step.name, id: step.id, subTitle: step.subTitle, description: step.description, position: step.position}, {'headers': headers} )
