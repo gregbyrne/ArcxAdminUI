@@ -226,8 +226,6 @@
 
 <script>
 
-    import $ from "jquery";
-
     const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST;
     const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;

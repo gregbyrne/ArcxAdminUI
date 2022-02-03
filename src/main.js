@@ -13,6 +13,9 @@ import Dashboard from "./components/dashboard/Dashboard";
 import axios from 'axios';
 import $ from "jquery";
 
+const AOI_HEADERS = process.env.VUE_APP_API_ARCX_HEADERS_URL;
+
+
 Vue.config.productionTip = false;
 
 Vue.use(VeeValidate, Vuex, vuetify, axios);
@@ -27,13 +30,17 @@ Vue.component('AreaOfInterestList', AreaOfInterestList);
 
 Vue.component('Dashboard', Dashboard);
 
-Vue.mixin({
+
+
+Vue.mixin(
+
+    {
+
+
   methods:{
     getUserId(){
-      var site = "https://climateadaptationadminstg.epa.gov/headers/headers.jsp"
-      //site = "http://localhost:8080/headers.html"
+      var site = AOI_HEADERS
       var _this = this;
-
       $.get(site, function(response) {
         _this.testing2 = response;
         var text = $($.parseHTML(response)[9])[0];

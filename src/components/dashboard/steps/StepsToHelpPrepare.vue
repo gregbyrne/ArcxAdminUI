@@ -2,8 +2,6 @@
 
 
     <v-container class="my-5">
-      {{steps}} {{epauserid}}
-
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
                 <h2 style="float: left;color: #0071bc">Steps to Help</h2>
@@ -141,14 +139,10 @@
 
 <script>
 
-    const API_URL = process.env.VUE_APP_API_URL;
     const STEPS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
     const STEPS_ITEMS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 
-
-
-    import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
     import area_of_interest_item from "@/models/area_of_interest_item";

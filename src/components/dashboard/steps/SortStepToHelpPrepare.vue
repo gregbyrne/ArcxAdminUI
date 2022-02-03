@@ -61,9 +61,11 @@
                 area_of_interest: new area_of_interest(''),
                 area_of_interest_item: new area_of_interest_item(''),
                 area_of_interest_sub_item: new area_of_interest_sub_item(''),
-            areaofint: null,
-            steps: null,
-                aoiitems: null,
+                areaofint: null,
+                steps: null,
+                 epauserid : null,
+
+                 aoiitems: null,
                 subitems: null,
                 expand: false,
                 expandAoiArray: [],
@@ -90,7 +92,7 @@
                   headers : {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                    'userid' : 'gbyrne'
+                    'userid' : this.epauserid
                   }
                 });
 
@@ -114,10 +116,12 @@
 
               },
               savePositionRequest(name, url, id, position) {
+                console.log( "name: " + name.trim() + " url: " + url + " id: " + id + " position: " + position )
 
                 const headers = {
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' 
+                  'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
                 var steps = this.steps
 
@@ -135,7 +139,7 @@
 
                 var foundError = false;
 
-                  axios.put(url + id, {name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
+                  axios.put(url, {id: id, name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
                       .then(function (response) {
                         // eslint-disable-next-line no-empty
                         if (response.status.toString().includes("20")) {
@@ -148,6 +152,8 @@
                         alert('ERROR: with edit ' + error);
                         foundError = true
                       });
+
+
 
 
 
@@ -179,7 +185,12 @@
 
             },
             created() {
-                this.getStepsToHelp()
+              this.getUserId()
+
+              var that = this;
+              setTimeout(function() {
+                that.getStepsToHelp()
+              }, 500);
 
             }
         }
