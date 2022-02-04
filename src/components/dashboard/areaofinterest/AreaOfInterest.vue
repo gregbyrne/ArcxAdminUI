@@ -433,7 +433,7 @@
                 that.getAreaOfInterest()
                 that.getAreaOfInterestItem()
                 that.getAreaOfInterestSubItem()
-                }, 500);
+                }, this.$waittime);
 
 
             }

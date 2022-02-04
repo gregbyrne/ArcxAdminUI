@@ -209,7 +209,7 @@
                     if(precontent == null){
                         precontent = ''
                     }
-                    let link = "<a href = 'https://www.google.com' > Default url </a>"
+                    let link = "<a href = 'https://www.epa.gov' > Default URL </a>"
 
                     this.description = precontent + link
 
@@ -363,7 +363,7 @@
           setTimeout(function() {
             that.getAdditionalInfo()
             that.getRegions()
-          }, 500);
+          },  this.$waittime);
 
 
 

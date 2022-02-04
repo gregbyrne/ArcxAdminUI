@@ -185,7 +185,7 @@
               var that = this;
               setTimeout(function() {
                 that.getStepsToHelp()
-              }, 500);
+              },  this.$waittime);
 
             }
         }

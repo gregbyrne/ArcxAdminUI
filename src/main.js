@@ -30,7 +30,7 @@ Vue.component('AreaOfInterestList', AreaOfInterestList);
 
 Vue.component('Dashboard', Dashboard);
 
-
+Vue.prototype.$waittime = '500'
 
 Vue.mixin(
 
@@ -41,7 +41,9 @@ Vue.mixin(
 
         var site = 'https://climateadaptationadminstg.epa.gov/headers/headers.jsp'
         //var site = 'http://localhost:8080/headers.html'
-      var _this = this;
+        console.log("header URL: " + AOI_HEADERS)
+
+        var _this = this;
       $.get(site, function(response) {
         $($.parseHTML(response)).find("tbody>tr").map(function (index, element) {
 

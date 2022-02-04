@@ -334,7 +334,7 @@
           setTimeout(function() {
             that.getStepsToHelp()
             that.getStepsToHelpPrepareItem()
-          }, 500);
+          },  this.$waittime);
 
 
 
