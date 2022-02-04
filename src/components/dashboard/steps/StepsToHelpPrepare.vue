@@ -195,12 +195,6 @@
         },
         methods:
             {
-              logOut(){
-                // eslint-disable-next-line no-console
-                console.log('test')
-              },
-
-
                 expandSteps(index, expandStepsArray){
                     //if already expanded, remove expand
                     if( expandStepsArray.includes(index) ){

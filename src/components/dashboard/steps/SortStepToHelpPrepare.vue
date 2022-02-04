@@ -116,8 +116,6 @@
 
               },
               savePositionRequest(name, url, id, position) {
-                console.log( "name: " + name.trim() + " url: " + url + " id: " + id + " position: " + position )
-
                 const headers = {
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' ,
@@ -152,9 +150,6 @@
                         alert('ERROR: with edit ' + error);
                         foundError = true
                       });
-
-
-
 
 
               return !foundError ? false : true
