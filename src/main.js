@@ -39,9 +39,7 @@ Vue.mixin(
   methods:{
     getUserId(){
 
-        var site = 'https://climateadaptationadminstg.epa.gov/headers/headers.jsp'
-        //var site = 'http://localhost:8080/headers.html'
-        console.log("header URL: " + AOI_HEADERS)
+        var site = AOI_HEADERS
 
         var _this = this;
       $.get(site, function(response) {
