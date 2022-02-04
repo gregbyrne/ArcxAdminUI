@@ -39,14 +39,17 @@ Vue.mixin(
   methods:{
     getUserId(){
 
-     var site = 'https://climateadaptationadminstg.epa.gov/headers/headers.jsp'
+        var site = 'https://climateadaptationadminstg.epa.gov/headers/headers.jsp'
+        //var site = 'http://localhost:8080/headers.html'
       var _this = this;
-      console.log(site)
       $.get(site, function(response) {
-        _this.testing2 = response;
-        var text = $($.parseHTML(response)[9])[0];
-        var id =  $($(text).find("tbody>tr")[30]).find("td")[1].innerHTML;
-        _this.epauserid = id;
+        $($.parseHTML(response)).find("tbody>tr").map(function (index, element) {
+
+            var row = $($(element).find("td"))[0].innerHTML
+            if(row == 'uid'){
+                _this.epauserid = $($(element).find("td"))[1].innerHTML
+            }
+        });
 
       });
 
