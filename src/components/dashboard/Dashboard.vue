@@ -1,6 +1,6 @@
 <template>
     <v-container class="mx-6 my-10">
-          <h1 style="text-align: center; color: #0071bc">ARC-X Dashboard</h1>
+          <h1 style="text-align: center; color: #0071bc">ARC-X Admin Dashboard</h1>
 
           <input type="radio" name="tabs" id="tab1" @click="componentView= 'AreaOfInterestList'" checked />
           <label for="tab1">Area of Interest</label>
