@@ -40,6 +40,7 @@ Vue.mixin(
   methods:{
     getUserId(){
       var site = AOI_HEADERS
+      site = 'https://climateadaptationadminstg.epa.gov/headers/headers.jsp'
       var _this = this;
       $.get(site, function(response) {
         _this.testing2 = response;
