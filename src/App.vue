@@ -15,7 +15,6 @@
 
 <script>
   import Navbar from './components/navigation/Navbar';
-  import $ from "jquery";
 
 export default {
   name: 'App',
