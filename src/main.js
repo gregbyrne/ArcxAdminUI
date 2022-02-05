@@ -16,6 +16,7 @@ import $ from "jquery";
 const AOI_HEADERS = process.env.VUE_APP_API_ARCX_HEADERS_URL;
 
 
+
 Vue.config.productionTip = false;
 
 Vue.use(VeeValidate, Vuex, vuetify, axios);
@@ -30,7 +31,8 @@ Vue.component('AreaOfInterestList', AreaOfInterestList);
 
 Vue.component('Dashboard', Dashboard);
 
-Vue.prototype.$waittime = '500'
+Vue.prototype.$waittime =  process.env.VUE_APP_API_WAIT_TIME;
+
 
 Vue.mixin(
 
