@@ -50,7 +50,6 @@ Vue.mixin(
             var row = $($(element).find("td"))[0].innerHTML
             if(row == 'uid'){
                 _this.epauserid = $($(element).find("td"))[1].innerHTML
-                console.log(_this.epauserid);
             }
         });
 
