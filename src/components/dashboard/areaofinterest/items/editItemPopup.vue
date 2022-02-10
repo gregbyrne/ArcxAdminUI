@@ -74,7 +74,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid', 'areaofint', 'area', 'item'],
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'item', 'epauserid'],
 
 
 
@@ -96,10 +96,11 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ',
+                  'userid' : this.epauserid
                 }
 
-                axios.put(API_URL + 'area_of_interest_items/' + item.id ,{ name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
+                axios.put(API_URL + 'area_of_interest_items/',{id:item.id, name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
                           _this.$emit('success', 'Area of Interest item has been edited')

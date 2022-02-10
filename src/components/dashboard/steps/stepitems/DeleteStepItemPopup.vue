@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: [ 'item'],
+        props: [ 'item', 'epauserid'],
 
 
         data: () => ({
@@ -92,7 +92,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : 'gbyrne'
                 }
 
                 axios.delete(STEP_ITEM_DELETE_URL + itemId,{ 'headers': headers})

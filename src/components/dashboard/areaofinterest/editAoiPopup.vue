@@ -75,7 +75,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid', 'areaofint'],
+        props: ['areaname', 'areaid', 'areaofint','epauserid'],
 
 
 
@@ -93,14 +93,16 @@
 
             editAOE(changedName, areaid ){
 
+
                 let _this = this;
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                    'userid' : this.epauserid
                 }
 
-                axios.put(API_URL + AOI_URL + areaid,{ name: changedName}, {'headers': headers} )
+                axios.put(API_URL + AOI_URL,{ name: changedName, id: areaid}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status.toString().includes("20")) {
                             _this.$emit('success', 'Area of Interest has been edited')
@@ -112,11 +114,10 @@
                         }
                     })
                     .catch((error) => {
-                        _this.$emit('error', 'ERROR: with edit ' + error)
+                          _this.$emit('error', 'ERROR: with edit ' + error)
                     });
 
                 this.dialog = false
-                this.getAreaOfInterest()
 
 
             },

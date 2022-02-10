@@ -24,7 +24,7 @@
 
       <draggable v-model="steps" id="startelement" class="mainDraggable" ghost-class="ghost">
         <transition-group type="transition" name="flip-list">
-          <div class="sortable step" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
+          <div class="sortable step sortstep" name="aois" :id="step.id" v-for="step in steps" :key="step.id">
             {{step.name}}
           </div>
         </transition-group>
@@ -51,6 +51,7 @@
 
     export default {
         name: 'CreateAreaOfInterest',
+
         components:{
             draggable,
 
@@ -60,9 +61,11 @@
                 area_of_interest: new area_of_interest(''),
                 area_of_interest_item: new area_of_interest_item(''),
                 area_of_interest_sub_item: new area_of_interest_sub_item(''),
-            areaofint: null,
-            steps: null,
-                aoiitems: null,
+                areaofint: null,
+                steps: null,
+                 epauserid : null,
+
+                 aoiitems: null,
                 subitems: null,
                 expand: false,
                 expandAoiArray: [],
@@ -76,17 +79,9 @@
             {
               logOut() {
 
-                this.$store.dispatch('auth/logout');
-                this.$router.push('/login');
 
               },
               checkStatusOfAccessToken() {
-
-                if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                {
-                  this.$store.dispatch('auth/logout');
-                  this.$router.push('/login');
-                }
 
               },
 
@@ -96,14 +91,15 @@
                 jQuery.ajaxSetup({
                   headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                    'userid' : this.epauserid
                   }
                 });
 
                 var _this = this;
 
                 var jsonData = jQuery.getJSON(STEPS_URL, function (steps) {
-                  _this.steps = steps._embedded.steps_to_help_prepare;
+                  _this.steps = steps;
 
                 });
 
@@ -116,15 +112,14 @@
               },
 
               updatePage() {
-                this.checkStatusOfAccessToken()
                 this.getStepsToHelp()
 
               },
-              savePositionRequest(name, url, id, position, parentid) {
-
+              savePositionRequest(name, url, id, position) {
                 const headers = {
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                  'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
                 var steps = this.steps
 
@@ -142,9 +137,11 @@
 
                 var foundError = false;
 
-                  axios.put(url + id, {name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
+                  axios.put(url, {id: id, name: name.trim(), position: position, description: desc, subTitle: subTitle}, {'headers': headers})
                       .then(function (response) {
+                        // eslint-disable-next-line no-empty
                         if (response.status.toString().includes("20")) {
+
                         } else {
                           alert('Something went wrong saving the positions');
                         }
@@ -153,7 +150,6 @@
                         alert('ERROR: with edit ' + error);
                         foundError = true
                       });
-
 
 
               return !foundError ? false : true
@@ -184,8 +180,12 @@
 
             },
             created() {
-                this.checkStatusOfAccessToken()
-                this.getStepsToHelp()
+              this.getUserId()
+
+              var that = this;
+              setTimeout(function() {
+                that.getStepsToHelp()
+              },  this.$waittime);
 
             }
         }
@@ -195,7 +195,7 @@
     .container {
         max-width: 1100px;
     }
-    .sortable {
+    .sortstep {
       width: 100%;
       background: white;
       padding: 1em;

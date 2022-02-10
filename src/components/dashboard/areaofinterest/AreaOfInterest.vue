@@ -2,13 +2,14 @@
 
 
     <v-container class="my-5">
-
         <v-layout pa-1 row wrap>
-            <v-flex md6 pl-3>
+
+          <v-flex md6 pl-3>
                 <h2 style="float: left;color: #0071bc">Area of Interests</h2>
                 <pop-aoi-new @success="showSuccessResults"
                              @error="showErrorResults"
                              @update="updatePage()"
+                             v-bind:epauserid="epauserid"
                              style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
             </v-flex>
 
@@ -33,6 +34,7 @@
                                        @error="showErrorResults"
                                        v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
+                                       v-bind:epauserid="epauserid"
                                        v-bind="areaofint"
                                        right
 
@@ -44,6 +46,7 @@
                                         @success="showSuccessResults"
                                         @error="showErrorResults"
                                         v-bind:areaname="area.name"
+                                        v-bind:epauserid="epauserid"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
@@ -86,7 +89,8 @@
                         <pop-item-new @success="showSuccessResults"
                                       @error="showErrorResults"
                                       @update="updatePage()"
-                                       v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
+                                      v-bind:epauserid="epauserid"
+                                      v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
                 </v-layout>
@@ -113,6 +117,7 @@
                                     @update="updatePage()"
                                     v-bind:area="area"
                                     v-bind:item="item"
+                                    v-bind:epauserid="epauserid"
                             ></pop-item-edit></div>
                     </v-flex>
                     <v-flex md1>
@@ -122,6 +127,7 @@
                                     @error="showErrorResults"
                                     @update="updatePage()"
                                     v-bind:item="item"
+                                    v-bind:epauserid="epauserid"
                             ></pop-item-delete>
                         </div>
                     </v-flex>
@@ -164,6 +170,7 @@
                                                       @error="showErrorResults"
                                                       @update="updatePage()"
                                                       v-bind:item="item"
+                                                      v-bind:epauserid="epauserid"
                                                       style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
                                 </v-col>
 
@@ -182,6 +189,7 @@
                                                        @error="showErrorResults"
                                                        @update="updatePage()"
                                                        v-bind:subItem="subItem"
+                                                       v-bind:epauserid="epauserid"
                                                        style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-edit>
                                 </v-col>
                                 <v-col cols="1">
@@ -189,6 +197,7 @@
                                                          @error="showErrorResults"
                                                          @update="updatePage()"
                                                          v-bind:subItem="subItem"
+                                                         v-bind:epauserid="epauserid"
                                                          style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-delete>
                                 </v-col>
 
@@ -217,12 +226,10 @@
 
 <script>
 
-    const API_URL = process.env.VUE_APP_API_URL;
     const AOI_URL = process.env.VUE_APP_API_AREA_OF_INTEREST;
     const AOI_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 
-    import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
     import area_of_interest_item from "@/models/area_of_interest_item";
@@ -241,7 +248,8 @@
 
     export default {
         name: 'CreateAreaOfInterest',
-        components:{
+
+      components:{
             'pop-aoi-edit' : editAOI,
             'pop-aoi-delete' : deleteAOI,
             'pop-aoi-new' : addAOI,
@@ -267,34 +275,22 @@
                 subitems: null,
                 expand: false,
                 expandAoiArray: [],
-                expandItemArray: []
+                expandItemArray: [],
+                maptest: null,
+                epauserid : null,
 
 
 
             };
 
         },
-        computed:{
-          currentImage: function(){
-              return this.expandsauce
-          }
-
-
-        },
         methods:
                 {
                     logOut() {
 
-                        this.$store.dispatch('auth/logout');
-                        this.$router.push('/login');
-
                     },
-                    checkStatusOfAccessToken() {
+                    getNewCode(){
 
-                        if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                        {
-                            this.logOut()
-                        }
 
                     },
                   resetResultsElem()
@@ -355,72 +351,24 @@
 
                     },
 
-                    //PUT
 
-                    putAreaOfInterest(area){
-
-                        const headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                        }
-
-                        axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
-                            .then(function (response) {
-                                if (response.status == 204) {
-                                    alert('Area of Interest has been edited');
-                                }
-                                else
-                                {
-                                    alert('Area of Interest was not edited');
-                                }
-                            })
-                            .catch((error) => {
-                                alert('ERROR: with edit ' + error);
-                            });
-
-
-
-                    },
-
-                    //DELETE
-                    deleteAreaOfInterest(area)
-                    {
-
-                        const headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                        }
-
-                        axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
-                            .then(function (response) {
-                                if (response.status == 204) {
-                                    alert('Area of Interest has been deleted');
-                                }
-                                else
-                                {
-                                    alert('Area of Interest was not deleted');
-                                }
-                            })
-                                .catch((error) => {
-                                    alert('ERROR: with delete ' + error);
-                                });
-
-
-                    },
                     //New GET request
                     getAreaOfInterest()
                     {
-                        jQuery.ajaxSetup({
+
+                      jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer ',
+                                'userid' : this.epauserid
+
                             }
                         });
 
                         var _this = this;
 
                         var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
-                            _this.areaofint = areaofint._embedded.area_of_interest;
+                            _this.areaofint = areaofint;
 
                          });
 
@@ -436,14 +384,15 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer',
+                                'userid' : this.epauserid
                             }
                         });
 
                         var _this = this;
 
                         jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
-                            _this.aoiitems = aoiitems._embedded.area_of_interest_items;
+                            _this.aoiitems = aoiitems;
 
 
 
@@ -455,37 +404,37 @@
                         jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                                'Authorization': 'Bearer ',
+                                'userid' : this.epauserid
                             }
                         });
 
                         var _this = this;
 
                         jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                            _this.subitems = subitems._embedded.area_of_interest_sub_items;
-
-
+                            _this.subitems = subitems;
 
                         });
 
                     },
+
                     updatePage(){
-                        this.checkStatusOfAccessToken()
                         this.getAreaOfInterest()
                         this.getAreaOfInterestItem()
                         this.getAreaOfInterestSubItem()
                     }
 
-
-
-
-
                 },
             created() {
-                this.checkStatusOfAccessToken()
-                this.getAreaOfInterest()
-                this.getAreaOfInterestItem()
-                this.getAreaOfInterestSubItem()
+                this.getUserId()
+
+              var that = this;
+              setTimeout(function() {
+                that.getAreaOfInterest()
+                that.getAreaOfInterestItem()
+                that.getAreaOfInterestSubItem()
+                }, this.$waittime);
+
 
             }
         }

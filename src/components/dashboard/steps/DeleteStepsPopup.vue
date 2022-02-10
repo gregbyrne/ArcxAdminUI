@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['step'],
+        props: ['step', 'epauserid'],
 
 
         data: () => ({
@@ -90,7 +90,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
 
                 // eslint-disable-next-line no-console

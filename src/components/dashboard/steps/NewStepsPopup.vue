@@ -70,7 +70,7 @@
     const STEP_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
 
     export default {
-
+        props: [ 'epauserid'],
 
         data: () => ({
             stepName: '',
@@ -88,7 +88,8 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ',
+                  'userid' : this.epauserid
                 }
 
                 axios.post(STEP_URL ,

@@ -2,13 +2,13 @@
 
 
     <v-container class="my-5">
-
         <v-layout pa-1 row wrap>
             <v-flex md6 pl-3>
                 <h2 style="float: left;color: #0071bc">Steps to Help</h2>
                 <pop-addSteps @success="showSuccessResults"
                               @error="showErrorResults"
                               @update="updatePage()"
+                              v-bind:epauserid="epauserid"
                               style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>
             </v-flex>
 
@@ -33,6 +33,7 @@
                                        @error="showErrorResults"
                                        @update="updatePage()"
                                        v-bind:step="step"
+                                       v-bind:epauserid="epauserid"
                                        right
 
                         ></pop-step-edit></div>
@@ -44,6 +45,7 @@
                             @error="showErrorResults"
                             @update="updatePage()"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
                         ></pop-step-delete>
                     </div>
                 </v-col>
@@ -85,6 +87,7 @@
                                            @error="showErrorResults"
                                            @update="updatePage()"
                                            v-bind:step="step"
+                                           v-bind:epauserid="epauserid"
                                            style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
                     </v-col>
 
@@ -102,6 +105,7 @@
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
 
                     ></pop-edit-step-item>
                     </v-col>
@@ -112,6 +116,7 @@
                             @update="updatePage()"
                             v-bind:item="item"
                             v-bind:step="step"
+                            v-bind:epauserid="epauserid"
 
                     ></pop-delete-step-item>
                     </v-col>
@@ -134,14 +139,10 @@
 
 <script>
 
-    const API_URL = process.env.VUE_APP_API_URL;
     const STEPS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE;
     const STEPS_ITEMS_URL = process.env.VUE_APP_API_STEPS_TO_HELP_PREPARE_ITEMS;
     const AOI_SUB_ITEMS_URL = process.env.VUE_APP_API_AREA_OF_INTEREST_SUB_ITEMS;
 
-
-
-    import axios from "axios";
     import jQuery from "jquery";
     import area_of_interest from "@/models/area_of_interest";
     import area_of_interest_item from "@/models/area_of_interest_item";
@@ -178,8 +179,8 @@
                 subitems: null,
                 expand: false,
                 expandStepsArray: [],
-                expandItemArray: []
-
+                expandItemArray: [],
+               epauserid: null
 
 
             };
@@ -194,20 +195,6 @@
         },
         methods:
             {
-                logOut() {
-
-                    this.$store.dispatch('auth/logout');
-                    this.$router.push('/login');
-
-                },
-                checkStatusOfAccessToken() {
-
-                    if (this.$store.state.auth.user == '' || this.$store.state.auth.user == null)
-                    {
-                        this.logOut()
-                    }
-
-                },
                 expandSteps(index, expandStepsArray){
                     //if already expanded, remove expand
                     if( expandStepsArray.includes(index) ){
@@ -264,77 +251,21 @@
                 this.resetResultsElem()
               },
 
-                //PUT
-
-                putAreaOfInterest(area){
-
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                    }
-
-                    var _this = this
-
-                    axios.put(API_URL +'area_of_interest/' + area.id,{ name: "edited"}, {'headers': headers} )
-                        .then(function (response) {
-                            if (response.status == 204) {
-                                _this.showSuccessResults('Area of Interest has been edited')
-
-                            }
-                            else
-                            {
-                                _this.showErrorResults('Area of Interest was not edited')
-                            }
-                        })
-                        .catch((error) => {
-                            _this.showErrorResults('ERROR: with edit ' + error)
-                        });
-
-
-
-                },
-
-                //DELETE
-                deleteAreaOfInterest(area)
-                {
-
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
-                    }
-
-                    var _this = this
-
-                    axios.delete(API_URL +'area_of_interest/' + area.id,{ 'headers': headers})
-                        .then(function (response) {
-                            if (response.status == 204) {
-                                _this.showSuccessResults('Area of Interest has been deleted')
-                            }
-                            else
-                            {
-                                _this.showErrorResults('Area of Interest was not deleted')
-                            }
-                        })
-                        .catch((error) => {
-                            _this.showErrorResults('ERROR: with delete ' + error)
-                        });
-
-
-                },
                 //New GET request
                 getStepsToHelp()
                 {
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            'Authorization': 'Bearer ',
+                            'userid' : this.epauserid
                         }
                     });
 
                     var _this = this;
 
                     var jsonData = jQuery.getJSON(STEPS_URL, function (steps) {
-                        _this.steps = steps._embedded.steps_to_help_prepare;
+                        _this.steps = steps;
 
                     });
 
@@ -350,14 +281,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            'Authorization': 'Bearer ',
+                          'userid' : this.epauserid
                         }
                     });
 
                     var _this = this;
 
                     jQuery.getJSON(STEPS_ITEMS_URL, function (stepitems) {
-                        _this.stepitems = stepitems._embedded.steps_to_help_prepare_items;
+                        _this.stepitems = stepitems;
 
 
 
@@ -369,14 +301,15 @@
                     jQuery.ajaxSetup({
                         headers : {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                            'Authorization': 'Bearer ',
+                          'userid' : 'gbyrne'
                         }
                     });
 
                     var _this = this;
 
                     jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                        _this.subitems = subitems._embedded.area_of_interest_sub_items;
+                        _this.subitems = subitems;
 
 
 
@@ -384,7 +317,6 @@
 
                 },
                 updatePage(){
-                    this.checkStatusOfAccessToken()
                     this.getStepsToHelp()
                     this.getStepsToHelpPrepareItem()
                     //this.getAreaOfInterestSubItem()
@@ -396,10 +328,16 @@
 
             },
         created() {
-            this.checkStatusOfAccessToken()
-            this.getStepsToHelp()
-            this.getStepsToHelpPrepareItem()
-            //this.getAreaOfInterestSubItem()
+          this.getUserId()
+
+          var that = this;
+          setTimeout(function() {
+            that.getStepsToHelp()
+            that.getStepsToHelpPrepareItem()
+          },  this.$waittime);
+
+
+
 
         }
     }

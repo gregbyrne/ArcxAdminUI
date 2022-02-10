@@ -69,34 +69,13 @@ export default {
     }
   },
   created() {
-    if (this.loggedIn) {
       this.$router.push('/areaofinterest');
-    }
+
   },
   methods: {
     handleLogin() {
-      this.loading = true;
-      this.$validator.validateAll().then(isValid => {
-        if (!isValid) {
-          this.loading = false;
-          return;
-        }
+      this.$router.push('/areaofinterest');
 
-        if (this.user.username && this.user.password) {
-          this.$store.dispatch('auth/login', this.user).then(
-            () => {
-              this.$router.push('/areaofinterest');
-            },
-            error => {
-              this.loading = false;
-              this.message =
-                (error.response && error.response.data && error.response.data.message) ||
-                error.message ||
-                error.toString();
-            }
-          );
-        }
-      });
     }
   }
 };

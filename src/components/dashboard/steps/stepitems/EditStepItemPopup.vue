@@ -219,7 +219,7 @@
         name: 'Popup',
         aoeName: 'default',
         newName: '',
-        props: ['step', 'item'],
+        props: ['step', 'item', 'epauserid'],
 
 
 
@@ -363,10 +363,11 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
 
-                axios.put(API_URL + 'steps_to_help_prepare_items/' + item.id ,{ name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
+                axios.put(API_URL + 'steps_to_help_prepare_items/' ,{ id: item.id ,name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
                     aoiId: item.aoiId, aoiItemsId: item.aoiItemsId, aoiSubItemsId : item.aoiSubItemsId }, {'headers': headers} )
 
                     .then(function (response) {
@@ -394,14 +395,15 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
             });
 
             var _this = this;
 
             var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
-                _this.areaofint = areaofint._embedded.area_of_interest;
+                _this.areaofint = areaofint;
 
             });
 
@@ -417,14 +419,15 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
             });
 
             var _this = this;
 
             jQuery.getJSON(AOI_ITEMS_URL, function (aoiitems) {
-                _this.aoiitems = aoiitems._embedded.area_of_interest_items;
+                _this.aoiitems = aoiitems;
 
 
 
@@ -436,16 +439,15 @@
             jQuery.ajaxSetup({
                 headers : {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
             });
 
             var _this = this;
 
             jQuery.getJSON(AOI_SUB_ITEMS_URL, function (subitems) {
-                _this.subitems = subitems._embedded.area_of_interest_sub_items;
-
-
+                _this.subitems = subitems;
 
             });
 

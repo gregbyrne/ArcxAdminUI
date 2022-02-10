@@ -2,10 +2,9 @@
   <v-app >
     <navbar></navbar>
 
-
       <v-main >
         <v-container >
-          <router-view/>
+          <router-view />
         </v-container>
 
       </v-main>
@@ -19,6 +18,15 @@
 
 export default {
   name: 'App',
+  data: function() {
+    return {
+      testing2: null,
+      log2: false,
+      epauserid : null,
+
+    };
+
+  },
 
   components: {
     Navbar,

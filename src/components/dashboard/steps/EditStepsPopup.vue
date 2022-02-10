@@ -169,7 +169,7 @@
     export default {
         name: 'Popup',
         stepName: 'default',
-        props: ['step'],
+        props: ['step', 'epauserid'],
 
 
 
@@ -191,10 +191,11 @@
 
                 const headers = {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.state.auth.user.accessToken
+                    'Authorization': 'Bearer ' ,
+                  'userid' : this.epauserid
                 }
 
-                axios.put(STEPS_URL + step.id,{ name: step.name, id: step.id, subTitle: step.subTitle, description: step.description}, {'headers': headers} )
+                axios.put(STEPS_URL ,{  name: step.name, id: step.id, subTitle: step.subTitle, description: step.description, position: step.position}, {'headers': headers} )
                     .then(function (response) {
                         if (response.status == 200) {
                             _this.$emit('success', 'Step edited successfully')
