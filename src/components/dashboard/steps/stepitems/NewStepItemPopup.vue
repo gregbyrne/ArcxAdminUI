@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['step', 'epauserid'],
+        props: ['step', 'epauserid', 'userip'],
 
 
         data: () => ({
@@ -96,7 +96,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : 'gbyrne'
+                    'userid' : this.epauserid,
+                    'userip' : this.userip
                 }
 
 

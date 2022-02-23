@@ -9,10 +9,10 @@
             <template v-slot:activator="{ on, attrs }" >
                 <v-btn
                         color="primary"
-                        dark
                         small
                         v-bind="attrs"
                         v-on="on"
+                        dark
                 >
                     delete
                 </v-btn>
@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['item', 'epauserid'],
+        props: ['item', 'epauserid', 'userip'],
 
 
         data: () => ({
@@ -93,7 +93,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                    'userid' : this.epauserid
+                    'userid' : this.epauserid,
+                    'userip' : this.userip
                 }
 
                 axios.delete(AOE_ITEM_DELETE_URL + itemid,{ 'headers': headers})

@@ -10,6 +10,7 @@
                              @error="showErrorResults"
                              @update="updatePage()"
                              v-bind:epauserid="epauserid"
+                             v-bind:userip="userip"
                              style="float: left; margin-left: 10px;margin-top:5px"></pop-aoi-new>
             </v-flex>
 
@@ -35,6 +36,7 @@
                                        v-bind:areaname="area.name"
                                        v-bind:areaid="area.id"
                                        v-bind:epauserid="epauserid"
+                                       v-bind:userip="userip"
                                        v-bind="areaofint"
                                        right
 
@@ -47,6 +49,7 @@
                                         @error="showErrorResults"
                                         v-bind:areaname="area.name"
                                         v-bind:epauserid="epauserid"
+                                        v-bind:userip="userip"
                                         v-bind:areaid="area.id"
                         ></pop-aoi-delete>
                     </div>
@@ -90,6 +93,7 @@
                                       @error="showErrorResults"
                                       @update="updatePage()"
                                       v-bind:epauserid="epauserid"
+                                      v-bind:userip="userip"
                                       v-bind:area="area" style="float: left; margin-left: 10px;margin-top:5px"></pop-item-new>
                     </v-flex>
 
@@ -118,6 +122,7 @@
                                     v-bind:area="area"
                                     v-bind:item="item"
                                     v-bind:epauserid="epauserid"
+                                    v-bind:userip="userip"
                             ></pop-item-edit></div>
                     </v-flex>
                     <v-flex md1>
@@ -128,6 +133,7 @@
                                     @update="updatePage()"
                                     v-bind:item="item"
                                     v-bind:epauserid="epauserid"
+                                    v-bind:userip="userip"
                             ></pop-item-delete>
                         </div>
                     </v-flex>
@@ -171,6 +177,7 @@
                                                       @update="updatePage()"
                                                       v-bind:item="item"
                                                       v-bind:epauserid="epauserid"
+                                                      v-bind:userip="userip"
                                                       style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-new>
                                 </v-col>
 
@@ -190,6 +197,7 @@
                                                        @update="updatePage()"
                                                        v-bind:subItem="subItem"
                                                        v-bind:epauserid="epauserid"
+                                                       v-bind:userip="userip"
                                                        style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-edit>
                                 </v-col>
                                 <v-col cols="1">
@@ -198,6 +206,7 @@
                                                          @update="updatePage()"
                                                          v-bind:subItem="subItem"
                                                          v-bind:epauserid="epauserid"
+                                                         v-bind:userip="userip"
                                                          style="float: left; margin-left: 10px;margin-top:5px"></pop-sub-item-delete>
                                 </v-col>
 
@@ -278,6 +287,7 @@
                 expandItemArray: [],
                 maptest: null,
                 epauserid : null,
+                userip: null,
 
 
 
@@ -360,7 +370,8 @@
                             headers : {
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ',
-                                'userid' : this.epauserid
+                                'userid' : this.epauserid,
+                                'userip' : this.userip
 
                             }
                         });
@@ -385,7 +396,8 @@
                             headers : {
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer',
-                                'userid' : this.epauserid
+                                'userid' : this.epauserid,
+                              'userip' : this.userip
                             }
                         });
 
@@ -405,7 +417,8 @@
                             headers : {
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ',
-                                'userid' : this.epauserid
+                                'userid' : this.epauserid,
+                              'userip' : this.userip
                             }
                         });
 

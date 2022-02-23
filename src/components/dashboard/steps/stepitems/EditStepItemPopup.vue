@@ -219,7 +219,7 @@
         name: 'Popup',
         aoeName: 'default',
         newName: '',
-        props: ['step', 'item', 'epauserid'],
+        props: ['step', 'item', 'epauserid', 'userip'],
 
 
 
@@ -364,7 +364,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
 
                 axios.put(API_URL + 'steps_to_help_prepare_items/' ,{ id: item.id ,name: item.name, parentid: item.parentid, content: item.content, subTitle : item.subTitle,
@@ -396,7 +397,8 @@
                 headers : {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
             });
 
@@ -420,7 +422,8 @@
                 headers : {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
             });
 
@@ -440,7 +443,8 @@
                 headers : {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
             });
 

@@ -95,7 +95,8 @@ export default {
       expandItemArray: [],
       expandMoreIcon: expandMore,
       expandLessIcon: expandLess,
-      epauserid: null
+      epauserid: null,
+      userip: null
 
     };
 
@@ -135,7 +136,8 @@ export default {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ',
-              'userid' : this.epauserid
+              'userid' : this.epauserid,
+              'userip' : thisuserip
             }
           });
 

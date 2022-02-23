@@ -74,7 +74,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: ['areaname', 'areaid', 'areaofint', 'area', 'item', 'epauserid'],
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'item', 'epauserid', 'userip'],
 
 
 
@@ -97,7 +97,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ',
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
 
                 axios.put(API_URL + 'area_of_interest_items/',{id:item.id, name: item.name, parentid: item.parentid, value: item.value}, {'headers': headers} )
