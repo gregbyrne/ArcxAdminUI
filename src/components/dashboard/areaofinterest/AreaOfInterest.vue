@@ -376,7 +376,6 @@
                             }
                         });
 
-                            console.log("IP " + this.userip);
                         var _this = this;
 
                         var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
