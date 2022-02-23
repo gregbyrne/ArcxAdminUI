@@ -72,7 +72,7 @@
     export default {
         name: 'Popup',
         aoeName: 'default',
-        props: [ 'subItem', 'epauserid'],
+        props: [ 'subItem', 'epauserid', 'userip'],
 
 
         data: () => ({
@@ -93,7 +93,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
 
                 axios.delete(AOE_SUB_ITEM_DELETE_URL + subItemId,{ 'headers': headers})

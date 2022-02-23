@@ -73,7 +73,7 @@
         name: 'Popup',
         aoeName: 'default',
 
-        props: ['areaname', 'areaid', 'area', 'item', 'epauserid'],
+        props: ['areaname', 'areaid', 'area', 'item', 'epauserid', 'userip'],
 
 
         data: () => ({
@@ -97,7 +97,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
 
                 axios.post(API_URL + 'area_of_interest_sub_items/' ,

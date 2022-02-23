@@ -51,6 +51,11 @@ Vue.mixin(
             if(row == 'uid'){
                 _this.epauserid = $($(element).find("td"))[1].innerHTML
             }
+            if(row == 'X-Forwarded-For'){
+                _this.userip = $($(element).find("td"))[1].innerHTML
+            }
+
+
         });
 
       });

@@ -9,7 +9,8 @@
                               @error="showErrorResults"
                               @update="updatePage()"
                               v-bind:epauserid="epauserid"
-                              style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>
+                              v-bind:userip="userip"
+                              style="float: left; margin-left: 10px;margin-top:5px"></pop-addSteps>,
             </v-flex>
 
         </v-layout>
@@ -34,6 +35,7 @@
                                        @update="updatePage()"
                                        v-bind:step="step"
                                        v-bind:epauserid="epauserid"
+                                       v-bind:userip="userip"
                                        right
 
                         ></pop-step-edit></div>
@@ -46,6 +48,7 @@
                             @update="updatePage()"
                             v-bind:step="step"
                             v-bind:epauserid="epauserid"
+                            v-bind:userip="userip"
                         ></pop-step-delete>
                     </div>
                 </v-col>
@@ -88,6 +91,7 @@
                                            @update="updatePage()"
                                            v-bind:step="step"
                                            v-bind:epauserid="epauserid"
+                                           v-bind:userip="userip"
                                            style="float: left; margin-left: 10px;margin-top:5px"></pop-add-step-item>
                     </v-col>
 
@@ -106,6 +110,7 @@
                             v-bind:item="item"
                             v-bind:step="step"
                             v-bind:epauserid="epauserid"
+                            v-bind:userip="userip"
 
                     ></pop-edit-step-item>
                     </v-col>
@@ -117,6 +122,7 @@
                             v-bind:item="item"
                             v-bind:step="step"
                             v-bind:epauserid="epauserid"
+                            v-bind:userip="userip"
 
                     ></pop-delete-step-item>
                     </v-col>
@@ -180,7 +186,8 @@
                 expand: false,
                 expandStepsArray: [],
                 expandItemArray: [],
-               epauserid: null
+               epauserid: null,
+                userip: null,
 
 
             };
@@ -258,7 +265,9 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ',
-                            'userid' : this.epauserid
+                            'userid' : this.epauserid,
+                          'userip' : this.userip
+
                         }
                     });
 
@@ -282,7 +291,8 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ',
-                          'userid' : this.epauserid
+                          'userid' : this.epauserid,
+                          'userip' : this.userip
                         }
                     });
 

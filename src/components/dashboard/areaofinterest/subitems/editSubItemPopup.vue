@@ -75,7 +75,7 @@
         name: 'Popup',
         aoeName: 'default',
         newName: '',
-        props: ['areaname', 'areaid', 'areaofint', 'area', 'subItem', 'epauserid'],
+        props: ['areaname', 'areaid', 'areaofint', 'area', 'subItem', 'epauserid', 'userip'],
 
 
 
@@ -98,7 +98,8 @@
                 const headers = {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
 
                 axios.put(API_URL + 'area_of_interest_sub_items' ,{ id:subItem.id ,name: subItem.name, parentid: subItem.parentid, value: subItem.value}, {'headers': headers} )

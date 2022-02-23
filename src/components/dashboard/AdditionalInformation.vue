@@ -168,7 +168,8 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' ,
-                             'userid' : this.epauserid
+                            'userid' : this.epauserid,
+                            'userip' : this.userip
                         }
                     });
 
@@ -193,7 +194,8 @@
                         headers : {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer '  ,
-                             'userid' : this.epauserid
+                             'userid' : this.epauserid,
+                          'userip' : this.userip
                          }
                     });
 
@@ -319,7 +321,8 @@
                       const headers = {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' ,
-                        'userid' : this.epauserid
+                        'userid' : this.epauserid,
+                        'userip' : this.userip
                       }
 
 

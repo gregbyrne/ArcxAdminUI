@@ -64,7 +64,7 @@
                 areaofint: null,
                 steps: null,
                  epauserid : null,
-
+                userip : null,
                  aoiitems: null,
                 subitems: null,
                 expand: false,
@@ -92,7 +92,9 @@
                   headers : {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' ,
-                    'userid' : this.epauserid
+                    'userid' : this.epauserid,
+                    'userip' : this.userip
+
                   }
                 });
 
@@ -119,7 +121,8 @@
                 const headers = {
                   'Content-Type': 'application/json',
                   'Authorization': 'Bearer ' ,
-                  'userid' : this.epauserid
+                  'userid' : this.epauserid,
+                  'userip' : this.userip
                 }
                 var steps = this.steps
 
