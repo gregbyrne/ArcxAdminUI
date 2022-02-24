@@ -113,7 +113,9 @@ export default {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' ,
-              'userid' : this.epauserid
+              'userid' : this.epauserid,
+              'userip' : this.userip
+
             }
           });
 
@@ -137,7 +139,7 @@ export default {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ',
               'userid' : this.epauserid,
-              'userip' : thisuserip
+              'userip' : this.userip
             }
           });
 
@@ -156,7 +158,9 @@ export default {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' ,
-              'userid' : this.epauserid
+              'userid' : this.epauserid,
+              'userip' : this.userip
+
             }
           });
 
@@ -180,7 +184,9 @@ export default {
                    const headers = {
                      'Content-Type': 'application/json',
                      'Authorization': 'Bearer ' ,
-                     'userid' : this.epauserid
+                     'userid' : this.epauserid,
+                     'userip' : this.userip
+
                    }
 
                    if (parentid == null)
