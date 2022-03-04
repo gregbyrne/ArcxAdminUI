@@ -95,7 +95,6 @@ prisma-cloud-compute-scan:
     - docker pull $prisma_cloud_scan_image
     - ./image_scan.sh
 include:
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
   - remote: 'https://gitlab.com/prismacloud-public/shift-left/extension/-/raw/master/.pcs.gitlab-ci.yml'
   - project: 'DSO/DASTScanner'
     file: '.gitlab-ci.yml'
