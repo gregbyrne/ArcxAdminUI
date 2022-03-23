@@ -2,6 +2,20 @@
 
 
     <v-container class="my-5">
+
+      Debug: <br>
+      username: {{epauserid}}<br>
+      userip: {{ userip}}<br>
+      aoiResponse : {{aoiresponse}}<br>
+      step1 : {{step1}}<br>
+      step2 : {{step2}}<br>
+      step3 : {{step3}}<br>
+      supportAjax : {{supportAjax}}<br>
+      supportcors : {{supportcors}}<br>
+
+
+
+
         <v-layout pa-1 row wrap>
 
           <v-flex md6 pl-3>
@@ -288,6 +302,15 @@
                 maptest: null,
                 epauserid : null,
                 userip: null,
+          aoiresponse: null,
+          step1: null,
+          step2: null,
+          step3: null,
+          supportAjax: null,
+          supportcors: null,
+
+
+
 
 
 
@@ -366,6 +389,12 @@
                     getAreaOfInterest()
                     {
 
+                      this.supportAjax =  jQuery.support.ajax
+                      this.supportcors =  jQuery.support.cors
+
+
+                      this.step1 = "getAOIStart"
+
                       jQuery.ajaxSetup({
                             headers : {
                                 'Content-Type': 'application/json',
@@ -378,17 +407,23 @@
 
                         var _this = this;
 
+
                         var jsonData = jQuery.getJSON(AOI_URL, function (areaofint) {
-                            _this.areaofint = areaofint;
+                          _this.step2 = 'getJson starts'
 
-                         });
+                          _this.areaofint = areaofint;
 
-                        jsonData.fail(function(data) {
-                            if (data.status == '401')
-                            {
-                                _this.logOut()
-                            }
+                            _this.aoiresponse = 'success'
+
+                         }).fail( function(asd){
+                           _this.step2 = 'fails get json'
+                          _this.aoiresponse = asd.status
                         })
+
+
+                      _this.aoiresponse = jsonData.status;
+                      this.step3 = "end of getaoi"
+
                     },
                     getAreaOfInterestItem(){
 
