@@ -3,19 +3,6 @@
 
     <v-container class="my-5">
 
-      Debug: <br>
-      username: {{epauserid}}<br>
-      userip: {{ userip}}<br>
-      aoiResponse : {{aoiresponse}}<br>
-      step1 : {{step1}}<br>
-      step2 : {{step2}}<br>
-      step3 : {{step3}}<br>
-      supportAjax : {{supportAjax}}<br>
-      supportcors : {{supportcors}}<br>
-
-
-
-
         <v-layout pa-1 row wrap>
 
           <v-flex md6 pl-3>
@@ -476,12 +463,16 @@
             created() {
                 this.getUserId()
 
+
+
+
               var that = this;
               setTimeout(function() {
                 that.getAreaOfInterest()
                 that.getAreaOfInterestItem()
                 that.getAreaOfInterestSubItem()
-                }, this.$waittime);
+
+              }, this.$waittime);
 
 
             }
