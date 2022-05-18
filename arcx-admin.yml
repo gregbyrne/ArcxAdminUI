@@ -1,0 +1,4227 @@
+openapi: 3.0.1
+info:
+  title: ARC-X Admin API
+  description: This is the admin API for the ARC-X application
+  termsOfService: https://www.epa.gov/arc-x/your-climate-adaptation-search
+  contact:
+    name: Gregory Byrne
+    url: https://www.epa.gov/arc-x/your-climate-adaptation-search
+    email: byrne.gregory@epa.gov
+  license:
+    name: License of API
+    url: https://www.epa.gov/arc-x/your-climate-adaptation-search
+  version: API TOS
+servers:
+- url: https://arcx-admin-api.devsecops-dev.aws.epa.gov/
+tags:
+- name: AdditionalInformation Entity
+  description: Simple Jpa Repository
+- name: AreaOfInterest Entity
+  description: Simple Jpa Repository
+- name: AreaOfInterestItems Entity
+  description: Simple Jpa Repository
+- name: AreaOfInterestSubItems Entity
+  description: Simple Jpa Repository
+- name: Authority Entity
+  description: Simple Jpa Repository
+- name: Regions Entity
+  description: Simple Jpa Repository
+- name: StepsToHelpPrepare Entity
+  description: Simple Jpa Repository
+- name: StepsToHelpPrepareItems Entity
+  description: Simple Jpa Repository
+- name: StepsToHelpPrepareSubItems Entity
+  description: Simple Jpa Repository
+- name: User Entity
+  description: User
+- name: area-of-interest-controller
+  description: Area Of Interest Controller
+- name: auth-controller
+  description: Auth Controller
+- name: basic-error-controller
+  description: Basic Error Controller
+- name: hal-explorer
+  description: Hal Explorer
+- name: operation-handler
+  description: Operation Handler
+- name: profile-controller
+  description: Profile Controller
+- name: steps-to-help-controller
+  description: Steps To Help Controller
+- name: test-controller
+  description: Test Controller
+- name: web-mvc-links-handler
+  description: Web Mvc Links Handler
+paths:
+  /api:
+    get:
+      tags:
+      - hal-explorer
+      summary: index
+      operationId: indexUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/View'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/:
+    get:
+      tags:
+      - hal-explorer
+      summary: index
+      operationId: indexUsingGET_1
+      responses:
+        200:
+          description: OK
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/View'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/additional_information:
+    get:
+      tags:
+      - AdditionalInformation Entity
+      summary: findAllAdditionalInformation
+      operationId: findAllAdditionalInformationUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAdditionalInformation'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAdditionalInformation'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAdditionalInformation'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAdditionalInformation'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - AdditionalInformation Entity
+      summary: saveAdditionalInformation
+      operationId: saveAdditionalInformationUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalInformation'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAdditionalInformation'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/additional_information/{id}:
+    get:
+      tags:
+      - AdditionalInformation Entity
+      summary: findByIdAdditionalInformation
+      operationId: findByIdAdditionalInformationUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAdditionalInformation'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - AdditionalInformation Entity
+      summary: saveAdditionalInformation
+      operationId: saveAdditionalInformationUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalInformation'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAdditionalInformation'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - AdditionalInformation Entity
+      summary: deleteAdditionalInformation
+      operationId: deleteAdditionalInformationUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - AdditionalInformation Entity
+      summary: saveAdditionalInformation
+      operationId: saveAdditionalInformationUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalInformation'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAdditionalInformation'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest:
+    get:
+      tags:
+      - AreaOfInterest Entity
+      summary: findAllAreaOfInterest
+      operationId: findAllAreaOfInterestUsingGET_1
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterest'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterest'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterest'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterest'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - AreaOfInterest Entity
+      summary: saveAreaOfInterest
+      operationId: saveAreaOfInterestUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterest'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest/search/findAll:
+    get:
+      tags:
+      - AreaOfInterest Entity
+      summary: findAllAreaOfInterest
+      operationId: findAllAreaOfInterestUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterest'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/area_of_interest/{id}:
+    get:
+      tags:
+      - AreaOfInterest Entity
+      summary: findByIdAreaOfInterest
+      operationId: findByIdAreaOfInterestUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterest'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - AreaOfInterest Entity
+      summary: saveAreaOfInterest
+      operationId: saveAreaOfInterestUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterest'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - AreaOfInterest Entity
+      summary: deleteAreaOfInterest
+      operationId: deleteAreaOfInterestUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - AreaOfInterest Entity
+      summary: saveAreaOfInterest
+      operationId: saveAreaOfInterestUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterest'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest_items:
+    get:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: findAllAreaOfInterestItems
+      operationId: findAllAreaOfInterestItemsUsingGET_1
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestItems'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestItems'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestItems'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: saveAreaOfInterestItems
+      operationId: saveAreaOfInterestItemsUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest_items/search/findAll:
+    get:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: findAllAreaOfInterestItems
+      operationId: findAllAreaOfInterestItemsUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/area_of_interest_items/{id}:
+    get:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: findByIdAreaOfInterestItems
+      operationId: findByIdAreaOfInterestItemsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: saveAreaOfInterestItems
+      operationId: saveAreaOfInterestItemsUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: deleteAreaOfInterestItems
+      operationId: deleteAreaOfInterestItemsUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - AreaOfInterestItems Entity
+      summary: saveAreaOfInterestItems
+      operationId: saveAreaOfInterestItemsUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestItems'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest_sub_items:
+    get:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: findAllAreaOfInterestSubItems
+      operationId: findAllAreaOfInterestSubItemsUsingGET_1
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestSubItems'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestSubItems'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestSubItems'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestSubItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: saveAreaOfInterestSubItems
+      operationId: saveAreaOfInterestSubItemsUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestSubItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/area_of_interest_sub_items/search/findAll:
+    get:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: findAllAreaOfInterestSubItems
+      operationId: findAllAreaOfInterestSubItemsUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAreaOfInterestSubItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/area_of_interest_sub_items/{id}:
+    get:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: findByIdAreaOfInterestSubItems
+      operationId: findByIdAreaOfInterestSubItemsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestSubItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: saveAreaOfInterestSubItems
+      operationId: saveAreaOfInterestSubItemsUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestSubItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: deleteAreaOfInterestSubItems
+      operationId: deleteAreaOfInterestSubItemsUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - AreaOfInterestSubItems Entity
+      summary: saveAreaOfInterestSubItems
+      operationId: saveAreaOfInterestSubItemsUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AreaOfInterestSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAreaOfInterestSubItems'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/auth/login:
+    post:
+      tags:
+      - auth-controller
+      summary: authenticateUser
+      operationId: authenticateUserUsingPOST
+      requestBody:
+        description: loginRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: loginRequest
+  /api/auth/signup:
+    post:
+      tags:
+      - auth-controller
+      summary: registerUser
+      operationId: registerUserUsingPOST
+      requestBody:
+        description: signUpRequest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: signUpRequest
+  /api/authorities:
+    get:
+      tags:
+      - Authority Entity
+      summary: findAllAuthority
+      operationId: findAllAuthorityUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - Authority Entity
+      summary: saveAuthority
+      operationId: saveAuthorityUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authority'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/authorities/search/findByName:
+    get:
+      tags:
+      - Authority Entity
+      summary: findByNameAuthority
+      operationId: findByNameAuthorityUsingGET
+      parameters:
+      - name: name
+        in: query
+        description: name
+        schema:
+          type: string
+          enum:
+          - ROLE_ADMIN
+          - ROLE_MODERATOR
+          - ROLE_USER
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/authorities/{id}:
+    get:
+      tags:
+      - Authority Entity
+      summary: findByIdAuthority
+      operationId: findByIdAuthorityUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - Authority Entity
+      summary: saveAuthority
+      operationId: saveAuthorityUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authority'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Authority Entity
+      summary: deleteAuthority
+      operationId: deleteAuthorityUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - Authority Entity
+      summary: saveAuthority
+      operationId: saveAuthorityUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authority'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/delete_aoi:
+    delete:
+      tags:
+      - area-of-interest-controller
+      summary: deleteAreaOfInterest
+      operationId: deleteAreaOfInterestUsingDELETE_1
+      parameters:
+      - name: aoi_id
+        in: query
+        description: aoi_id
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /api/delete_item:
+    delete:
+      tags:
+      - area-of-interest-controller
+      summary: deleteItem
+      operationId: deleteItemUsingDELETE
+      parameters:
+      - name: item_id
+        in: query
+        description: item_id
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /api/delete_step:
+    delete:
+      tags:
+      - steps-to-help-controller
+      summary: deleteStep
+      operationId: deleteStepUsingDELETE
+      parameters:
+      - name: step_id
+        in: query
+        description: step_id
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /api/delete_step_item:
+    delete:
+      tags:
+      - steps-to-help-controller
+      summary: deleteStepItem
+      operationId: deleteStepItemUsingDELETE
+      parameters:
+      - name: step_item_id
+        in: query
+        description: step_item_id
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /api/explorer:
+    get:
+      tags:
+      - hal-explorer
+      summary: explorer
+      operationId: explorerUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/View'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/profile:
+    get:
+      tags:
+      - profile-controller
+      summary: listAllFormsOfMetadata
+      operationId: listAllFormsOfMetadataUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RepresentationModelOfobject'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    options:
+      tags:
+      - profile-controller
+      summary: profileOptions
+      operationId: profileOptionsUsingOPTIONS
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /api/regions:
+    get:
+      tags:
+      - Regions Entity
+      summary: findAllRegions
+      operationId: findAllRegionsUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRegions'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRegions'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRegions'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfRegions'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - Regions Entity
+      summary: saveRegions
+      operationId: saveRegionsUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Regions'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfRegions'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/regions/{id}:
+    get:
+      tags:
+      - Regions Entity
+      summary: findByIdRegions
+      operationId: findByIdRegionsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfRegions'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - Regions Entity
+      summary: saveRegions
+      operationId: saveRegionsUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Regions'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfRegions'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Regions Entity
+      summary: deleteRegions
+      operationId: deleteRegionsUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - Regions Entity
+      summary: saveRegions
+      operationId: saveRegionsUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Regions'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfRegions'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare:
+    get:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: findAllStepsToHelpPrepare
+      operationId: findAllStepsToHelpPrepareUsingGET_1
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepare'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepare'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepare'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepare'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: saveStepsToHelpPrepare
+      operationId: saveStepsToHelpPrepareUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepare'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepare'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare/search/findAll:
+    get:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: findAllStepsToHelpPrepare
+      operationId: findAllStepsToHelpPrepareUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepare'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/steps_to_help_prepare/{id}:
+    get:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: findByIdStepsToHelpPrepare
+      operationId: findByIdStepsToHelpPrepareUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepare'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: saveStepsToHelpPrepare
+      operationId: saveStepsToHelpPrepareUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepare'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepare'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: deleteStepsToHelpPrepare
+      operationId: deleteStepsToHelpPrepareUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - StepsToHelpPrepare Entity
+      summary: saveStepsToHelpPrepare
+      operationId: saveStepsToHelpPrepareUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepare'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepare'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare_items:
+    get:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: findAllStepsToHelpPrepareItems
+      operationId: findAllStepsToHelpPrepareItemsUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareItems'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareItems'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareItems'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: saveStepsToHelpPrepareItems
+      operationId: saveStepsToHelpPrepareItemsUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare_items/{id}:
+    get:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: findByIdStepsToHelpPrepareItems
+      operationId: findByIdStepsToHelpPrepareItemsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: saveStepsToHelpPrepareItems
+      operationId: saveStepsToHelpPrepareItemsUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: deleteStepsToHelpPrepareItems
+      operationId: deleteStepsToHelpPrepareItemsUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - StepsToHelpPrepareItems Entity
+      summary: saveStepsToHelpPrepareItems
+      operationId: saveStepsToHelpPrepareItemsUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareItems'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare_sub_items:
+    get:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: findAllStepsToHelpPrepareSubItems
+      operationId: findAllStepsToHelpPrepareSubItemsUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareSubItems'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareSubItems'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareSubItems'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfStepsToHelpPrepareSubItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: saveStepsToHelpPrepareSubItems
+      operationId: saveStepsToHelpPrepareSubItemsUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareSubItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/steps_to_help_prepare_sub_items/{id}:
+    get:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: findByIdStepsToHelpPrepareSubItems
+      operationId: findByIdStepsToHelpPrepareSubItemsUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareSubItems'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: saveStepsToHelpPrepareSubItems
+      operationId: saveStepsToHelpPrepareSubItemsUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareSubItems'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: deleteStepsToHelpPrepareSubItems
+      operationId: deleteStepsToHelpPrepareSubItemsUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - StepsToHelpPrepareSubItems Entity
+      summary: saveStepsToHelpPrepareSubItems
+      operationId: saveStepsToHelpPrepareSubItemsUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepsToHelpPrepareSubItems'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfStepsToHelpPrepareSubItems'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/test/admin:
+    get:
+      tags:
+      - test-controller
+      summary: adminAccess
+      operationId: adminAccessUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/test/all:
+    get:
+      tags:
+      - test-controller
+      summary: allAccess
+      operationId: allAccessUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/test/mod:
+    get:
+      tags:
+      - test-controller
+      summary: moderatorAccess
+      operationId: moderatorAccessUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/test/user:
+    get:
+      tags:
+      - test-controller
+      summary: userAccess
+      operationId: userAccessUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/users:
+    get:
+      tags:
+      - User Entity
+      summary: findAllUser
+      operationId: findAllUserUsingGET
+      parameters:
+      - name: page
+        in: query
+        description: page
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: size
+        schema:
+          type: integer
+          format: int32
+      - name: sort
+        in: query
+        description: sort
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfUser'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfUser'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfUser'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfUser'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - User Entity
+      summary: saveUser
+      operationId: saveUserUsingPOST
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfUser'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /api/users/search/existsByEmail:
+    get:
+      tags:
+      - User Entity
+      summary: existsByEmailUser
+      operationId: existsByEmailUserUsingGET
+      parameters:
+      - name: email
+        in: query
+        description: email
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: boolean
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/users/search/existsByUsername:
+    get:
+      tags:
+      - User Entity
+      summary: existsByUsernameUser
+      operationId: existsByUsernameUserUsingGET
+      parameters:
+      - name: username
+        in: query
+        description: username
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: boolean
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/users/search/findByUsername:
+    get:
+      tags:
+      - User Entity
+      summary: findByUsernameUser
+      operationId: findByUsernameUserUsingGET
+      parameters:
+      - name: username
+        in: query
+        description: username
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfUser'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /api/users/{id}:
+    get:
+      tags:
+      - User Entity
+      summary: findByIdUser
+      operationId: findByIdUserUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfUser'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - User Entity
+      summary: saveUser
+      operationId: saveUserUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfUser'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - User Entity
+      summary: deleteUser
+      operationId: deleteUserUsingDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - User Entity
+      summary: saveUser
+      operationId: saveUserUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfUser'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/users/{id}/roles:
+    get:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingGET
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingPUT
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          text/uri-list:
+            schema:
+              type: array
+              items:
+                type: string
+          application/x-spring-data-compact+json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingPOST
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          text/uri-list:
+            schema:
+              type: array
+              items:
+                type: string
+          application/x-spring-data-compact+json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingDELETE_1
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: body
+        content:
+          text/uri-list:
+            schema:
+              type: array
+              items:
+                type: string
+          application/x-spring-data-compact+json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollectionModelOfAuthority'
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      x-codegen-request-body-name: body
+  /api/users/{id}/roles/{authorityId}:
+    get:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingGET_1
+      parameters:
+      - name: authorityId
+        in: path
+        description: authorityId
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EntityModelOfAuthority'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    delete:
+      tags:
+      - User Entity
+      summary: userRoles
+      operationId: userRolesUsingDELETE
+      parameters:
+      - name: authorityId
+        in: path
+        description: authorityId
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: id
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /error:
+    get:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingPUT
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    post:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingPOST
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    delete:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingDELETE
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    options:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingOPTIONS
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    head:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingHEAD
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+    patch:
+      tags:
+      - basic-error-controller
+      summary: error
+      operationId: errorUsingPATCH
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+  /manage:
+    get:
+      tags:
+      - web-mvc-links-handler
+      summary: links
+      operationId: linksUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /manage/health:
+    get:
+      tags:
+      - operation-handler
+      summary: handle
+      operationId: handleUsingGET
+      requestBody:
+        description: body
+        content:
+          '*/*':
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: false
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /manage/health/**:
+    get:
+      tags:
+      - operation-handler
+      summary: handle
+      operationId: handleUsingGET_1
+      requestBody:
+        description: body
+        content:
+          '*/*':
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: false
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /manage/info:
+    get:
+      tags:
+      - operation-handler
+      summary: handle
+      operationId: handleUsingGET_2
+      requestBody:
+        description: body
+        content:
+          '*/*':
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: false
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+  /manage/prometheus:
+    get:
+      tags:
+      - operation-handler
+      summary: handle
+      operationId: handleUsingGET_3
+      requestBody:
+        description: body
+        content:
+          '*/*':
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: false
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain;version=0.0.4;charset=utf-8:
+              schema:
+                type: object
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    AdditionalInformation:
+      title: AdditionalInformation
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int32
+        regioncode:
+          type: string
+    AreaOfInterest:
+      title: AreaOfInterest
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
+    AreaOfInterestItems:
+      title: AreaOfInterestItems
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        position:
+          type: integer
+          format: int32
+        value:
+          type: string
+    AreaOfInterestSubItems:
+      title: AreaOfInterestSubItems
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        position:
+          type: integer
+          format: int32
+        value:
+          type: string
+    Authority:
+      title: Authority
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          enum:
+          - ROLE_ADMIN
+          - ROLE_MODERATOR
+          - ROLE_USER
+    CollectionModelOfAdditionalInformation:
+      title: CollectionModelOfAdditionalInformation
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfAdditionalInformation'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of AdditionalInformation
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfAreaOfInterest:
+      title: CollectionModelOfAreaOfInterest
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfAreaOfInterest'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of AreaOfInterest
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfAreaOfInterestItems:
+      title: CollectionModelOfAreaOfInterestItems
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfAreaOfInterestItems'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of AreaOfInterestItems
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfAreaOfInterestSubItems:
+      title: CollectionModelOfAreaOfInterestSubItems
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfAreaOfInterestSubItems'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of AreaOfInterestSubItems
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfAuthority:
+      title: CollectionModelOfAuthority
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfAuthority'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of Authority
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfRegions:
+      title: CollectionModelOfRegions
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfRegions'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of Regions
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfStepsToHelpPrepare:
+      title: CollectionModelOfStepsToHelpPrepare
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfStepsToHelpPrepare'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of StepsToHelpPrepare
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfStepsToHelpPrepareItems:
+      title: CollectionModelOfStepsToHelpPrepareItems
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfStepsToHelpPrepareItems'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of StepsToHelpPrepareItems
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfStepsToHelpPrepareSubItems:
+      title: CollectionModelOfStepsToHelpPrepareSubItems
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfStepsToHelpPrepareSubItems'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of StepsToHelpPrepareSubItems
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    CollectionModelOfUser:
+      title: CollectionModelOfUser
+      required:
+      - _embedded
+      - _links
+      type: object
+      properties:
+        _embedded:
+          $ref: '#/components/schemas/EmbeddedCollectionOfUser'
+        _links:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Link'
+          description: Link collection
+      description: Resources of User
+      xml:
+        name: entities
+        attribute: false
+        wrapped: false
+    EmbeddedCollectionOfAdditionalInformation:
+      title: EmbeddedCollectionOfAdditionalInformation
+      required:
+      - additional_information
+      type: object
+      properties:
+        additional_information:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/AdditionalInformation'
+      description: Embedded collection of AdditionalInformation
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfAreaOfInterest:
+      title: EmbeddedCollectionOfAreaOfInterest
+      required:
+      - area_of_interest
+      type: object
+      properties:
+        area_of_interest:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/AreaOfInterest'
+      description: Embedded collection of AreaOfInterest
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfAreaOfInterestItems:
+      title: EmbeddedCollectionOfAreaOfInterestItems
+      required:
+      - area_of_interest_items
+      type: object
+      properties:
+        area_of_interest_items:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/AreaOfInterestItems'
+      description: Embedded collection of AreaOfInterestItems
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfAreaOfInterestSubItems:
+      title: EmbeddedCollectionOfAreaOfInterestSubItems
+      required:
+      - area_of_interest_sub_items
+      type: object
+      properties:
+        area_of_interest_sub_items:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/AreaOfInterestSubItems'
+      description: Embedded collection of AreaOfInterestSubItems
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfAuthority:
+      title: EmbeddedCollectionOfAuthority
+      required:
+      - authorities
+      type: object
+      properties:
+        authorities:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/Authority'
+      description: Embedded collection of Authority
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfRegions:
+      title: EmbeddedCollectionOfRegions
+      required:
+      - regions
+      type: object
+      properties:
+        regions:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/Regions'
+      description: Embedded collection of Regions
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfStepsToHelpPrepare:
+      title: EmbeddedCollectionOfStepsToHelpPrepare
+      required:
+      - steps_to_help_prepare
+      type: object
+      properties:
+        steps_to_help_prepare:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/StepsToHelpPrepare'
+      description: Embedded collection of StepsToHelpPrepare
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfStepsToHelpPrepareItems:
+      title: EmbeddedCollectionOfStepsToHelpPrepareItems
+      required:
+      - steps_to_help_prepare_items
+      type: object
+      properties:
+        steps_to_help_prepare_items:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/StepsToHelpPrepareItems'
+      description: Embedded collection of StepsToHelpPrepareItems
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfStepsToHelpPrepareSubItems:
+      title: EmbeddedCollectionOfStepsToHelpPrepareSubItems
+      required:
+      - steps_to_help_prepare_sub_items
+      type: object
+      properties:
+        steps_to_help_prepare_sub_items:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/StepsToHelpPrepareSubItems'
+      description: Embedded collection of StepsToHelpPrepareSubItems
+      xml:
+        name: content
+        wrapped: true
+    EmbeddedCollectionOfUser:
+      title: EmbeddedCollectionOfUser
+      required:
+      - users
+      type: object
+      properties:
+        users:
+          type: array
+          description: Resource collection
+          items:
+            $ref: '#/components/schemas/User'
+      description: Embedded collection of User
+      xml:
+        name: content
+        wrapped: true
+    EntityModelOfAdditionalInformation:
+      title: EntityModelOfAdditionalInformation
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        regioncode:
+          type: string
+    EntityModelOfAreaOfInterest:
+      title: EntityModelOfAreaOfInterest
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
+    EntityModelOfAreaOfInterestItems:
+      title: EntityModelOfAreaOfInterestItems
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        position:
+          type: integer
+          format: int32
+        value:
+          type: string
+    EntityModelOfAreaOfInterestSubItems:
+      title: EntityModelOfAreaOfInterestSubItems
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        position:
+          type: integer
+          format: int32
+        value:
+          type: string
+    EntityModelOfAuthority:
+      title: EntityModelOfAuthority
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+          enum:
+          - ROLE_ADMIN
+          - ROLE_MODERATOR
+          - ROLE_USER
+    EntityModelOfRegions:
+      title: EntityModelOfRegions
+      type: object
+      properties:
+        code:
+          type: string
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+    EntityModelOfStepsToHelpPrepare:
+      title: EntityModelOfStepsToHelpPrepare
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
+        subTitle:
+          type: string
+    EntityModelOfStepsToHelpPrepareItems:
+      title: EntityModelOfStepsToHelpPrepareItems
+      type: object
+      properties:
+        aoiId:
+          type: integer
+          format: int32
+        aoiItemsId:
+          type: integer
+          format: int32
+        aoiSubItemsId:
+          type: integer
+          format: int32
+        content:
+          type: string
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        subTitle:
+          type: string
+    EntityModelOfStepsToHelpPrepareSubItems:
+      title: EntityModelOfStepsToHelpPrepareSubItems
+      type: object
+      properties:
+        content:
+          type: string
+        id:
+          type: integer
+          format: int32
+        links:
+          $ref: '#/components/schemas/Links'
+        parentid:
+          type: integer
+          format: int32
+    EntityModelOfUser:
+      title: EntityModelOfUser
+      type: object
+      properties:
+        email:
+          type: string
+        id:
+          type: integer
+          format: int64
+        links:
+          $ref: '#/components/schemas/Links'
+        password:
+          type: string
+        roles:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Authority'
+        username:
+          type: string
+    Link:
+      title: Link
+      type: object
+      properties:
+        href:
+          type: string
+        templated:
+          type: boolean
+    LinkRelation:
+      title: LinkRelation
+      type: object
+    Links:
+      title: Links
+      type: object
+      properties:
+        empty:
+          type: boolean
+    LoginRequest:
+      title: LoginRequest
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    ModelAndView:
+      title: ModelAndView
+      type: object
+      properties:
+        empty:
+          type: boolean
+        model:
+          type: object
+          properties: {}
+        modelMap:
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+        reference:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - ALREADY_REPORTED
+          - BAD_GATEWAY
+          - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
+          - CHECKPOINT
+          - CONFLICT
+          - CONTINUE
+          - CREATED
+          - DESTINATION_LOCKED
+          - EXPECTATION_FAILED
+          - FAILED_DEPENDENCY
+          - FORBIDDEN
+          - FOUND
+          - GATEWAY_TIMEOUT
+          - GONE
+          - HTTP_VERSION_NOT_SUPPORTED
+          - IM_USED
+          - INSUFFICIENT_SPACE_ON_RESOURCE
+          - INSUFFICIENT_STORAGE
+          - INTERNAL_SERVER_ERROR
+          - I_AM_A_TEAPOT
+          - LENGTH_REQUIRED
+          - LOCKED
+          - LOOP_DETECTED
+          - METHOD_FAILURE
+          - METHOD_NOT_ALLOWED
+          - MOVED_PERMANENTLY
+          - MOVED_TEMPORARILY
+          - MULTIPLE_CHOICES
+          - MULTI_STATUS
+          - NETWORK_AUTHENTICATION_REQUIRED
+          - NON_AUTHORITATIVE_INFORMATION
+          - NOT_ACCEPTABLE
+          - NOT_EXTENDED
+          - NOT_FOUND
+          - NOT_IMPLEMENTED
+          - NOT_MODIFIED
+          - NO_CONTENT
+          - OK
+          - PARTIAL_CONTENT
+          - PAYLOAD_TOO_LARGE
+          - PAYMENT_REQUIRED
+          - PERMANENT_REDIRECT
+          - PRECONDITION_FAILED
+          - PRECONDITION_REQUIRED
+          - PROCESSING
+          - PROXY_AUTHENTICATION_REQUIRED
+          - REQUESTED_RANGE_NOT_SATISFIABLE
+          - REQUEST_ENTITY_TOO_LARGE
+          - REQUEST_HEADER_FIELDS_TOO_LARGE
+          - REQUEST_TIMEOUT
+          - REQUEST_URI_TOO_LONG
+          - RESET_CONTENT
+          - SEE_OTHER
+          - SERVICE_UNAVAILABLE
+          - SWITCHING_PROTOCOLS
+          - TEMPORARY_REDIRECT
+          - TOO_EARLY
+          - TOO_MANY_REQUESTS
+          - UNAUTHORIZED
+          - UNAVAILABLE_FOR_LEGAL_REASONS
+          - UNPROCESSABLE_ENTITY
+          - UNSUPPORTED_MEDIA_TYPE
+          - UPGRADE_REQUIRED
+          - URI_TOO_LONG
+          - USE_PROXY
+          - VARIANT_ALSO_NEGOTIATES
+        view:
+          $ref: '#/components/schemas/View'
+        viewName:
+          type: string
+    Regions:
+      title: Regions
+      type: object
+      properties:
+        code:
+          type: string
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+    RepresentationModelOfobject:
+      title: RepresentationModelOfobject
+      type: object
+      properties:
+        links:
+          $ref: '#/components/schemas/Links'
+    SignupRequest:
+      title: SignupRequest
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        username:
+          type: string
+    StepsToHelpPrepare:
+      title: StepsToHelpPrepare
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        position:
+          type: integer
+          format: int32
+        subTitle:
+          type: string
+    StepsToHelpPrepareItems:
+      title: StepsToHelpPrepareItems
+      type: object
+      properties:
+        aoiId:
+          type: integer
+          format: int32
+        aoiItemsId:
+          type: integer
+          format: int32
+        aoiSubItemsId:
+          type: integer
+          format: int32
+        content:
+          type: string
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        parentid:
+          type: integer
+          format: int32
+        subTitle:
+          type: string
+    StepsToHelpPrepareSubItems:
+      title: StepsToHelpPrepareSubItems
+      type: object
+      properties:
+        content:
+          type: string
+        id:
+          type: integer
+          format: int32
+        parentid:
+          type: integer
+          format: int32
+    TemplateVariable:
+      title: TemplateVariable
+      type: object
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - COMPOSITE_PARAM
+          - FRAGMENT
+          - PATH_VARIABLE
+          - REQUEST_PARAM
+          - REQUEST_PARAM_CONTINUED
+          - SEGMENT
+    UriTemplate:
+      title: UriTemplate
+      type: object
+      properties:
+        variableNames:
+          type: array
+          items:
+            type: string
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateVariable'
+    User:
+      title: User
+      type: object
+      properties:
+        email:
+          type: string
+        id:
+          type: integer
+          format: int64
+        password:
+          type: string
+        roles:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Authority'
+        username:
+          type: string
+    View:
+      title: View
+      type: object
+      properties:
+        contentType:
+          type: string

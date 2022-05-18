@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: arcx-admin-api-config
+  labels:
+    name: arcx-admin-api-config
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+data:
+  POSTGRES_DB: "$DB_NAME"
+  POSTGRES_USER: "$DB_USERNAME"
+  POSTGRES_PASSWORD: "$DB_PASSWORD"
+  POSTGRES_ROOT_PASSWORD: "$DB_PASSWORD"
+  DB_HOST: "$DB_HOST"
+  DB_USERNAME: "$DB_USERNAME"
+  DB_PASSWORD: "$DB_PASSWORD"
+  DB_NAME: "$DB_NAME"
+  ARCX_USERNAMES: "$ARCX_USERNAMES"

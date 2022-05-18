@@ -1,0 +1,119 @@
+stages:
+  - test
+  - build
+  - images
+  - deploy
+  - scans
+    
+default:
+  tags:
+    - devsecops-instance 
+
+build-app:
+  stage: build
+  image: maven:3-openjdk-11
+  script:
+    - mkdir -p /root/.m2/repository/org/springframework/
+    - mkdir -p /root/.m2/repository/io/
+    - unzip static-deps/data.zip -d /root/.m2/repository/org/springframework
+    - unzip static-deps/swagger.zip -d /root/.m2/repository/io
+    - mvn install -DskipTests
+    - ls -al target/
+  artifacts:
+    paths:
+      - target/arcx-0.0.1-SNAPSHOT.jar
+
+admin-api-app:image:build:
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-api-app/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-api-app:$CI_COMMIT_SHORT_SHA
+
+admin-api-web:image:build:
+  stage: images
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-api-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-api-web:$CI_COMMIT_SHORT_SHA
+
+deploy to dev:
+  when: manual
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - apk add gettext
+    - kubectl config set-cluster $KUBECTL_DEV_CLUSTER --server="$KUBE_URL"
+    - kubectl config set-cluster $KUBECTL_DEV_CLUSTER --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=$KUBECTL_DEV_CLUSTER --user=gitlab --namespace="$KUBE_NAMESPACE"
+    - kubectl config use-context default
+    - envsubst < k8s/arcx-admin-api-configmap.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-api-app.yml | kubectl apply -f -
+    - envsubst < k8s/arcx-admin-api-web.yml | kubectl apply -f -
+  environment:
+    name: dev
+    url: https://arcx-admin-api.devsecops-dev.aws.epa.gov
+    kubernetes:
+      namespace: arc-x-admin-api-235-dev
+  only:
+    - branches
+  except:
+    - master
+  
+
+#deploy to staging:
+#  when: manual
+#  stage: deploy
+#  image: dtzar/helm-kubectl
+#  variables:
+#    INGRESS_HOST: "arcx-admin-api-stg.devsecops-eval.epa.gov"
+#  script:
+#    - apk add gettext
+#    - kubectl config set-cluster stg-cluster --server="$KUBE_URL"
+#    - kubectl config set-cluster stg-cluster --certificate-authority=$KUBE_CA_PEM_FILE --embed-certs=true
+#    - kubectl config set-credentials gitlab --token="$KUBE_TOKEN"
+#    - kubectl config set-context default --cluster=stg-cluster --user=gitlab --namespace="$KUBE_NAMESPACE"
+#    - kubectl config use-context default
+#    - envsubst < k8s/arcx-admin-api-configmap.yml | kubectl apply -f -
+#    - envsubst < k8s/arcx-admin-api-app.yml | kubectl apply -f -
+#    - envsubst < k8s/arcx-admin-api-web.yml | kubectl apply -f -
+#  environment:
+#    name: staging
+#    url: "https://$INGRESS_HOST"
+#  only:
+#    refs:
+#      - stage
+
+prisma-cloud-compute-scan:
+  stage: scans
+  extends:
+    - .pcs_compute_scan
+  tags:
+    - twistcli
+  when: manual
+  allow_failure: false
+  needs: []
+  parallel:
+    matrix:
+      # TODO: Replace commit hashes with $CI_COMMIT_SHORT_SHA
+      - prisma_cloud_scan_image: ["registry.epa.gov/arc-x/arc-x-admin-api/admin-api-web:058f09d3", "registry.epa.gov/arc-x/arc-x-admin-api/admin-api-app:058f09d3"]
+  variables:
+      prisma_cloud_compute_url: "https://prismacloud.gitlab-prod.aws.epa.gov"
+      GIT_STRATEGY: clone
+  script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker pull $prisma_cloud_scan_image
+    - ./image_scan.sh
+include:
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - remote: 'https://gitlab.com/prismacloud-public/shift-left/extension/-/raw/master/.pcs.gitlab-ci.yml'
+  - project: 'DSO/DASTScanner'
+    file: '.gitlab-ci.yml'
+
