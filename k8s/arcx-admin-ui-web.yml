@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcx-admin-ui-web
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcx-admin-ui-web
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+
+  template:
+    metadata:
+      labels:
+        app: arcx-admin-ui-web
+      annotations:
+        app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+        app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+
+    spec:
+      containers:
+      - name: web
+        image: $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: arcx-admin-ui-config
+        env:
+        - name: WEB_HTTPS
+          value: "false"
+        - name: WEB_HTTPS_ONLY
+          value: "false"
+        - name: REDEPLOY_META
+          value: $CI_JOB_ID-$CI_COMMIT_SHA
+      imagePullSecrets:
+      - name: glcr-auth
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcx-admin-ui-web-service
+  annotations:
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: arcx-admin-ui-web
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: arcx-admin-ui-web-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    app.gitlab.com/app: ${CI_PROJECT_PATH_SLUG}
+    app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
+    nginx.ingress.kubernetes.io/auth-tls-secret: arc-x-admin-ui-234-dev/arc-x-cert
+    # nginx.ingress.kubernetes.io/whitelist-source-range: 134.67.27.153,134.67.27.154,134.67.27.150,134.67.27.157
+    # nginx.ingress.kubernetes.io/whitelist-source-range: 161.80.29.75
+spec:
+  rules:
+  - host: climateadaptationadminstg.epa.gov
+    http:
+      paths:
+      - backend:
+          serviceName: arcx-admin-ui-web-service
+          servicePort: 80
+  - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
+    http:
+      paths:
+      - backend:
+          serviceName: arcx-admin-ui-web-service
+          servicePort: 80
+  tls:
+  - hosts:
+    - arcx-admin-ui.devsecops-dev.aws.epa.gov
+    - climateadaptationadminstg.epa.gov
+    secretName: arc-x-cert
