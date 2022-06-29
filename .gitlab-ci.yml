@@ -1,11 +1,16 @@
 stages:
   - images
   - deploy
-  - scans
+  - Image Scan
 
 default:
   tags:
     - devsecops-instance 
+
+include:
+  - remote: 'https://gitlab.com/prismacloud-public/shift-left/extension/-/raw/master/.pcs.gitlab-ci.yml'
+  - project: 'DSO/DASTScanner'
+    file: '.gitlab-ci.yml'
 
 admin-ui-app:image:build:
   stage: images
@@ -74,27 +79,22 @@ deploy to dev:
 #    refs:
 #      - stage
 
-prisma-cloud-compute-scan:
-  stage: scans
+prisma-scan:
+  stage: Image Scan
   extends:
     - .pcs_compute_scan
   tags:
     - twistcli
   when: manual
   allow_failure: false
-  needs: []
   parallel:
     matrix:
-      # TODO: Replace commit hashes with $CI_COMMIT_SHORT_SHA
-      - prisma_cloud_scan_image: ["$CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA", "$CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA"]
+      - prisma_cloud_scan_image: ["$CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA","$CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA"]
   variables:
-      prisma_cloud_compute_url: "https://prismacloud.gitlab-prod.aws.epa.gov"
-      GIT_STRATEGY: clone
+    prisma_cloud_compute_url: "https://prismacloud.gitlab-prod.aws.epa.gov"
+    GIT_STRATEGY: clone
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.epa.gov
     - docker pull $prisma_cloud_scan_image
     - ./image_scan.sh
-include:
-  - remote: 'https://gitlab.com/prismacloud-public/shift-left/extension/-/raw/master/.pcs.gitlab-ci.yml'
-  - project: 'DSO/DASTScanner'
-    file: '.gitlab-ci.yml'
+
