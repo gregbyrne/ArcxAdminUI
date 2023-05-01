@@ -10,6 +10,7 @@ import vuetify from './plugins/vuetify';
 import Popup from './components/dashboard/Popup'
 import AreaOfInterestList from "./components/dashboard/areaofinterest/AreaOfInterest";
 import Dashboard from "./components/dashboard/Dashboard";
+import Region from "./components/dashboard/region/Regions";
 import axios from 'axios';
 import $ from "jquery";
 
@@ -30,6 +31,7 @@ Vue.component('Popup', Popup);
 Vue.component('AreaOfInterestList', AreaOfInterestList);
 
 Vue.component('Dashboard', Dashboard);
+Vue.component('Region', Region);
 
 Vue.prototype.$waittime =  process.env.VUE_APP_API_WAIT_TIME;
 

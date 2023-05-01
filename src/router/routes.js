@@ -3,6 +3,8 @@ import Dashboard from "../components/dashboard/Dashboard.vue";
 import Profile from "../components/login/Profile"
 import addSteps from "../components/dashboard/AddSteps.vue";
 import additionalInfo from "../components/dashboard/AdditionalInformation.vue";
+import region from "../components/dashboard/region/Regions.vue";
+import regionReport from "../components/dashboard/region/RegionReport.vue";
 
 const routes = [
   {
@@ -34,6 +36,16 @@ const routes = [
     path: "/additionalinformation",
     name: "AdditionalInfo",
     component: additionalInfo
+  },
+  {
+    path: "/region",
+    name: "Region",
+    component: region
+  },
+  {
+    path: "/regionreport",
+    name: "RegionReport",
+    component: regionReport
   }
 
 
