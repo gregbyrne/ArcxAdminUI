@@ -1,8 +1,8 @@
 <template>
     <v-container>
-        <h1 style="text-align: center; color: #0071bc">ARC-X Dashboard</h1>
+        <h1 style="text-align: center; color: #0071bc">ARC-X     </br>  Dashboard</h1>
 
-        <v-container class="mx-6 my-10">
+      <v-container class="mx-6 my-10">
             <v-row>
                 <v-col>
 
@@ -299,7 +299,7 @@
                   document.getElementById("resultselem").style.color = 'darkred';
                   this.resetResultsElem()
                 }
-                ,saveAI(description, regionSelect ){
+                ,saveAI(description, regionSelect){
 
                     if (regionSelect != null && regionSelect != "") {
                       let _this = this;
@@ -312,7 +312,7 @@
                       for (let i = 0; i < AI.length; i++) {
                         if (regionSelect == AI[i].regioncode) {
                           id = AI[i].id
-                          region = AI[i].regioncode
+                          region = regionSelect
                         }
 
                       }
@@ -325,10 +325,10 @@
                         'userip' : this.userip
                       }
 
-
+                      // eslint-disable-next-line no-console
                       axios.put(ADDITIONAL_INFO_URL, { id: id,
                         description: description,
-                        regioncode: region
+                        regioncode: regionSelect
                       }, {'headers': headers})
 
                           .then(function (response) {
