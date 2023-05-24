@@ -78,15 +78,21 @@ spec:
   - host: climateadaptationadminstg.epa.gov
     http:
       paths:
+      - path: /
+        pathType: Prefix
       - backend:
-          serviceName: arcx-admin-ui-web-service
-          servicePort: 80
+          service: 
+            name: arcx-admin-ui-web-service
+            port: 80
   - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
     http:
       paths:
+      - path: /
+        pathType: Prefix
       - backend:
-          serviceName: arcx-admin-ui-web-service
-          servicePort: 80
+          service:
+            name: arcx-admin-ui-web-service
+            port: 80
   tls:
   - hosts:
     - arcx-admin-ui.devsecops-dev.aws.epa.gov
