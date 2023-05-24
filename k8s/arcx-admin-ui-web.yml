@@ -83,7 +83,8 @@ spec:
         backend:
           service: 
             name: arcx-admin-ui-web-service
-            port: 80
+            port: 
+              number: 80
   - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
     http:
       paths:
@@ -92,7 +93,8 @@ spec:
         backend:
           service:
             name: arcx-admin-ui-web-service
-            port: 80
+            port: 
+              number: 80
   tls:
   - hosts:
     - arcx-admin-ui.devsecops-dev.aws.epa.gov
