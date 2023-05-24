@@ -56,7 +56,10 @@ metadata:
     app.gitlab.com/env: ${CI_ENVIRONMENT_SLUG}
 spec:
   ports:
-  - port: 80
+  - port: 443
+    protocol: TCP
+    targetPort: 80
+    name: https
   selector:
     app: arcx-admin-ui-web
 
@@ -84,7 +87,7 @@ spec:
           service: 
             name: arcx-admin-ui-web-service
             port: 
-              number: 80
+              number: 443
   - host: arcx-admin-ui.devsecops-dev.aws.epa.gov
     http:
       paths:
@@ -94,7 +97,7 @@ spec:
           service:
             name: arcx-admin-ui-web-service
             port: 
-              number: 80
+              number: 443
   tls:
   - hosts:
     - arcx-admin-ui.devsecops-dev.aws.epa.gov
