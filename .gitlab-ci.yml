@@ -48,7 +48,7 @@ deploy to dev:
   script:
     - apk add gettext
     - envsubst < k8s/arcx-admin-ui-configmap.yml | kubectl apply --validate=false -f -
-    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply --validate=false-f -
+    - envsubst < k8s/arcx-admin-ui-app.yml | kubectl apply --validate=false -f -
     - envsubst < k8s/arcx-admin-ui-web.yml | kubectl apply --validate=false -f -
   environment:
     name: dev
