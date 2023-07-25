@@ -1,11 +1,11 @@
 stages:
   - images
+  - prisma scan
   - deploy
-  - Image Scan
 
 default:
   tags:
-    - devsecops-instance 
+    - devsecops-instance
 
 admin-ui-app:image:build:
   stage: images
@@ -26,6 +26,21 @@ admin-ui-web:image:build:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/docker/admin-ui-web/Dockerfile --destination $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+
+prisma scan:
+  stage: prisma scan
+  tags:
+    - twistcli
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - 'export PRISMA_CI_TOKEN=$(curl -kH "Content-Type: application/json" -d "{\"username\":\"$PRISMA_CI_USERNAME\", \"password\":\"$PRISMA_CI_PASSWORD\"}" https://prismacloud.epa.gov/api/v22.12/authenticate | jq -r .token)'
+    - 'curl --progress-bar -L -k --header "Authorization: Bearer $PRISMA_CI_TOKEN" https://prismacloud.epa.gov/api/v1/util/twistcli > twistcli; chmod a+x twistcli;'
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
+    - ./twistcli images scan $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA --address=https://prismacloud.epa.gov --details --token=$PRISMA_CI_TOKEN
+    - docker pull $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
+    - ./twistcli images scan $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA --address=https://prismacloud.epa.gov --details --token=$PRISMA_CI_TOKEN
 
 deploy to dev:
   when: manual
@@ -71,18 +86,3 @@ deploy to staging:
   only:
     refs:
       - stage
-
-Prisma:
-  stage: Image Scan
-  tags:
-    - twistcli
-  when: manual
-  variables:
-    GIT_STRATEGY: clone
-    PRISMA_URL: https://prismacloud.gitlab-prod.aws.epa.gov
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
-    - /public/server/apps/twistcli images scan --details --address $PRISMA_URL $CI_REGISTRY_IMAGE/admin-ui-web:$CI_COMMIT_SHORT_SHA
-
-    - docker pull $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
-    - /public/server/apps/twistcli images scan --details --address $PRISMA_URL $CI_REGISTRY_IMAGE/admin-ui-app:$CI_COMMIT_SHORT_SHA
