@@ -12,10 +12,6 @@ import AreaOfInterestList from "./components/dashboard/areaofinterest/AreaOfInte
 import Dashboard from "./components/dashboard/Dashboard";
 import Region from "./components/dashboard/region/Regions";
 import axios from 'axios';
-import $ from "jquery";
-
-const AOI_HEADERS = process.env.VUE_APP_API_ARCX_HEADERS_URL;
-
 
 
 Vue.config.productionTip = false;
@@ -43,24 +39,12 @@ Vue.mixin(
   methods:{
     getUserId(){
 
-        var site = AOI_HEADERS
 
         var _this = this;
-      $.get(site, function(response) {
-        $($.parseHTML(response)).find("tbody>tr").map(function (index, element) {
-
-            var row = $($(element).find("td"))[0].innerHTML
-            if(row == 'uid'){
-                _this.epauserid = $($(element).find("td"))[1].innerHTML
-            }
-            if(row == 'X-Forwarded-For'){
-                _this.userip = $($(element).find("td"))[1].innerHTML
-            }
+         _this.epauserid = "gbyrne"
+         _this.userip = "1.1"
 
 
-        });
-
-      });
 
 
     },
