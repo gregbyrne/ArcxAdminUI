@@ -391,10 +391,6 @@
 
                             }
                         });
-                      /* eslint-disable */
-                      console.log(this.epauserid)
-                      console.log(this.userip)
-                      console.log(AOI_URL)
 
                         var _this = this;
 
@@ -466,10 +462,6 @@
                 },
             created() {
                 this.getUserId()
-              /* eslint-disable */
-               console.log('asdasd')
-
-
 
 
               var that = this;
