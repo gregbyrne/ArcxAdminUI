@@ -41,8 +41,8 @@ Vue.mixin(
 
 
         var _this = this;
-         _this.epauserid = "gbyrne"
-         _this.userip = "1.1"
+         _this.epauserid = "user"
+         _this.userip = "1.1.1.1"
 
 
 
